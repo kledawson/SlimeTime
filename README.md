@@ -37,7 +37,7 @@ Use the 'WASD' keys to move the player character in the cardinal directions resp
   - Program Custom Game Mechanics
 
 ## References
-[1] Based off of "[Vampire Survivors](https://store.steampowered.com/app/1794680/Vampire_Survivors/)" game.[1 
+[1] Based off of "[Vampire Survivors](https://store.steampowered.com/app/1794680/Vampire_Survivors/)" game. 
 
 [2] [How to Make a 2D Game in Java](https://www.youtube.com/playlist?list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq)
 
