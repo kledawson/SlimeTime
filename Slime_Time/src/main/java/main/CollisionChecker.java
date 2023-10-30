@@ -31,25 +31,34 @@ public class CollisionChecker {
                 entityTopRow = (entityTopWorldY - entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
+                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
             case "down":
                 entityBottomRow = (entityBottomWorldY + entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
             case "left":
                 entityLeftCol = (entityLeftWorldX - entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
             case "right":
                 entityRightCol = (entityRightWorldX + entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
-        }
-        if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
-            entity.collisionOn = true;
         }
     }
 

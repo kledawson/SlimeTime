@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
+import java.security.Key;
 
 public class Player extends Entity{
     GameApplication ga;
@@ -79,18 +80,30 @@ public class Player extends Entity{
     // Update Method
     public void update() {
         // Sets Direction Based on Key Press
-        if (KeyHandler.upPressed || KeyHandler.downPressed || KeyHandler.leftPressed || KeyHandler.rightPressed) {
-            if (KeyHandler.upPressed) {
-                direction = "up";
-            } else if (KeyHandler.downPressed) {
-                direction = "down";
-            } else if (KeyHandler.leftPressed) {
-                direction = "left";
-            } else if (KeyHandler.rightPressed) {
-                direction = "right";
-            }
+        String newDirection = null;
+        if (KeyHandler.upPressed && KeyHandler.leftPressed) {
+            newDirection = "up-left";
+        } else if (KeyHandler.upPressed && KeyHandler.rightPressed) {
+            newDirection = "up-right";
+        } else if (KeyHandler.downPressed && KeyHandler.leftPressed) {
+            newDirection = "down-left";
+        } else if (KeyHandler.downPressed && KeyHandler.rightPressed) {
+            newDirection = "down-right";
+        } else if (KeyHandler.upPressed) {
+            newDirection = "up";
+        } else if (KeyHandler.downPressed) {
+            newDirection = "down";
+        } else if (KeyHandler.leftPressed) {
+            newDirection = "left";
+        } else if (KeyHandler.rightPressed) {
+            newDirection = "right";
+        }
 
-            // Checks Collision
+        if(newDirection != null) {
+            direction = newDirection;
+
+
+        // Checks Collision
             collisionOn = false;
             ga.cChecker.checkTile(this);
             int objIndex = ga.cChecker.checkObject(this, true);
@@ -102,6 +115,22 @@ public class Player extends Entity{
                     case "down" ->  worldY += speed;
                     case "left" -> worldX -= speed;
                     case "right" -> worldX += speed;
+                    case "up-left" -> {
+                        worldX -= speed;
+                        worldY -= speed;
+                    }
+                    case "up-right" -> {
+                        worldX += speed;
+                        worldY -= speed;
+                    }
+                    case "down-left" -> {
+                        worldX -= speed;
+                        worldY += speed;
+                    }
+                    case "down-right" -> {
+                        worldX += speed;
+                        worldY += speed;
+                    }
                 }
             }
 
