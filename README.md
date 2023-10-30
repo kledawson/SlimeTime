@@ -22,7 +22,8 @@ Use the 'WASD' keys to move the player character in the cardinal directions resp
 - Mouse Controlled Combat
   - Cursor Tracking
 - Player vs. Entity Combat System
-- Character Leveling & Items
+- Resource Gathering
+- Character Item Upgrading
   - Custom Objects
  
 ## Plan and Approach
@@ -31,13 +32,14 @@ Use the 'WASD' keys to move the player character in the cardinal directions resp
   - Learn JavaFX
   - Basic Components of Game (ie. Character, Background, Movement)
 - Expand Upon Code Foundation Using 4 Pillars of OOD
-  - Create Custom Character(s)
-  - Create Custom Entitie(s)
-  - Create Custom Item(s)
+  - Create Custom Weapons
+  - Create Custom Entities
+  - Create Custom Items
+  - Create Custom Resources
   - Program Custom Game Mechanics
 
 ## References
-[1] Based off of "[Vampire Survivors](https://store.steampowered.com/app/1794680/Vampire_Survivors/)" game. 
+[1] Taking inspiration off of "[Vampire Survivors](https://store.steampowered.com/app/1794680/Vampire_Survivors/)" game. 
 
 [2] [How to Make a 2D Game in Java](https://www.youtube.com/playlist?list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq)
 
