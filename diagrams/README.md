@@ -7,4 +7,4 @@ This is a list of all UML diagrams of the project.
 ## State
 
 ## Sequence
-[Player Movement]()
+[Player Movement](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/PlayerMovement_Sequence.drawio)
