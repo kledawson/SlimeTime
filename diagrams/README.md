@@ -10,3 +10,5 @@ This is a list of all UML diagrams of the project.
 [Player Movement](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/PlayerMovement_Sequence.drawio)
 
 [Collision Detection](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/Collision_Detection.drawio)
+
+[Music Loop](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/Collision_Detection.drawio](https://github.com/JQBNguyen/CS151-Slime_Time/tree/main/diagrams)https://github.com/JQBNguyen/CS151-Slime_Time/tree/main/diagrams)
