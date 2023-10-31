@@ -8,6 +8,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
+import java.security.Key;
 
 public class Player extends Entity{
     GameApplication ga;
@@ -79,49 +80,74 @@ public class Player extends Entity{
     // Update Method
     public void update() {
         // Sets Direction Based on Key Press
-        if (KeyHandler.upPressed || KeyHandler.downPressed || KeyHandler.leftPressed || KeyHandler.rightPressed) {
-            if (KeyHandler.upPressed) {
+        int tempWorldX = worldX;
+        int tempWorldY = worldY;
+
+        double diagonalSpeed = speed / Math.sqrt(2); // Calculate diagonal speed
+
+        if (KeyHandler.upPressed) {
+            if (KeyHandler.leftPressed) {
                 direction = "up";
-            } else if (KeyHandler.downPressed) {
-                direction = "down";
-            } else if (KeyHandler.leftPressed) {
-                direction = "left";
+                worldY -= diagonalSpeed;
+                worldX -= diagonalSpeed;
             } else if (KeyHandler.rightPressed) {
-                direction = "right";
+                direction = "up";
+                worldY -= diagonalSpeed;
+                worldX += diagonalSpeed;
+            } else {
+                direction = "up";
+                worldY -= speed;
             }
-
-            // Checks Collision
-            collisionOn = false;
-            ga.cChecker.checkTile(this);
-            int objIndex = ga.cChecker.checkObject(this, true);
-
-            // Stops Player if Collision is On
-            if(!collisionOn) {
-                switch (direction) {
-                    case "up" -> worldY -= speed;
-                    case "down" ->  worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;
-                }
+        } else if (KeyHandler.downPressed) {
+            if (KeyHandler.leftPressed) {
+                direction = "down";
+                worldY += diagonalSpeed;
+                worldX -= diagonalSpeed;
+            } else if (KeyHandler.rightPressed) {
+                direction = "down";
+                worldY += diagonalSpeed;
+                worldX += diagonalSpeed;
+            } else {
+                direction = "down";
+                worldY += speed;
             }
-
-            // Walking Animation
-            ++spriteCounter;
-            if (spriteCounter > 10) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else {
-                    spriteNum = 1;
-                }
-                spriteCounter = 0;
-            }
+        } else if (KeyHandler.leftPressed) {
+            direction = "left";
+            worldX -= speed;
+        } else if (KeyHandler.rightPressed) {
+            direction = "right";
+            worldX += speed;
         }
+
+        // Checks Collision
+        collisionOn = false;
+        ga.cChecker.checkTile(this);
+        int objIndex = ga.cChecker.checkObject(this, true);
+
+        // Stops Player if Collision is On
+        if (collisionOn) {
+            worldX = tempWorldX;
+            worldY = tempWorldY;
+        }
+
+        // Walking Animation
+        ++spriteCounter;
+        if (spriteCounter > 10) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
+
         // Resets Animation Timer and Sets Sprite to Idle
-        else {
+        if (!KeyHandler.upPressed && !KeyHandler.downPressed && !KeyHandler.leftPressed && !KeyHandler.rightPressed) {
             spriteNum = 3;
             spriteCounter = 0;
         }
     }
+
 
     // Render Method
     public void render(GraphicsContext gc) {

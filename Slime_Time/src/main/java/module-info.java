@@ -14,4 +14,6 @@ module com.example.my2dgametest {
 
     opens main to javafx.fxml;
     exports main;
+    exports object;
+    opens object to javafx.fxml;
 }

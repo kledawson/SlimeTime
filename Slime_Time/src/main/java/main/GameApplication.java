@@ -11,6 +11,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import entity.Player;
+import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
 
