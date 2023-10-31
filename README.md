@@ -1,7 +1,7 @@
 # CS151-Slime_Time
 An action-packed 2D videogame made using the Java language and JavaFX.
 
-You will play as an nameless farmer who has been thrust into action due to an unexpecting Slime invasion on his ranch. Use your trusty tool to fend them off, becoming stronger and stronger as time goes on.
+You will play as an nameless farmer who has been thrust into action due to an unexpecting Slime invasion on his ranch. Use your trusty tools to fend them off, becoming stronger and stronger as time goes on.
 
 ## Team Members
 - Johnny Nguyen
