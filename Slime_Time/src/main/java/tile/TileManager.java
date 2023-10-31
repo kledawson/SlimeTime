@@ -70,7 +70,7 @@ public class TileManager {
         }
         catch (Exception e) {
             try {
-                File myFile = new File("res\\maps\\default_50x50_map.txt");
+                File myFile = new File("res/maps/default_50x50_map.txt");
                 Scanner myReader = new Scanner(myFile);
                 int col = 0;
                 int row = 0;
