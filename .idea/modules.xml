@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CS151-Slime_Time.iml" filepath="$PROJECT_DIR$/.idea/CS151-Slime_Time.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Slime_Time/my2dgametest.iml" filepath="$PROJECT_DIR$/Slime_Time/my2dgametest.iml" />
     </modules>
   </component>
 </project>

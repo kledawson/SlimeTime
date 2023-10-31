@@ -63,11 +63,11 @@ public class Player extends Entity{
     // Utility Method for Loading Player Sprites
     public Image setup(String imageName) {
         try {
-            return new Image(new FileInputStream("res\\player\\" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+            return new Image(new FileInputStream("Slime_Time/res/player/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
         }
         catch (Exception e) {
             try {
-                return new Image(new FileInputStream("res\\tiles\\no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+                return new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
             }
             catch (Exception ex) {
                 ex.printStackTrace();

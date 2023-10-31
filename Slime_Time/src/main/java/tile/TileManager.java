@@ -21,7 +21,7 @@ public class TileManager {
         mapTileNum = new int[ga.MAX_WORLD_COL][ga.MAX_WORLD_ROW];
 
         getTileImage();
-        loadMap("map_name.txt");
+        loadMap("res\\map\\map_name.txt");
     }
 
     // Loads Tile Images
@@ -33,12 +33,12 @@ public class TileManager {
     public void setup(int index, String imageName, boolean collision) {
         try {
             tile[index] = new Tile();
-            tile[index].setImage(new Image(new FileInputStream("res\\tiles\\" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
+            tile[index].setImage(new Image(new FileInputStream("Slime_Time/res/tiles/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
             tile[index].collision = collision;
         }
         catch (Exception e) {
             try {
-                tile[index].setImage(new Image(new FileInputStream("res\\tiles\\no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
+                tile[index].setImage(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
             }
             catch (Exception ex) {
                 ex.printStackTrace();
@@ -70,7 +70,7 @@ public class TileManager {
         }
         catch (Exception e) {
             try {
-                File myFile = new File("res\\maps\\default_50x50_map.txt");
+                File myFile = new File("Slime_Time/res/maps/default_50x50_map.txt");
                 Scanner myReader = new Scanner(myFile);
                 int col = 0;
                 int row = 0;
