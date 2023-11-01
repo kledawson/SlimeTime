@@ -84,39 +84,40 @@ public class Player extends Entity{
         int tempWorldY = worldY;
 
         double diagonalSpeed = speed / Math.sqrt(2); // Calculate diagonal speed
-
-        if (KeyHandler.upPressed) {
-            if (KeyHandler.leftPressed) {
-                direction = "up";
-                worldY -= diagonalSpeed;
-                worldX -= diagonalSpeed;
+        if (KeyHandler.upPressed || KeyHandler.downPressed || KeyHandler.leftPressed || KeyHandler.rightPressed) {
+            if (KeyHandler.upPressed) {
+                if (KeyHandler.leftPressed) {
+                    direction = "up";
+                    worldY -= diagonalSpeed;
+                    worldX -= diagonalSpeed;
+                } else if (KeyHandler.rightPressed) {
+                    direction = "up";
+                    worldY -= diagonalSpeed;
+                    worldX += diagonalSpeed + 1; //adding 1 doesn't really fix the issue of the speed (it's still juust slightly off, but it's much better than before, only real fix would be to convert to double but that would cause a bunch of other errors.
+                } else {
+                    direction = "up";
+                    worldY -= speed;
+                }
+            }   else if (KeyHandler.downPressed) {
+                if (KeyHandler.leftPressed) {
+                    direction = "down";
+                    worldY += diagonalSpeed;
+                    worldX -= diagonalSpeed;
+                } else if (KeyHandler.rightPressed) {
+                    direction = "down";
+                    worldY += diagonalSpeed;
+                    worldX += diagonalSpeed + 1;
+                } else {
+                    direction = "down";
+                    worldY += speed;
+                }
+            } else if (KeyHandler.leftPressed) {
+                direction = "left";
+                worldX -= speed;
             } else if (KeyHandler.rightPressed) {
-                direction = "up";
-                worldY -= diagonalSpeed;
-                worldX += diagonalSpeed;
-            } else {
-                direction = "up";
-                worldY -= speed;
+                direction = "right";
+                worldX += speed;
             }
-        } else if (KeyHandler.downPressed) {
-            if (KeyHandler.leftPressed) {
-                direction = "down";
-                worldY += diagonalSpeed;
-                worldX -= diagonalSpeed;
-            } else if (KeyHandler.rightPressed) {
-                direction = "down";
-                worldY += diagonalSpeed;
-                worldX += diagonalSpeed;
-            } else {
-                direction = "down";
-                worldY += speed;
-            }
-        } else if (KeyHandler.leftPressed) {
-            direction = "left";
-            worldX -= speed;
-        } else if (KeyHandler.rightPressed) {
-            direction = "right";
-            worldX += speed;
         }
 
         // Checks Collision
