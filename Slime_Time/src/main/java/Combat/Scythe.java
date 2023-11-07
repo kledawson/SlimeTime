@@ -18,8 +18,8 @@ public class Scythe extends Entity implements Weapon {
     int damage;
     Player player;
     public Arc arc = new Arc();
-    int screenX;
-    int screenY;
+    double screenX;
+    double screenY;
 
     public Scythe(GameApplication ga, Player player) {
         this.ga = ga;

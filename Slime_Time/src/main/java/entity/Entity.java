@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 public class Entity {
-    public int worldX, worldY; // World Coordinates
-    public int speed; // Speed of Entity (# of Pixels Walked per Tick)
+    public double worldX, worldY; // World Coordinates
+    public double speed; // Speed of Entity (# of Pixels Walked per Tick)
     public Image up0, up1, up2, upIdle,
             down0, down1, down2, downIdle,
             left0, left1, left2, leftIdle,

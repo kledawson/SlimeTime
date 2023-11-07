@@ -44,8 +44,8 @@ public class UI {
     public void renderPauseScreen() {
         gc.setFont(gc.getFont().font(80));
         String text = "PAUSED";
-        int x = ga.SCREEN_WIDTH / 2;
-        int y = ga.SCREEN_HEIGHT / 2;
+        double x = ga.SCREEN_WIDTH / 2;
+        double y = ga.SCREEN_HEIGHT / 2;
         gc.setTextAlign(TextAlignment.CENTER);
         gc.fillText(text, x, y);
     }

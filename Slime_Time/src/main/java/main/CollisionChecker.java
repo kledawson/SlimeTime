@@ -12,50 +12,50 @@ public class CollisionChecker {
     // Checks Collision b/w Entity and Tile
     public void checkTile(Entity entity) {
         // Calculates Coordinates of Entity
-        int entityLeftWorldX = (int) (entity.worldX + entity.solidArea.getX());
-        int entityRightWorldX = (int) (entity.worldX + entity.solidArea.getX() + entity.solidArea.getWidth() - 4);
-        int entityTopWorldY = (int) (entity.worldY + entity.solidArea.getY());
-        int entityBottomWorldY = (int) (entity.worldY + entity.solidArea.getY() + entity.solidArea.getHeight() - 4);
+        double entityLeftWorldX = entity.worldX + entity.solidArea.getX();
+        double entityRightWorldX = entity.worldX + entity.solidArea.getX() + entity.solidArea.getWidth() - 4;
+        double entityTopWorldY = entity.worldY + entity.solidArea.getY();
+        double entityBottomWorldY = entity.worldY + entity.solidArea.getY() + entity.solidArea.getHeight() - 4;
 
         // Calculates Tile Row/Col of Entity
-        int entityLeftCol = entityLeftWorldX / ga.TILE_SIZE;
-        int entityRightCol = entityRightWorldX  / ga.TILE_SIZE;
-        int entityTopRow = entityTopWorldY / ga.TILE_SIZE;
-        int entityBottomRow = entityBottomWorldY  / ga.TILE_SIZE;
+        int entityLeftCol = (int) (entityLeftWorldX / ga.TILE_SIZE);
+        int entityRightCol = (int) (entityRightWorldX  / ga.TILE_SIZE);
+        int entityTopRow = (int) (entityTopWorldY / ga.TILE_SIZE);
+        int entityBottomRow = (int) (entityBottomWorldY  / ga.TILE_SIZE);
 
-        int tileNum1, tileNum2;
+        double tileNum1, tileNum2; // Change the data type to double
 
         // Determines Collision by Checking Which Tiles the Entity is Adjacent to
         switch(entity.direction) {
             case "up":
-                entityTopRow = (entityTopWorldY - entity.speed) / ga.TILE_SIZE;
+                entityTopRow = (int) ((entityTopWorldY - entity.speed) / ga.TILE_SIZE);
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
-                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                if (ga.tileM.tile[(int)tileNum1].collision || ga.tileM.tile[(int)tileNum2].collision) {
                     entity.collisionOn = true;
                 }
                 break;
             case "down":
-                entityBottomRow = (entityBottomWorldY + entity.speed) / ga.TILE_SIZE;
+                entityBottomRow = (int) ((entityBottomWorldY + entity.speed) / ga.TILE_SIZE);
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityBottomRow];
-                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                if (ga.tileM.tile[(int)tileNum1].collision || ga.tileM.tile[(int)tileNum2].collision) {
                     entity.collisionOn = true;
                 }
                 break;
             case "left":
-                entityLeftCol = (entityLeftWorldX - entity.speed) / ga.TILE_SIZE;
+                entityLeftCol = (int) ((entityLeftWorldX - entity.speed) / ga.TILE_SIZE);
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityLeftCol][entityBottomRow];
-                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                if (ga.tileM.tile[(int)tileNum1].collision || ga.tileM.tile[(int)tileNum2].collision) {
                     entity.collisionOn = true;
                 }
                 break;
             case "right":
-                entityRightCol = (entityRightWorldX + entity.speed) / ga.TILE_SIZE;
+                entityRightCol = (int) ((entityRightWorldX + entity.speed) / ga.TILE_SIZE);
                 tileNum1 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityBottomRow];
-                if (ga.tileM.tile[tileNum1].collision || ga.tileM.tile[tileNum2].collision) {
+                if (ga.tileM.tile[(int)tileNum1].collision || ga.tileM.tile[(int)tileNum2].collision) {
                     entity.collisionOn = true;
                 }
                 break;
@@ -80,18 +80,10 @@ public class CollisionChecker {
 
                 // Sets Entity Hit box Coordinates
                 switch (entity.direction) {
-                    case "up":
-                        entity.solidArea.setY(entity.solidArea.getY() - entity.speed);
-                        break;
-                    case "down":
-                        entity.solidArea.setY(entity.solidArea.getY() + entity.speed);
-                        break;
-                    case "left":
-                        entity.solidArea.setX(entity.solidArea.getX() - entity.speed);
-                        break;
-                    case "right":
-                        entity.solidArea.setX(entity.solidArea.getX() + entity.speed);
-                        break;
+                    case "up" -> entity.solidArea.setY(entity.solidArea.getY() - entity.speed);
+                    case "down" -> entity.solidArea.setY(entity.solidArea.getY() + entity.speed);
+                    case "left" -> entity.solidArea.setX(entity.solidArea.getX() - entity.speed);
+                    case "right" -> entity.solidArea.setX(entity.solidArea.getX() + entity.speed);
                 }
 
                 // Checks if Areas Intersect and Applies Collision When Applicable

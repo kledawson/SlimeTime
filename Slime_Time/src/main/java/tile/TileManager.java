@@ -59,7 +59,8 @@ public class TileManager {
                 String line = myReader.nextLine();
                 while (col < ga.MAX_WORLD_COL) {
                     String[] numbers = line.split(" ");
-                    int num = Integer.parseInt(numbers[col]);
+                    int num;
+                    num = (int) Math.round(Double.parseDouble(numbers[col]));
                     mapTileNum[col][row] = num;
                     ++col;
                 }
@@ -102,19 +103,19 @@ public class TileManager {
         int worldRow = 0;
 
         while (worldCol < ga.MAX_WORLD_COL && worldRow < ga.MAX_WORLD_ROW) {
-            int tileNum = mapTileNum[worldCol][worldRow];
+            double tileNum = mapTileNum[worldCol][worldRow];
 
-            int worldX = worldCol * ga.TILE_SIZE;
-            int worldY = worldRow * ga.TILE_SIZE;
-            int screenX = worldX - ga.player.worldX + ga.player.screenX;
-            int screenY = worldY - ga.player.worldY + ga.player.screenY;
+            double worldX = worldCol * ga.TILE_SIZE;
+            double worldY = worldRow * ga.TILE_SIZE;
+            double screenX = worldX - ga.player.worldX + ga.player.screenX;
+            double screenY = worldY - ga.player.worldY + ga.player.screenY;
 
             // Draws Only if On Camera
             if (worldX + ga.TILE_SIZE > ga.player.worldX - ga.player.screenX &&
                     worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                     worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                     worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-                gcTile.drawImage(tile[tileNum].getImage(), screenX, screenY);
+                gcTile.drawImage(tile[(int) tileNum].getImage(), screenX, screenY);
             }
             ++worldCol;
             if (worldCol == ga.MAX_WORLD_COL) {

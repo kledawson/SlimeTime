@@ -14,8 +14,8 @@ import java.security.Key;
 public class Player extends Entity{
     GameApplication ga;
     KeyHandler keyH; // Key Handler to Deal with Movement and Potential other Key Presses
-    public final int screenX; // Screen X-Coord
-    public final int screenY; // Screen Y-Coord
+    public final double screenX; // Screen X-Coord
+    public final double screenY; // Screen Y-Coord
     public Scythe scythe;
 
     public Player(GameApplication ga, KeyHandler keyH) {
@@ -103,8 +103,8 @@ public class Player extends Entity{
     // Update Method
     public void update() {
         // Sets Direction Based on Key Press
-        int tempWorldX = worldX;
-        int tempWorldY = worldY;
+        double tempWorldX = worldX;
+        double tempWorldY = worldY;
 
         double diagonalSpeed = speed / Math.sqrt(2); // Calculate diagonal speed
         if (KeyHandler.upPressed || KeyHandler.downPressed || KeyHandler.leftPressed || KeyHandler.rightPressed) {
@@ -116,7 +116,7 @@ public class Player extends Entity{
                 } else if (KeyHandler.rightPressed) {
                     direction = "right_up";
                     worldY -= diagonalSpeed;
-                    worldX += diagonalSpeed + 1; //adding 1 doesn't really fix the issue of the speed (it's still juust slightly off, but it's much better than before, only real fix would be to convert to double but that would cause a bunch of other errors.
+                    worldX += diagonalSpeed;
                 } else {
                     direction = "up";
                     worldY -= speed;
@@ -129,7 +129,7 @@ public class Player extends Entity{
                 } else if (KeyHandler.rightPressed) {
                     direction = "right_down";
                     worldY += diagonalSpeed;
-                    worldX += diagonalSpeed + 1;
+                    worldX += diagonalSpeed;
                 } else {
                     direction = "down";
                     worldY += speed;
@@ -141,6 +141,9 @@ public class Player extends Entity{
                 direction = "right";
                 worldX += speed;
             }
+            System.out.println("Direction: " + direction);
+            System.out.println("Delta X: " + (worldX - tempWorldX));
+            System.out.println("Delta Y: " + (worldY - tempWorldY));
         }
 
         // Checks Collision
