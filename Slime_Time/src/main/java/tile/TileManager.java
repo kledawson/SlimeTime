@@ -26,7 +26,8 @@ public class TileManager {
 
     // Loads Tile Images
     public void getTileImage() {
-        setup(0, "grass_tile", false);
+        setup(0, "grass_tile_1", false);
+        setup(1, "grass_tile_2", false);
     }
 
     // Utility Method to Load Tile Images

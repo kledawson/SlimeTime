@@ -1,5 +1,6 @@
 package entity;
 
+import Combat.Scythe;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
@@ -15,6 +16,7 @@ public class Player extends Entity{
     KeyHandler keyH; // Key Handler to Deal with Movement and Potential other Key Presses
     public final int screenX; // Screen X-Coord
     public final int screenY; // Screen Y-Coord
+    public Scythe scythe;
 
     public Player(GameApplication ga, KeyHandler keyH) {
         this.ga = ga;
@@ -33,6 +35,8 @@ public class Player extends Entity{
         solidArea.setWidth(ga.TILE_SIZE * 2 / 3);
         solidArea.setHeight(ga.TILE_SIZE * 2 / 3);
 
+        scythe = new Scythe(ga, this);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -49,16 +53,35 @@ public class Player extends Entity{
     public void getPlayerImage() {
         up1 = setup("farmer_back_1");
         up2 = setup("farmer_back_2");
+        upIdle = setup("farmer_back_idle");
+
         down1 = setup("farmer_front_1");
         down2 = setup("farmer_front_2");
+        downIdle = setup("farmer_front_idle");
+
         left1 = setup("farmer_left_1");
         left2 = setup("farmer_left_2");
+        leftIdle = setup("farmer_left_idle");
+
         right1 = setup("farmer_right_1");
         right2 = setup("farmer_right_2");
-        upIdle = setup("farmer_back_idle");
-        downIdle = setup("farmer_front_idle");
-        leftIdle = setup("farmer_left_idle");
         rightIdle = setup("farmer_right_idle");
+
+        left_up1 = setup("farmer_left_up_1");
+        left_up2 = setup("farmer_left_up_2");
+        left_upIdle = setup("farmer_left_up_idle");
+
+        left_down1 = setup("farmer_left_down_1");
+        left_down2 = setup("farmer_left_down_2");
+        left_downIdle = setup("farmer_left_down_idle");
+
+        right_up1 = setup("farmer_right_up_1");
+        right_up2 = setup("farmer_right_up_2");
+        right_upIdle = setup("farmer_right_up_idle");
+
+        right_down1 = setup("farmer_right_down_1");
+        right_down2 = setup("farmer_right_down_2");
+        right_downIdle = setup("farmer_right_down_idle");
     }
 
     // Utility Method for Loading Player Sprites
@@ -87,11 +110,11 @@ public class Player extends Entity{
         if (KeyHandler.upPressed || KeyHandler.downPressed || KeyHandler.leftPressed || KeyHandler.rightPressed) {
             if (KeyHandler.upPressed) {
                 if (KeyHandler.leftPressed) {
-                    direction = "up";
+                    direction = "left_up";
                     worldY -= diagonalSpeed;
                     worldX -= diagonalSpeed;
                 } else if (KeyHandler.rightPressed) {
-                    direction = "up";
+                    direction = "right_up";
                     worldY -= diagonalSpeed;
                     worldX += diagonalSpeed + 1; //adding 1 doesn't really fix the issue of the speed (it's still juust slightly off, but it's much better than before, only real fix would be to convert to double but that would cause a bunch of other errors.
                 } else {
@@ -100,11 +123,11 @@ public class Player extends Entity{
                 }
             }   else if (KeyHandler.downPressed) {
                 if (KeyHandler.leftPressed) {
-                    direction = "down";
+                    direction = "left_down";
                     worldY += diagonalSpeed;
                     worldX -= diagonalSpeed;
                 } else if (KeyHandler.rightPressed) {
-                    direction = "down";
+                    direction = "right_down";
                     worldY += diagonalSpeed;
                     worldX += diagonalSpeed + 1;
                 } else {
@@ -176,6 +199,26 @@ public class Player extends Entity{
                 if (spriteNum == 1) image = new ImageView(right1);
                 if (spriteNum == 2) image = new ImageView(right2);
                 if (spriteNum == 3) image = new ImageView(rightIdle);
+            }
+            case "left_down" -> {
+                if (spriteNum == 1) image = new ImageView(left_down1);
+                if (spriteNum == 2) image = new ImageView(left_down2);
+                if (spriteNum == 3) image = new ImageView(left_downIdle);
+            }
+            case "left_up" -> {
+                if (spriteNum == 1) image = new ImageView(left_up1);
+                if (spriteNum == 2) image = new ImageView(left_up2);
+                if (spriteNum == 3) image = new ImageView(left_upIdle);
+            }
+            case "right_down" -> {
+                if (spriteNum == 1) image = new ImageView(right_down1);
+                if (spriteNum == 2) image = new ImageView(right_down2);
+                if (spriteNum == 3) image = new ImageView(right_downIdle);
+            }
+            case "right_up" -> {
+                if (spriteNum == 1) image = new ImageView(right_up1);
+                if (spriteNum == 2) image = new ImageView(right_up2);
+                if (spriteNum == 3) image = new ImageView(right_upIdle);
             }
         }
 

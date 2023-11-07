@@ -16,7 +16,5 @@ public class ObjectManager {
         ga.obj[0] = new Example_Object(ga);
         ga.obj[0].worldX = 0 * ga.TILE_SIZE;
         ga.obj[0].worldY = 0 * ga.TILE_SIZE;
-
-
     }
 }
