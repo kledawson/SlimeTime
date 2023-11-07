@@ -1,5 +1,7 @@
 package main;
 
+import Combat.Scythe;
+import Combat.Weapon;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,7 +21,7 @@ import tile.TileManager;
 public class GameApplication extends Application {
     // Screen, World Settings
     final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
-    final int SCALE = 3;
+    public final int SCALE = 3;
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
     public final int MAX_SCREEN_COL = 16;
     public final int MAX_SCREEN_ROW = 12;
@@ -39,10 +41,14 @@ public class GameApplication extends Application {
 
     public Player player = new Player(this, keyH);
     public SuperObject[] obj = new SuperObject[10];
+    public Weapon scythe = new Scythe(this, player);
 
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+
+    public double mouseX;
+    public double mouseY;
 
     @Override
     public void start(Stage stage) {
@@ -53,10 +59,17 @@ public class GameApplication extends Application {
         Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         root.getChildren().add(canvas);
 
+        root.getChildren().add(((Scythe) scythe).arc);
+
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         scene.setOnKeyPressed(keyH = new KeyHandler(this,true));
         scene.setOnKeyReleased(keyH = new KeyHandler(this,false));
+        scene.setOnMouseMoved(e -> {
+            mouseX = e.getSceneX();
+            mouseY = e.getSceneY();
+            // System.out.println(mouseX + " " + mouseY);
+        });
 
         stage.setTitle("2D Adventure");
         stage.setScene(scene);
@@ -112,6 +125,7 @@ public class GameApplication extends Application {
     public void update() {
         if (gameState == playState) {
             player.update();
+            ((Scythe) scythe).update();
         }
         if (gameState == pauseState) {
             // Pause State
@@ -135,7 +149,7 @@ public class GameApplication extends Application {
         }
 
         player.render(gc);
-
+        ((Scythe) scythe).render(gc);
         ui.render(gc);
 
         if (keyH.checkDrawTime) {
