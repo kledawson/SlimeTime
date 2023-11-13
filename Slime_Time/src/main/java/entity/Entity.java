@@ -6,6 +6,23 @@ import javafx.scene.shape.Rectangle;
 public class Entity {
     public int worldX, worldY; // World Coordinates
     public int speed; // Speed of Entity (# of Pixels Walked per Tick)
+
+    //Character Attributes
+    public int maxLife;
+    public int life;
+    public int level;
+    public int strength; //tbd if will be used
+    public int dexterity; //tbd if will be used
+    public int attack;
+    public int defense; //tbd if will be used
+    public int exp;
+    public int nextLevelExp;
+    public Entity currentWeapon;
+
+    //Item attributes
+    public int attackValue;
+    public int defenseValue; //tbd if will be used
+
     public Image up0, up1, up2, upIdle,
             down0, down1, down2, downIdle,
             left0, left1, left2, leftIdle,
