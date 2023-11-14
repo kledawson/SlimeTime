@@ -43,6 +43,7 @@ public class GameApplication extends Application {
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int characterState = 3;
 
     public double mouseX;
     public double mouseY;

@@ -47,8 +47,26 @@ public class Player extends Entity{
         worldY = ga.TILE_SIZE * 21;
         speed = 4;
         direction = "down";
+
+        //Player stats
+        level = 1;
+        maxLife = 6;
+        life = maxLife;
+        strength = 1;       //more str -> more dmg
+        dexterity = 1;      //more dex -> more dmg can be recieved
+        exp = 0;
+        nextLevelExp = 5;
+        attack = getAttack();   //total atk determined by str and weapon
+        defense = getDefense(); //total defense determined by dex and armor
     }
 
+    public int getAttack() {
+        return attack = strength;
+    }
+
+    public int getDefense() {
+        return defense = dexterity; //if there will be an armor system, add in defense value here
+    }
     // Loads Player Sprites
     public void getPlayerImage() {
         up1 = setup("farmer_back_1");

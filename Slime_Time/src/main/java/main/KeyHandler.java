@@ -5,7 +5,7 @@ import javafx.scene.input.KeyEvent;
 
 public class KeyHandler implements EventHandler<KeyEvent> {
     GameApplication ga;
-    public static boolean upPressed, downPressed, leftPressed, rightPressed;
+    public static boolean upPressed, downPressed, leftPressed, rightPressed, cPressed, pPressed;
     public boolean flag;
     public boolean checkDrawTime = false;
     public KeyHandler(GameApplication ga, boolean flag) {
@@ -30,11 +30,19 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                 rightPressed = flag;
                 break;
             case P:
-                if (ga.gameState == ga.playState) {
-                    ga.gameState = ga.pauseState;
+                if (!flag) {
+                    if (pPressed) {
+                        pPressed = false;
+                        if (ga.gameState != ga.pauseState) {
+                            ga.gameState = ga.pauseState;
+                        }
+                        else {
+                            ga.gameState = ga.playState;
+                        }
+                    }
                 }
-                else if (ga.gameState == ga.pauseState) {
-                    ga.gameState = ga.playState;
+                else {
+                    pPressed = true;
                 }
                 break;
             case T:
@@ -45,6 +53,23 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     checkDrawTime = false;
                 }
                 break;
+            case C:
+                if (!flag) {
+                    if (cPressed) {
+                        cPressed = false;
+                        if (ga.gameState != ga.characterState) {
+                            ga.gameState = ga.characterState;
+                        }
+                        else {
+                            ga.gameState = ga.playState;
+                        }
+                    }
+                }
+                else {
+                    cPressed = true;
+                }
+                break;
         }
     }
 }
+
