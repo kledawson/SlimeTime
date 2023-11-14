@@ -1,6 +1,7 @@
 package entity;
 
 import Combat.Scythe;
+import com.almasb.fxgl.core.collection.Array;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
@@ -10,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
 import java.security.Key;
+import java.util.ArrayList;
 
 public class Player extends Entity{
     GameApplication ga;
@@ -17,6 +19,9 @@ public class Player extends Entity{
     public final int screenX; // Screen X-Coord
     public final int screenY; // Screen Y-Coord
     public Scythe scythe;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int inventorySize = 20; //subject to change later
+
 
     public Player(GameApplication ga, KeyHandler keyH) {
         this.ga = ga;
@@ -39,7 +44,13 @@ public class Player extends Entity{
 
         setDefaultValues();
         getPlayerImage();
+        setItems();
     }
+
+    public void setItems() {
+        //inventory.add()
+    }
+
 
     // Set Spawn, Speed, Direction
     public void setDefaultValues() {
