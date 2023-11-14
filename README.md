@@ -12,7 +12,8 @@ You will play as an nameless farmer who has been thrust into action due to an un
 Run the Java software program on a personal computer using the Java environment.
 
 ## Game Controls
-Use the 'WASD' keys to move the player character in the cardinal directions respectively. Use the mouse left-click to select menu options. Use the mouse cursor to aim attacks in certain directions.
+Use the 'WASD' keys to move the player character in the cardinal and ordinal directions. Use the mouse cursor to aim attacks in certain directions and left-click to attack.
+Pause and Menu keys open appropriate menu overlays.
 
 ## Features
 - Interactive Menu
@@ -21,10 +22,10 @@ Use the 'WASD' keys to move the player character in the cardinal directions resp
   - Keyboard Key Detection
 - Mouse Controlled Combat
   - Cursor Tracking
+  - Left & Right Click Functionality
 - Player vs. Entity Combat System
 - Resource Gathering
 - Character Item Upgrading
-  - Custom Objects
  
 ## Plan and Approach
 - Learn Basics of 2D Game Development from YouTube Playlist [2]
@@ -37,6 +38,8 @@ Use the 'WASD' keys to move the player character in the cardinal directions resp
   - Create Custom Items
   - Create Custom Resources
   - Program Custom Game Mechanics
+  - Utilize Strategy Design Patterns
+  - Favor Composition over inheritance 
 
 ## References
 [1] Taking inspiration off of "[Vampire Survivors](https://store.steampowered.com/app/1794680/Vampire_Survivors/)" game. 
