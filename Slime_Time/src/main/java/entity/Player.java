@@ -170,6 +170,9 @@ public class Player extends Entity{
             spriteNum = 3;
             spriteCounter = 0;
         }
+
+        // Weapon
+        scythe.update();
     }
 
 
@@ -179,7 +182,7 @@ public class Player extends Entity{
         ImageView image = null;
 
         // Sets Sprite Based on Direction and Animation Frame
-        switch(direction) {
+        switch(scythe.direction) {
             case "up" -> {
                 if (spriteNum == 1) image = new ImageView(up1);
                 if (spriteNum == 2) image = new ImageView(up2);
@@ -228,5 +231,6 @@ public class Player extends Entity{
         // Renders Player Hit box
         gcPlayer.setStroke(Color.BLUE);
         gcPlayer.strokeRect(screenX + 8, screenY + 16, 32, 32);
+        scythe.render(gc);
     }
 }

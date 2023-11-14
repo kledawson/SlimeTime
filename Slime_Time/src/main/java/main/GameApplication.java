@@ -1,7 +1,5 @@
 package main;
 
-import Combat.Scythe;
-import Combat.Weapon;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -41,7 +39,6 @@ public class GameApplication extends Application {
 
     public Player player = new Player(this, keyH);
     public SuperObject[] obj = new SuperObject[10];
-    public Weapon scythe = new Scythe(this, player);
 
     public int gameState;
     public final int playState = 1;
@@ -59,8 +56,6 @@ public class GameApplication extends Application {
         Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         root.getChildren().add(canvas);
 
-        root.getChildren().add(((Scythe) scythe).arc);
-
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         scene.setOnKeyPressed(keyH = new KeyHandler(this,true));
@@ -68,7 +63,9 @@ public class GameApplication extends Application {
         scene.setOnMouseMoved(e -> {
             mouseX = e.getSceneX();
             mouseY = e.getSceneY();
-            // System.out.println(mouseX + " " + mouseY);
+        });
+        scene.setOnMouseClicked(e -> {
+            player.scythe.attack();
         });
 
         stage.setTitle("2D Adventure");
@@ -125,7 +122,6 @@ public class GameApplication extends Application {
     public void update() {
         if (gameState == playState) {
             player.update();
-            ((Scythe) scythe).update();
         }
         if (gameState == pauseState) {
             // Pause State
@@ -149,7 +145,6 @@ public class GameApplication extends Application {
         }
 
         player.render(gc);
-        ((Scythe) scythe).render(gc);
         ui.render(gc);
 
         if (keyH.checkDrawTime) {
