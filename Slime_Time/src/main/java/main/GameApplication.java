@@ -1,5 +1,6 @@
 package main;
 
+import entity.Entity;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import entity.Player;
 import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
+import tiles_interactive.Rock;
 
 // Game Application
 public class GameApplication extends Application {
@@ -38,6 +40,7 @@ public class GameApplication extends Application {
     public UI ui = new UI(this);
 
     public Player player = new Player(this, keyH);
+    public Entity rock[] = new Entity[10];
     public SuperObject[] obj = new SuperObject[10];
 
     public int gameState;
@@ -142,6 +145,12 @@ public class GameApplication extends Application {
         for (SuperObject superObject : obj) {
             if (superObject != null) {
                 superObject.render(gc, this);
+            }
+        }
+
+        for (Entity r : rock) {
+            if (r != null) {
+                ((Rock)r).render(gc, this);
             }
         }
 
