@@ -13,6 +13,7 @@ public class KeyHandler implements EventHandler<KeyEvent> {
         this.flag = flag;
     }
 
+
     // Adjusts Variables According to Key Events
     @Override
     public void handle(KeyEvent keyEvent) {
