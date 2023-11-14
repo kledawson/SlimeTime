@@ -15,11 +15,15 @@ import java.io.FileInputStream;
 public class Scythe extends Entity implements Weapon {
 
     GameApplication ga;
-    int damage;
     Player player;
     public Arc arc = new Arc();
     int screenX;
     int screenY;
+    double mouseAngle;
+    boolean attacking;
+
+    int damage;
+    int attackSpeed;
 
     public Scythe(GameApplication ga, Player player) {
         this.ga = ga;
@@ -33,6 +37,16 @@ public class Scythe extends Entity implements Weapon {
         arc.setType(ArcType.ROUND);
         arc.setFill(Color.TRANSPARENT);
         getWeaponImage();
+    }
+
+    @Override
+    public void attack() {
+        attacking = true;
+    }
+
+    @Override
+    public void upgrade() {
+
     }
 
     public void getWeaponImage() {
@@ -92,80 +106,89 @@ public class Scythe extends Entity implements Weapon {
         }
     }
 
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void upgrade() {
-
-    }
-
     public void update() {
-        double mouseAngle = Math.atan((ga.mouseY - arc.getCenterY()) * -1 / ga.mouseX - arc.getCenterX()) * 180 / Math.PI;
+        if (!attacking) {
+            mouseAngle = Math.atan((ga.mouseY - arc.getCenterY()) / (ga.mouseX - arc.getCenterX())) * 180 / Math.PI;
+            double yDiff = ga.mouseY - arc.getCenterY();
+            double xDiff = ga.mouseX - arc.getCenterX();
+            if (yDiff <= 0 && mouseAngle > -67.5 && mouseAngle <= -22.5) {
+                direction = "right_up";
+            } else if (yDiff <= 0 && (mouseAngle > 67.5 || mouseAngle <= -67.5)) {
+                direction = "up";
+            } else if (yDiff <= 0 && mouseAngle > 22.5 && mouseAngle <= 67.5) {
+                direction = "left_up";
+            } else if (xDiff <= 0 && mouseAngle > -22.5 && mouseAngle <= 22.5) {
+                direction = "left";
+            } else if (mouseAngle > -67.5 && mouseAngle <= -22.5) {
+                direction = "left_down";
+            } else if (mouseAngle > 67.5 || mouseAngle <= -67.5) {
+                direction = "down";
+            } else if (mouseAngle > 22.5 && mouseAngle <= 67.5) {
+                direction = "right_down";
+            } else if (mouseAngle > -22.5 && mouseAngle <= 22.5) {
+                direction = "right";
+            }
 
-        direction = "up";
-
-        switch(direction) {
-            case "up" -> {
-                arc.setStartAngle(45);
-                screenX = player.screenX;
-                screenY = player.screenY - ga.TILE_SIZE + ga.SCALE;
-            }
-            case "left_up" -> {
-                arc.setStartAngle(90);
-                screenX = player.screenX - ga.TILE_SIZE / 2;
-                screenY = player.screenY - ga.TILE_SIZE / 2;
-            }
-            case "left" -> {
-                arc.setStartAngle(135);
-                screenX = player.screenX - ga.TILE_SIZE + ga.SCALE;
-                screenY = player.screenY;
-            }
-            case "left_down" -> {
-                arc.setStartAngle(180);
-                screenX = player.screenX - ga.TILE_SIZE / 2;
-                screenY = player.screenY + ga.TILE_SIZE / 2;
-            }
-            case "down" -> {
-                arc.setStartAngle(225);
-                screenX = player.screenX;
-                screenY = player.screenY + ga.TILE_SIZE - ga.SCALE;
-            }
-            case "right_down" -> {
-                arc.setStartAngle(270);
-                screenX = player.screenX + ga.TILE_SIZE / 2;
-                screenY = player.screenY + ga.TILE_SIZE / 2;
-            }
-            case "right" -> {
-                arc.setStartAngle(315);
-                screenX = player.screenX + ga.TILE_SIZE - ga.SCALE;
-                screenY = player.screenY;
-            }
-            case "right_up" -> {
-                arc.setStartAngle(0);
-                screenX = player.screenX + ga.TILE_SIZE / 2;
-                screenY = player.screenY - ga.TILE_SIZE / 2;
+            switch (direction) {
+                case "up" -> {
+                    arc.setStartAngle(45);
+                    screenX = player.screenX;
+                    screenY = player.screenY - ga.TILE_SIZE + ga.SCALE;
+                }
+                case "left_up" -> {
+                    arc.setStartAngle(90);
+                    screenX = player.screenX - ga.TILE_SIZE / 2;
+                    screenY = player.screenY - ga.TILE_SIZE / 2;
+                }
+                case "left" -> {
+                    arc.setStartAngle(135);
+                    screenX = player.screenX - ga.TILE_SIZE + ga.SCALE;
+                    screenY = player.screenY;
+                }
+                case "left_down" -> {
+                    arc.setStartAngle(180);
+                    screenX = player.screenX - ga.TILE_SIZE / 2;
+                    screenY = player.screenY + ga.TILE_SIZE / 2;
+                }
+                case "down" -> {
+                    arc.setStartAngle(225);
+                    screenX = player.screenX;
+                    screenY = player.screenY + ga.TILE_SIZE - ga.SCALE;
+                }
+                case "right_down" -> {
+                    arc.setStartAngle(270);
+                    screenX = player.screenX + ga.TILE_SIZE / 2;
+                    screenY = player.screenY + ga.TILE_SIZE / 2;
+                }
+                case "right" -> {
+                    arc.setStartAngle(315);
+                    screenX = player.screenX + ga.TILE_SIZE - ga.SCALE;
+                    screenY = player.screenY;
+                }
+                case "right_up" -> {
+                    arc.setStartAngle(0);
+                    screenX = player.screenX + ga.TILE_SIZE / 2;
+                    screenY = player.screenY - ga.TILE_SIZE / 2;
+                }
             }
         }
 
         // Swing Animation
-        ++spriteCounter;
-        if (spriteCounter > 5) {
-            if (spriteNum == 1) {
-                spriteNum = 2;
+        if (attacking) {
+            ++spriteCounter;
+            if (spriteCounter > 5) {
+                if (spriteNum == 1) {
+                    spriteNum = 2;
+                } else if (spriteNum == 2) {
+                    spriteNum = 3;
+                } else if (spriteNum == 3) {
+                    spriteNum = 4;
+                    attacking = false;
+                } else {
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
             }
-            else if (spriteNum == 2) {
-                spriteNum = 3;
-            }
-            else if (spriteNum == 3) {
-                spriteNum = 4;
-            }
-            else {
-                spriteNum = 1;
-            }
-            spriteCounter = 0;
         }
     }
 
@@ -223,6 +246,9 @@ public class Scythe extends Entity implements Weapon {
                 if (spriteNum == 4) image = new ImageView(right_upIdle);
             }
         }
-        gcScythe.drawImage(image.getImage(), screenX, screenY);
+        if (attacking) {
+            gcScythe.drawImage(image.getImage(), screenX, screenY);
+            gcScythe.strokeArc(player.screenX - 24, player.screenY - 24, arc.getRadiusX() * 2, arc.getRadiusY() * 2, arc.getStartAngle(), arc.getLength(), ArcType.ROUND);
+        }
     }
 }

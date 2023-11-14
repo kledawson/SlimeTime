@@ -114,4 +114,9 @@ public class CollisionChecker {
 
         return index;
     }
+
+    public int checkEntity(Entity entity) {
+        int index = 999;
+        return index;
+    }
 }

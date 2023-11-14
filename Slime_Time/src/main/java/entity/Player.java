@@ -134,7 +134,7 @@ public class Player extends Entity{
                 } else if (KeyHandler.rightPressed) {
                     direction = "right_up";
                     worldY -= diagonalSpeed;
-                    worldX += diagonalSpeed + 1; //adding 1 doesn't really fix the issue of the speed (it's still juust slightly off, but it's much better than before, only real fix would be to convert to double but that would cause a bunch of other errors.
+                    worldX += diagonalSpeed + 1; //adding 1 doesn't really fix the issue of the speed (it's still just slightly off, but it's much better than before, only real fix would be to convert to double but that would cause a bunch of other errors.
                 } else {
                     direction = "up";
                     worldY -= speed;
@@ -188,6 +188,9 @@ public class Player extends Entity{
             spriteNum = 3;
             spriteCounter = 0;
         }
+
+        // Weapon
+        scythe.update();
     }
 
 
@@ -197,7 +200,7 @@ public class Player extends Entity{
         ImageView image = null;
 
         // Sets Sprite Based on Direction and Animation Frame
-        switch(direction) {
+        switch(scythe.direction) {
             case "up" -> {
                 if (spriteNum == 1) image = new ImageView(up1);
                 if (spriteNum == 2) image = new ImageView(up2);
@@ -246,5 +249,6 @@ public class Player extends Entity{
         // Renders Player Hit box
         gcPlayer.setStroke(Color.BLUE);
         gcPlayer.strokeRect(screenX + 8, screenY + 16, 32, 32);
+        scythe.render(gc);
     }
 }
