@@ -134,7 +134,7 @@ public class Player extends Entity{
                 } else if (KeyHandler.rightPressed) {
                     direction = "right_up";
                     worldY -= diagonalSpeed;
-                    worldX += diagonalSpeed + 1; //adding 1 doesn't really fix the issue of the speed (it's still juust slightly off, but it's much better than before, only real fix would be to convert to double but that would cause a bunch of other errors.
+                    worldX += diagonalSpeed + 1; //adding 1 doesn't really fix the issue of the speed (it's still just slightly off, but it's much better than before, only real fix would be to convert to double but that would cause a bunch of other errors.
                 } else {
                     direction = "up";
                     worldY -= speed;
