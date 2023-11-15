@@ -50,58 +50,57 @@ public class Scythe extends Entity implements Weapon {
     }
 
     public void getWeaponImage() {
-        up0 = setup("scythe_back_0");
-        up1 = setup("scythe_back_1");
-        up2 = setup("scythe_back_2");
-        upIdle = setup("scythe_back_idle");
+        setup("scythe_back_0");
+        setup("scythe_back_1");
+        setup("scythe_back_2");
+        setup("scythe_back_idle");
 
-        down0 = setup("scythe_front_0");
-        down1 = setup("scythe_front_1");
-        down2 = setup("scythe_front_2");
-        downIdle = setup("scythe_front_idle");
+        setup("scythe_front_0");
+        setup("scythe_front_1");
+        setup("scythe_front_2");
+        setup("scythe_front_idle");
 
-        left0 = setup("scythe_left_0");
-        left1 = setup("scythe_left_1");
-        left2 = setup("scythe_left_2");
-        leftIdle = setup("scythe_left_idle");
+        setup("scythe_left_0");
+        setup("scythe_left_1");
+        setup("scythe_left_2");
+        setup("scythe_left_idle");
 
-        right0 = setup("scythe_right_0");
-        right1 = setup("scythe_right_1");
-        right2 = setup("scythe_right_2");
-        rightIdle = setup("scythe_right_idle");
+        setup("scythe_right_0");
+        setup("scythe_right_1");
+        setup("scythe_right_2");
+        setup("scythe_right_idle");
 
-        left_up0 = setup("scythe_left_up_0");
-        left_up1 = setup("scythe_left_up_1");
-        left_up2 = setup("scythe_left_up_2");
-        left_upIdle = setup("scythe_left_up_idle");
+        setup("scythe_left_up_0");
+        setup("scythe_left_up_1");
+        setup("scythe_left_up_2");
+        setup("scythe_left_up_idle");
 
-        left_down0 = setup("scythe_left_down_0");
-        left_down1 = setup("scythe_left_down_1");
-        left_down2 = setup("scythe_left_down_2");
-        left_downIdle = setup("scythe_left_down_idle");
+        setup("scythe_left_down_0");
+        setup("scythe_left_down_1");
+        setup("scythe_left_down_2");
+        setup("scythe_left_down_idle");
 
-        right_up0 = setup("scythe_right_up_0");
-        right_up1 = setup("scythe_right_up_1");
-        right_up2 = setup("scythe_right_up_2");
-        right_upIdle = setup("scythe_right_up_idle");
+        setup("scythe_right_up_0");
+        setup("scythe_right_up_1");
+        setup("scythe_right_up_2");
+        setup("scythe_right_up_idle");
 
-        right_down0 = setup("scythe_right_down_0");
-        right_down1 = setup("scythe_right_down_1");
-        right_down2 = setup("scythe_right_down_2");
-        right_downIdle = setup("scythe_right_down_idle");
+        setup("scythe_right_down_0");
+        setup("scythe_right_down_1");
+        setup("scythe_right_down_2");
+        setup("scythe_right_down_idle");
     }
 
-    public Image setup(String imageName) {
+    public void setup(String imageName) {
         try {
-            return new Image(new FileInputStream("Slime_Time/res/weapon/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+            images.add(new Image(new FileInputStream("Slime_Time/res/weapon/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
         }
         catch (Exception e) {
             try {
-                return new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
             }
             catch (Exception ex) {
                 ex.printStackTrace();
-                return null;
             }
         }
     }
@@ -194,60 +193,36 @@ public class Scythe extends Entity implements Weapon {
 
     public void render(GraphicsContext gc) {
         GraphicsContext gcScythe = gc;
-        ImageView image = null;
+        Image image = null;
 
         switch(direction) {
             case "up" -> {
-                if (spriteNum == 1) image = new ImageView(up0);
-                if (spriteNum == 2) image = new ImageView(up1);
-                if (spriteNum == 3) image = new ImageView(up2);
-                if (spriteNum == 4) image = new ImageView(upIdle);
+                image = images.get(-1 + spriteNum);
             }
             case "down" -> {
-                if (spriteNum == 1) image = new ImageView(down0);
-                if (spriteNum == 2) image = new ImageView(down1);
-                if (spriteNum == 3) image = new ImageView(down2);
-                if (spriteNum == 4) image = new ImageView(downIdle);
+                image = images.get(3 + spriteNum);
             }
             case "left" -> {
-                if (spriteNum == 1) image = new ImageView(left0);
-                if (spriteNum == 2) image = new ImageView(left1);
-                if (spriteNum == 3) image = new ImageView(left2);
-                if (spriteNum == 4) image = new ImageView(leftIdle);
+                image = images.get(7 + spriteNum);
             }
             case "right" -> {
-                if (spriteNum == 1) image = new ImageView(right0);
-                if (spriteNum == 2) image = new ImageView(right1);
-                if (spriteNum == 3) image = new ImageView(right2);
-                if (spriteNum == 4) image = new ImageView(rightIdle);
-            }
-            case "left_down" -> {
-                if (spriteNum == 1) image = new ImageView(left_down0);
-                if (spriteNum == 2) image = new ImageView(left_down1);
-                if (spriteNum == 3) image = new ImageView(left_down2);
-                if (spriteNum == 4) image = new ImageView(left_downIdle);
+                image = images.get(11 + spriteNum);
             }
             case "left_up" -> {
-                if (spriteNum == 1) image = new ImageView(left_up0);
-                if (spriteNum == 2) image = new ImageView(left_up1);
-                if (spriteNum == 3) image = new ImageView(left_up2);
-                if (spriteNum == 4) image = new ImageView(left_upIdle);
+                image = images.get(15 + spriteNum);
             }
-            case "right_down" -> {
-                if (spriteNum == 1) image = new ImageView(right_down0);
-                if (spriteNum == 2) image = new ImageView(right_down1);
-                if (spriteNum == 3) image = new ImageView(right_down2);
-                if (spriteNum == 4) image = new ImageView(right_downIdle);
+            case "left_down" -> {
+                image = images.get(19 + spriteNum);
             }
             case "right_up" -> {
-                if (spriteNum == 1) image = new ImageView(right_up0);
-                if (spriteNum == 2) image = new ImageView(right_up1);
-                if (spriteNum == 3) image = new ImageView(right_up2);
-                if (spriteNum == 4) image = new ImageView(right_upIdle);
+                image = images.get(23 + spriteNum);
+            }
+            case "right_down" -> {
+                image = images.get(27 + spriteNum);
             }
         }
         if (attacking) {
-            gcScythe.drawImage(image.getImage(), screenX, screenY);
+            gcScythe.drawImage(image, screenX, screenY);
             gcScythe.strokeArc(player.screenX - 24, player.screenY - 24, arc.getRadiusX() * 2, arc.getRadiusY() * 2, arc.getStartAngle(), arc.getLength(), ArcType.ROUND);
         }
     }
