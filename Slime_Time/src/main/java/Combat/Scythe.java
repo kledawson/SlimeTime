@@ -14,7 +14,6 @@ import java.io.FileInputStream;
 
 public class Scythe extends Entity implements Weapon {
 
-    GameApplication ga;
     Player player;
     public Arc arc = new Arc();
     int screenX;
@@ -172,8 +171,18 @@ public class Scythe extends Entity implements Weapon {
             }
         }
 
-        // Swing Animation
+        // Swing Animation & Hit Detection
         if (attacking) {
+            int monIndex = ga.cChecker.checkMonster(this);
+            int resourceIndex = ga.cChecker.checkResource(this);
+
+            if (monIndex != 999) {
+                // ga.monsters[monIndex].takeDamage(damage);
+            }
+            if (resourceIndex != 999) {
+                // ga.resources[resourceIndex].takeDamage();
+            }
+
             ++spriteCounter;
             if (spriteCounter > 5) {
                 if (spriteNum == 1) {
