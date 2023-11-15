@@ -80,51 +80,50 @@ public class Player extends Entity{
     }
     // Loads Player Sprites
     public void getPlayerImage() {
-        up1 = setup("farmer_back_1");
-        up2 = setup("farmer_back_2");
-        upIdle = setup("farmer_back_idle");
+        setup("farmer_back_1");
+        setup("farmer_back_2");
+        setup("farmer_back_idle");
 
-        down1 = setup("farmer_front_1");
-        down2 = setup("farmer_front_2");
-        downIdle = setup("farmer_front_idle");
+        setup("farmer_front_1");
+        setup("farmer_front_2");
+        setup("farmer_front_idle");
 
-        left1 = setup("farmer_left_1");
-        left2 = setup("farmer_left_2");
-        leftIdle = setup("farmer_left_idle");
+        setup("farmer_left_1");
+        setup("farmer_left_2");
+        setup("farmer_left_idle");
 
-        right1 = setup("farmer_right_1");
-        right2 = setup("farmer_right_2");
-        rightIdle = setup("farmer_right_idle");
+        setup("farmer_right_1");
+        setup("farmer_right_2");
+        setup("farmer_right_idle");
 
-        left_up1 = setup("farmer_left_up_1");
-        left_up2 = setup("farmer_left_up_2");
-        left_upIdle = setup("farmer_left_up_idle");
+        setup("farmer_left_up_1");
+        setup("farmer_left_up_2");
+        setup("farmer_left_up_idle");
 
-        left_down1 = setup("farmer_left_down_1");
-        left_down2 = setup("farmer_left_down_2");
-        left_downIdle = setup("farmer_left_down_idle");
+        setup("farmer_left_down_1");
+        setup("farmer_left_down_2");
+        setup("farmer_left_down_idle");
 
-        right_up1 = setup("farmer_right_up_1");
-        right_up2 = setup("farmer_right_up_2");
-        right_upIdle = setup("farmer_right_up_idle");
+        setup("farmer_right_up_1");
+        setup("farmer_right_up_2");
+        setup("farmer_right_up_idle");
 
-        right_down1 = setup("farmer_right_down_1");
-        right_down2 = setup("farmer_right_down_2");
-        right_downIdle = setup("farmer_right_down_idle");
+        setup("farmer_right_down_1");
+        setup("farmer_right_down_2");
+        setup("farmer_right_down_idle");
     }
 
     // Utility Method for Loading Player Sprites
-    public Image setup(String imageName) {
+    public void setup(String imageName) {
         try {
-            return new Image(new FileInputStream("Slime_Time/res/player/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+            images.add(new Image(new FileInputStream("Slime_Time/res/player/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
         }
         catch (Exception e) {
             try {
-                return new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
             }
             catch (Exception ex) {
                 ex.printStackTrace();
-                return null;
             }
         }
     }
@@ -208,54 +207,39 @@ public class Player extends Entity{
     // Render Method
     public void render(GraphicsContext gc) {
         GraphicsContext gcPlayer = gc;
-        ImageView image = null;
+        Image image = null;
 
         // Sets Sprite Based on Direction and Animation Frame
         switch(scythe.direction) {
             case "up" -> {
-                if (spriteNum == 1) image = new ImageView(up1);
-                if (spriteNum == 2) image = new ImageView(up2);
-                if (spriteNum == 3) image = new ImageView(upIdle);
+                image = images.get(-1 + spriteNum);
             }
             case "down" -> {
-                if (spriteNum == 1) image = new ImageView(down1);
-                if (spriteNum == 2) image = new ImageView(down2);
-                if (spriteNum == 3) image = new ImageView(downIdle);
+                image = images.get(2 + spriteNum);
             }
             case "left" -> {
-                if (spriteNum == 1) image = new ImageView(left1);
-                if (spriteNum == 2) image = new ImageView(left2);
-                if (spriteNum == 3) image = new ImageView(leftIdle);
+                image = images.get(5 + spriteNum);
             }
             case "right" -> {
-                if (spriteNum == 1) image = new ImageView(right1);
-                if (spriteNum == 2) image = new ImageView(right2);
-                if (spriteNum == 3) image = new ImageView(rightIdle);
-            }
-            case "left_down" -> {
-                if (spriteNum == 1) image = new ImageView(left_down1);
-                if (spriteNum == 2) image = new ImageView(left_down2);
-                if (spriteNum == 3) image = new ImageView(left_downIdle);
+                image = images.get(8 + spriteNum);
             }
             case "left_up" -> {
-                if (spriteNum == 1) image = new ImageView(left_up1);
-                if (spriteNum == 2) image = new ImageView(left_up2);
-                if (spriteNum == 3) image = new ImageView(left_upIdle);
+                image = images.get(11 + spriteNum);
             }
-            case "right_down" -> {
-                if (spriteNum == 1) image = new ImageView(right_down1);
-                if (spriteNum == 2) image = new ImageView(right_down2);
-                if (spriteNum == 3) image = new ImageView(right_downIdle);
+            case "left_down" -> {
+                image = images.get(14 + spriteNum);
             }
             case "right_up" -> {
-                if (spriteNum == 1) image = new ImageView(right_up1);
-                if (spriteNum == 2) image = new ImageView(right_up2);
-                if (spriteNum == 3) image = new ImageView(right_upIdle);
+                image = images.get(17 + spriteNum);
             }
+            case "right_down" -> {
+                image = images.get(20 + spriteNum);
+            }
+
         }
 
         // Renders Player
-        gcPlayer.drawImage(image.getImage(), screenX, screenY);
+        gcPlayer.drawImage(image, screenX, screenY);
 
         // Renders Player Hit box
         gcPlayer.setStroke(Color.BLUE);

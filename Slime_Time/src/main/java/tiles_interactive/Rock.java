@@ -12,7 +12,6 @@ import java.io.FileInputStream;
 
 public class Rock extends Entity {
     GameApplication ga;
-    public Image rock, rock_break1, rock_break2, rock_break3; // Rock Sprites
     public boolean destructible = true;
     private Rectangle solidArea;
 
@@ -31,23 +30,24 @@ public class Rock extends Entity {
     }
 
     public void getRockImage() {
-        rock = setupRock("rock");
-        /*rock_break1 = setupRock("rock_break1");
-        rock_break2 = setupRock("rock_break2");
-        rock_break3 = setupRock("rock_break3");*/
+        setupRock("rock");
+        /*
+        setupRock("rock_break1");
+        setupRock("rock_break2");
+        setupRock("rock_break3");
+        */
     }
 
-    public Image setupRock(String imageName) {
+    public void setupRock(String imageName) {
         try {
-            return new Image(new FileInputStream("Slime_Time/res/tiles_interactive/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+            images.add(new Image(new FileInputStream("Slime_Time/res/tiles_interactive/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
         }
         catch (Exception e) {
             try {
-                return new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
             }
             catch (Exception ex) {
                 ex.printStackTrace();
-                return null;
             }
         }
     }
@@ -72,7 +72,7 @@ public class Rock extends Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gcObj.drawImage(rock, screenX, screenY);
+            gcObj.drawImage(images.get(0), screenX, screenY);
         }
     }
 
