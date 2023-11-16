@@ -1,6 +1,7 @@
 package entity;
 
 import Combat.Scythe;
+import Combat.Slingshot;
 import com.almasb.fxgl.core.collection.Array;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -9,21 +10,18 @@ import main.KeyHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import object.OBJ_Key;
-import object.SuperObject;
-
 import java.io.FileInputStream;
 import java.security.Key;
 import java.util.ArrayList;
 
 public class Player extends Entity{
-    GameApplication ga;
     KeyHandler keyH; // Key Handler to Deal with Movement and Potential other Key Presses
     public final int screenX; // Screen X-Coord
     public final int screenY; // Screen Y-Coord
     public Scythe scythe;
-    public ArrayList<SuperObject> inventory = new ArrayList<>();
-    public final int maxInventorySize = 8; //subject to change later
+    public Slingshot slingshot;
+    public ArrayList<Entity> inventory = new ArrayList<>();
+    public final int inventorySize = 20; //subject to change later
 
 
     public Player(GameApplication ga, KeyHandler keyH) {
@@ -36,8 +34,8 @@ public class Player extends Entity{
 
         // Sets Hit box to be Smaller Than Sprite
         solidArea = new Rectangle();
-        solidArea.setX(ga.TILE_SIZE / 6);
-        solidArea.setY(ga.TILE_SIZE / 3);
+        solidArea.setX(ga.TILE_SIZE / 6 + worldX);
+        solidArea.setY(ga.TILE_SIZE / 3 + worldY);
         solidAreaDefaultX = (int) solidArea.getX();
         solidAreaDefaultY = (int) solidArea.getY();
         solidArea.setWidth(ga.TILE_SIZE * 2 / 3);
@@ -57,8 +55,8 @@ public class Player extends Entity{
 
     // Set Spawn, Speed, Direction
     public void setDefaultValues() {
-        worldX = ga.TILE_SIZE * 23;
-        worldY = ga.TILE_SIZE * 21;
+        worldX = ga.TILE_SIZE * 64;
+        worldY = ga.TILE_SIZE * 50;
         speed = 4;
         direction = "down";
 
@@ -174,11 +172,14 @@ public class Player extends Entity{
             }
         }
 
+        // Changes Hitbox Coordinates
+        solidArea.setX(ga.TILE_SIZE / 6 + worldX);
+        solidArea.setY(ga.TILE_SIZE / 3 + worldY);
+
         // Checks Collision
         collisionOn = false;
         ga.cChecker.checkTile(this);
-        int objIndex = ga.cChecker.checkObject(this, true);
-        pickUpObject(objIndex);
+        int objIndex = ga.cChecker.checkObject(this);
 
         // Stops Player if Collision is On
         if (collisionOn) {
@@ -206,57 +207,7 @@ public class Player extends Entity{
         // Weapon
         scythe.update();
     }
-    public int searchItemInInventory(String itemName) {
-        int itemIndex = 999;
-        for(int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).name.equals(itemName)) {
-                itemIndex = i;
-                break;
-            }
-        }
-        return itemIndex;
-    }
 
-    public void pickUpObject(int i) {
-        if (i != 999) {
-            //pickup only
-
-            String text;
-            if (canObtainItem(ga.obj[i]) == true) {
-
-                text = ga.obj[i].name + "acquired!";
-            }
-            else {
-                text = "You cannot carry anymore";
-            }
-           // ga.ui.addMessage(text); ->  implement later
-            ga.obj[i] = null;
-        }
-    }
-    public boolean canObtainItem(SuperObject item) {
-        boolean canObtain = false;
-        //check if stackable
-        if (item.stackable = true) {
-            int index = searchItemInInventory(item.name);
-            if (index != 999) {
-                inventory.get(index).amount++;
-                canObtain = true;
-            }
-            else { //New Item to check vacancy
-                if(inventory.size() != maxInventorySize) {
-                    inventory.add(item);
-                    canObtain = true;
-                }
-            }
-        }
-        else { //not stackable
-            if(inventory.size() != maxInventorySize) {
-                inventory.add(item);
-                canObtain = true;
-            }
-        }
-        return canObtain;
-    }
 
     // Render Method
     public void render(GraphicsContext gc) {
@@ -291,6 +242,7 @@ public class Player extends Entity{
             }
 
         }
+
         // Renders Player
         gcPlayer.drawImage(image, screenX, screenY);
 
