@@ -9,6 +9,9 @@ import main.KeyHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import object.OBJ_Key;
+import object.SuperObject;
+
 import java.io.FileInputStream;
 import java.security.Key;
 import java.util.ArrayList;
@@ -19,8 +22,8 @@ public class Player extends Entity{
     public final int screenX; // Screen X-Coord
     public final int screenY; // Screen Y-Coord
     public Scythe scythe;
-    public ArrayList<Entity> inventory = new ArrayList<>();
-    public final int inventorySize = 20; //subject to change later
+    public ArrayList<SuperObject> inventory = new ArrayList<>();
+    public final int maxInventorySize = 8; //subject to change later
 
 
     public Player(GameApplication ga, KeyHandler keyH) {
@@ -175,6 +178,7 @@ public class Player extends Entity{
         collisionOn = false;
         ga.cChecker.checkTile(this);
         int objIndex = ga.cChecker.checkObject(this, true);
+        pickUpObject(objIndex);
 
         // Stops Player if Collision is On
         if (collisionOn) {
@@ -202,7 +206,57 @@ public class Player extends Entity{
         // Weapon
         scythe.update();
     }
+    public int searchItemInInventory(String itemName) {
+        int itemIndex = 999;
+        for(int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).name.equals(itemName)) {
+                itemIndex = i;
+                break;
+            }
+        }
+        return itemIndex;
+    }
 
+    public void pickUpObject(int i) {
+        if (i != 999) {
+            //pickup only
+
+            String text;
+            if (canObtainItem(ga.obj[i]) == true) {
+
+                text = ga.obj[i].name + "acquired!";
+            }
+            else {
+                text = "You cannot carry anymore";
+            }
+           // ga.ui.addMessage(text); ->  implement later
+            ga.obj[i] = null;
+        }
+    }
+    public boolean canObtainItem(SuperObject item) {
+        boolean canObtain = false;
+        //check if stackable
+        if (item.stackable = true) {
+            int index = searchItemInInventory(item.name);
+            if (index != 999) {
+                inventory.get(index).amount++;
+                canObtain = true;
+            }
+            else { //New Item to check vacancy
+                if(inventory.size() != maxInventorySize) {
+                    inventory.add(item);
+                    canObtain = true;
+                }
+            }
+        }
+        else { //not stackable
+            if(inventory.size() != maxInventorySize) {
+                inventory.add(item);
+                canObtain = true;
+            }
+        }
+        return canObtain;
+    }
 
     // Render Method
     public void render(GraphicsContext gc) {
@@ -237,7 +291,6 @@ public class Player extends Entity{
             }
 
         }
-
         // Renders Player
         gcPlayer.drawImage(image, screenX, screenY);
 
