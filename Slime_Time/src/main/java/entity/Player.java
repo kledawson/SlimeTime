@@ -55,8 +55,8 @@ public class Player extends Entity{
 
     // Set Spawn, Speed, Direction
     public void setDefaultValues() {
-        worldX = ga.TILE_SIZE * 23;
-        worldY = ga.TILE_SIZE * 21;
+        worldX = ga.TILE_SIZE * 64;
+        worldY = ga.TILE_SIZE * 50;
         speed = 4;
         direction = "down";
 
