@@ -1,6 +1,7 @@
 package entity;
 
 import Combat.Scythe;
+import Combat.Slingshot;
 import com.almasb.fxgl.core.collection.Array;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,11 +15,11 @@ import java.security.Key;
 import java.util.ArrayList;
 
 public class Player extends Entity{
-    GameApplication ga;
     KeyHandler keyH; // Key Handler to Deal with Movement and Potential other Key Presses
     public final int screenX; // Screen X-Coord
     public final int screenY; // Screen Y-Coord
     public Scythe scythe;
+    public Slingshot slingshot;
     public ArrayList<Entity> inventory = new ArrayList<>();
     public final int inventorySize = 20; //subject to change later
 
@@ -33,8 +34,8 @@ public class Player extends Entity{
 
         // Sets Hit box to be Smaller Than Sprite
         solidArea = new Rectangle();
-        solidArea.setX(ga.TILE_SIZE / 6);
-        solidArea.setY(ga.TILE_SIZE / 3);
+        solidArea.setX(ga.TILE_SIZE / 6 + worldX);
+        solidArea.setY(ga.TILE_SIZE / 3 + worldY);
         solidAreaDefaultX = (int) solidArea.getX();
         solidAreaDefaultY = (int) solidArea.getY();
         solidArea.setWidth(ga.TILE_SIZE * 2 / 3);
@@ -54,8 +55,8 @@ public class Player extends Entity{
 
     // Set Spawn, Speed, Direction
     public void setDefaultValues() {
-        worldX = ga.TILE_SIZE * 23;
-        worldY = ga.TILE_SIZE * 21;
+        worldX = ga.TILE_SIZE * 64;
+        worldY = ga.TILE_SIZE * 50;
         speed = 4;
         direction = "down";
 
@@ -171,10 +172,14 @@ public class Player extends Entity{
             }
         }
 
+        // Changes Hitbox Coordinates
+        solidArea.setX(ga.TILE_SIZE / 6 + worldX);
+        solidArea.setY(ga.TILE_SIZE / 3 + worldY);
+
         // Checks Collision
         collisionOn = false;
         ga.cChecker.checkTile(this);
-        int objIndex = ga.cChecker.checkObject(this, true);
+        int objIndex = ga.cChecker.checkObject(this);
 
         // Stops Player if Collision is On
         if (collisionOn) {

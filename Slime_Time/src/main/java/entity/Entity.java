@@ -2,12 +2,14 @@ package entity;
 
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import main.GameApplication;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Entity {
+    public GameApplication ga;
     public int worldX, worldY; // World Coordinates
     public int speed; // Speed of Entity (# of Pixels Walked per Tick)
 
@@ -21,7 +23,6 @@ public class Entity {
     public int defense; //tbd if will be used
     public int exp;
     public int nextLevelExp;
-    public Entity currentWeapon;
 
     //Item attributes
     public int attackValue;

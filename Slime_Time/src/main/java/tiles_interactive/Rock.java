@@ -11,7 +11,6 @@ import main.GameApplication;
 import java.io.FileInputStream;
 
 public class Rock extends Entity {
-    GameApplication ga;
     public boolean destructible = true;
     private Rectangle solidArea;
 

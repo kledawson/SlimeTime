@@ -2,10 +2,13 @@ package tile;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import main.GameApplication;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TileManager {
@@ -13,21 +16,44 @@ public class TileManager {
     GameApplication ga;
     public Tile[] tile;
     public int[][] mapTileNum;
+    public List<String> fileNames = new ArrayList<>();
+    public List<String> tileCollisions = new ArrayList<String>();
+    public List<String> tileNameCollision = new ArrayList<>();
 
     // Generates Empty Tiles
     public TileManager(GameApplication ga) {
         this.ga = ga;
-        tile = new Tile[10];
+        tile = new Tile[200];
         mapTileNum = new int[ga.MAX_WORLD_COL][ga.MAX_WORLD_ROW];
 
         getTileImage();
-        loadMap("res\\map\\map_name.txt");
+        // loadMap("res\\map\\map_name.txt");
+        loadMap("Slime_Time/res/maps/slimetimemap.txt");
     }
 
     // Loads Tile Images
     public void getTileImage() {
+        try {
+            tileNameCollision = Files.readAllLines(Paths.get("Slime_Time/res/maps/tileNameCollision.txt"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();;
+        }
+
+        for (int i = 0; i < tileNameCollision.size(); i += 2) {
+            fileNames.add(tileNameCollision.get(i));
+            tileCollisions.add(tileNameCollision.get(i + 1));
+        }
+
+        for (int i = 0; i < fileNames.size(); ++i) {
+            System.out.println(i + " " + fileNames.get(i) + " " + tileCollisions.get(i));
+            setup(i, fileNames.get(i), tileCollisions.get(i).compareTo("y") == 0);
+        }
+
+        /*
         setup(0, "grass_tile_1", false);
         setup(1, "grass_tile_2", false);
+        */
     }
 
     // Utility Method to Load Tile Images
