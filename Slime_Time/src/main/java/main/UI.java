@@ -131,7 +131,7 @@ public class UI {
 
             // Draw the quantity of items stacked
             if (ga.player.inventory.get(i).amount > 1) {
-                gc.setFont(new Font("Arial", 12));
+                gc.setFont(new Font("Arial", 19));
                 gc.setFill(Color.WHITE);
                 int amountX;
                 int amountY;
