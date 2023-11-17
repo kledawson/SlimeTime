@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Entity {
-    GameApplication ga;
+    protected GameApplication ga;
     public ImageView image;
     public int worldX, worldY; // World Coordinates
     public int speed; // Speed of Entity (# of Pixels Walked per Tick)

@@ -14,7 +14,7 @@ public class OBJ_Key extends SuperObject {
         name = "Key";
         setup("key", "objects", ga.TILE_SIZE, ga.TILE_SIZE);
         stackable = true;
-
+        collision = true;
 
     }
 }
