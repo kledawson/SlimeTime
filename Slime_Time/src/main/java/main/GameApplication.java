@@ -43,6 +43,7 @@ public class GameApplication extends Application {
     public Entity rock[] = new Entity[10];
     public SuperObject[] obj = new SuperObject[10];
 
+
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;

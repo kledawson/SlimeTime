@@ -9,5 +9,8 @@
         <module name="my2dgametest" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="CS151-Slime_Time" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
