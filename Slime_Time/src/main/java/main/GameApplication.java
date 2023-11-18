@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -17,23 +19,36 @@ import object.SuperObject;
 import tile.TileManager;
 import tiles_interactive.Rock;
 
+import java.awt.image.BufferedImage;
+
 // Game Application
 public class GameApplication extends Application {
     // Screen, World Settings
     final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
     public final int SCALE = 3;
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
-    public final int MAX_SCREEN_COL = 16;
-    public final int MAX_SCREEN_ROW = 12;
+    public final int MAX_SCREEN_COL_SMALL = 20;
+    public final int MAX_SCREEN_ROW_SMALL = 12;
+    public final int MAX_SCREEN_COL_LARGE = 54;
+    public final int MAX_SCREEN_ROW_LARGE = 29;
+
+    // Current maximum screen col and row values
+    public int MAX_SCREEN_COL = MAX_SCREEN_COL_LARGE;
+    public int MAX_SCREEN_ROW = MAX_SCREEN_ROW_LARGE;
+
     public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 px
     public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 px
     public final int MAX_WORLD_COL = 100;
     public final int MAX_WORLD_ROW = 100;
-
+    boolean isFullScreen = false;
     int FPS = 60;
 
+    //for full screen
+    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_SMALL;
+    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_SMALL;
+
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(this,false);
+    KeyHandler keyH = new KeyHandler(this, false);
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
@@ -57,28 +72,29 @@ public class GameApplication extends Application {
         Pane root = new Pane();
         Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
         scene.setFill(Color.BLACK);
-
         Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         root.getChildren().add(canvas);
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        scene.setOnKeyPressed(keyH = new KeyHandler(this,true));
-        scene.setOnKeyReleased(keyH = new KeyHandler(this,false));
+        scene.setOnKeyPressed(keyH = new KeyHandler(this, true));
+        scene.setOnKeyReleased(keyH = new KeyHandler(this, false));
         scene.setOnMouseMoved(e -> {
             mouseX = e.getSceneX();
             mouseY = e.getSceneY();
         });
+
         scene.setOnMouseClicked(e -> {
             player.scythe.attack();
         });
 
+
         stage.setTitle("2D Adventure");
         stage.setScene(scene);
         stage.show();
-
         startGameLoop(gc);
     }
+
 
     public static void main(String[] args) {
         launch();
@@ -89,6 +105,7 @@ public class GameApplication extends Application {
         objM.setObject();
         // playMusic(0);
         gameState = playState;
+
     }
 
     // Game Loop
@@ -151,7 +168,7 @@ public class GameApplication extends Application {
 
         for (Entity r : rock) {
             if (r != null) {
-                ((Rock)r).render(gc, this);
+                ((Rock) r).render(gc, this);
             }
         }
 
@@ -172,10 +189,15 @@ public class GameApplication extends Application {
         sound.play(0);
         sound.loop(0);
     }
+
     public void stopMusic() {
         sound.stop(1);
     }
+
     public void playSE(int i) {
         sound.play(i);
     }
+
 }
+
+

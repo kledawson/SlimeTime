@@ -22,8 +22,7 @@ public class UI {
 
     double playTime;
     DecimalFormat dFormat  = new DecimalFormat("#0.00");
-    public int slotCol = 0;
-    public int slotRow = 0;
+
 
     public UI(GameApplication ga) {
         this.ga = ga;
@@ -61,13 +60,13 @@ public class UI {
 
     public void renderCharacterScreen() {
         //RECTANGLE
-        double rectangleWidth = ga.SCREEN_WIDTH - 538;
+        double rectangleWidth = ga.SCREEN_WIDTH2 - 538;
        gc.setFill(Color.BLACK);
        gc.setFill((Color.rgb(0,0,0,0.8)));
-       gc.fillRoundRect(25,45,rectangleWidth, ga.SCREEN_HEIGHT - 90, 30, 20);
+       gc.fillRoundRect(25,45,rectangleWidth, ga.SCREEN_HEIGHT2 - 250, 30, 20);
        gc.setStroke((Color.WHITE));
        gc.setLineWidth(2);
-       gc.strokeRoundRect(25,45, rectangleWidth, ga.SCREEN_HEIGHT - 90, 20, 20);
+       gc.strokeRoundRect(25,45, rectangleWidth, ga.SCREEN_HEIGHT2 - 250, 20, 20);
 
        //TEXT
         int yStart = 120;
@@ -97,8 +96,8 @@ public class UI {
 
     public void renderInventory() {
         //rectangle
-        int frameX = ga.TILE_SIZE + 302;
-        int frameY = ga.TILE_SIZE + 2;
+        int frameX = ga.SCREEN_WIDTH2 - 925; //452m 1050
+        int frameY = ga.SCREEN_HEIGHT2 - 200;
         int frameWidth = ga.TILE_SIZE + 352;
         int frameHeight = ga.TILE_SIZE + 22;
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
@@ -106,8 +105,8 @@ public class UI {
         //slots
         int slotWidth = 37; // Width of each slot
         int slotHeight = 37; // Height of each slot
-        int inventoryX = 368; // Starting X position for slots
-        int inventoryY = 65; // Starting Y position for slots
+        int inventoryX = frameX + 18; // Starting X position for slots
+        int inventoryY = frameY + 15; // Starting Y position for slots
         //Looks like slot size/bar won't be changed at all for the foreseeable future, should be good to just leave it tiled
         //and then have items occupy the empty tiles (kind of like minecraft)
         // Draw inventory slots
