@@ -2,19 +2,15 @@ package entity;
 
 import Combat.Scythe;
 import Combat.Slingshot;
-import com.almasb.fxgl.core.collection.Array;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 import main.KeyHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import object.OBJ_Key;
 import object.SuperObject;
 
 import java.io.FileInputStream;
-import java.security.Key;
 import java.util.ArrayList;
 
 public class Player extends Entity{
@@ -46,6 +42,7 @@ public class Player extends Entity{
         solidArea.setHeight(ga.TILE_SIZE * 2 / 3);
 
         scythe = new Scythe(ga, this);
+        slingshot = new Slingshot(ga, this);
 
         setDefaultValues();
         getPlayerImage();
@@ -213,6 +210,7 @@ public class Player extends Entity{
 
         // Weapon
         scythe.update();
+        slingshot.update();
 
     }
     public int searchItemInInventory(String itemName) {
@@ -308,5 +306,6 @@ public class Player extends Entity{
         gcPlayer.setStroke(Color.BLUE);
         gcPlayer.strokeRect(screenX + 8, screenY + 16, 32, 32);
         scythe.render(gc);
+        slingshot.render(gc);
     }
 }
