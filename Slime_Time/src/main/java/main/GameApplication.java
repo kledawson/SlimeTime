@@ -1,6 +1,8 @@
 package main;
 
 import entity.Entity;
+import interactive_resources.SuperResource;
+import interactive_resources.Tree;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -12,10 +14,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import entity.Player;
+import interactive_resources.ResourceManager;
 import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
-import tiles_interactive.Rock;
+import interactive_resources.Rock;
 
 // Game Application
 public class GameApplication extends Application {
@@ -37,11 +40,16 @@ public class GameApplication extends Application {
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
-    public UI ui = new UI(this);
-
-    public Player player = new Player(this, keyH);
-    public Entity rock[] = new Entity[10];
     public SuperObject[] obj = new SuperObject[10];
+    public UI ui = new UI(this);
+    public Player player = new Player(this, keyH);
+    public ResourceManager Resource = new ResourceManager(this);
+    public ResourceManager Rock = new ResourceManager(this);
+    public ResourceManager Tree = new ResourceManager(this);
+
+    public Entity resource[] = new Entity[10];
+    public Entity rock[] = new Entity[10];
+    public Entity tree[] = new Entity[10];
 
     public int gameState;
     public final int playState = 1;
@@ -86,6 +94,9 @@ public class GameApplication extends Application {
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
         objM.setObject();
+        Resource.setResource();
+        Rock.setRock();
+        Tree.setTree();
         // playMusic(0);
         gameState = playState;
     }
@@ -148,9 +159,21 @@ public class GameApplication extends Application {
             }
         }
 
-        for (Entity r : rock) {
-            if (r != null) {
-                ((Rock)r).render(gc, this);
+        for (Entity superResource : resource) {
+            if (superResource != null) {
+                ((SuperResource)superResource).render(gc, this);
+            }
+        }
+
+        for (Entity Rocks : rock) {
+            if (Rocks != null) {
+                ((Rock)Rocks).render(gc, this);
+            }
+        }
+
+        for (Entity Trees : tree) {
+            if (Trees != null) {
+                ((Tree)Trees).render(gc, this);
             }
         }
 

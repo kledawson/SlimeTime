@@ -1,65 +1,51 @@
-package tiles_interactive;
+package interactive_resources;
 
 import entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 
 import java.io.FileInputStream;
 
 public class Rock extends Entity {
     GameApplication ga;
-    public Image rock, rock_break1, rock_break2, rock_break3; // Rock Sprites
-    public boolean destructible = true;
-    private Rectangle solidArea;
+    public Image rock, rock_break1, rock_break2, rock_break3, rock_broken, error; // Rock Sprites
+    public int rockLife;
+
 
     public Rock(GameApplication ga) {
         this.ga = ga;
         String name = "Rock";
         int speed = 0;
-        int maxLife = 8;
-        int life = maxLife;
+        int maxRockLife = 8;
+        rockLife = maxRockLife;
 
-        solidArea = new Rectangle(3, 18, 18, 18);
-        solidArea.setFill(Color.BLUE);
-        Pane root = new Pane();
-        root.getChildren().add(solidArea);
         getRockImage();
+        updateRockImage();
     }
+
 
     public void getRockImage() {
         rock = setupRock("rock");
-        /*rock_break1 = setupRock("rock_break1");
-        rock_break2 = setupRock("rock_break2");
-        rock_break3 = setupRock("rock_break3");*/
+        /*rock_break1 = setupRock("rock_break_1");
+        rock_break2 = setupRock("rock_break_2");
+        rock_break3 = setupRock("rock_break_3");*/
     }
 
     public Image setupRock(String imageName) {
         try {
-            return new Image(new FileInputStream("Slime_Time/res/tiles_interactive/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+            return new Image(new FileInputStream("Slime_Time/res/interactive_resources/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
         }
         catch (Exception e) {
             try {
                 return new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
             }
             catch (Exception ex) {
+                System.err.println("Error loading image: " + imageName);
                 ex.printStackTrace();
                 return null;
             }
         }
-    }
-
-    public void setRock() {
-        ga.rock[0] = new Rock(ga);
-        ga.rock[0].worldX = 25 * ga.TILE_SIZE;
-        ga.rock[0].worldY = 28 * ga.TILE_SIZE;
-
-        ga.rock[1] = new Rock(ga);
-        ga.rock[1].worldX = 24 * ga.TILE_SIZE;
-        ga.rock[1].worldY = 28 * ga.TILE_SIZE;
     }
 
     public void render(GraphicsContext gc, GameApplication ga) {
@@ -76,4 +62,30 @@ public class Rock extends Entity {
         }
     }
 
+    public void updateRockImage() {
+
+        if (rockLife == 7 || rockLife == 8) {
+            rock = setupRock("rock");
+        }
+        else if (rockLife == 5 || rockLife == 6) {
+            rock = setupRock("rock_break_1");
+        }
+        else if (rockLife == 3 || rockLife == 4) {
+            rock = setupRock("rock_break_2");
+        }
+        else if (rockLife == 1 || rockLife == 2) {
+            rock = setupRock("rock_break_3");
+        }
+        else if (rockLife == 0) {
+            rock = setupRock("rock_broken");
+        }
+        else {
+            rock = setupRock("error");
+        }
+    }
+
+    public void rockDamage() {
+        rockLife--;
+        updateRockImage();
+    }
 }
