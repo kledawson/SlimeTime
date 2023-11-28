@@ -20,14 +20,12 @@ public class Scythe extends Entity implements Weapon {
     int screenY;
     double mouseAngle;
     boolean attacking;
-
-    int damage;
-    int attackSpeed;
+    int damage = 1;
     int attackCount;
-
     public Scythe(GameApplication ga, Player player) {
         this.ga = ga;
         this.player = player;
+        attackValue = damage;
         attackSpeed = 60;
         attackCount = 60;
         arc.setCenterX(player.screenX + ga.TILE_SIZE / 2);

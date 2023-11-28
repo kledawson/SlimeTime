@@ -19,18 +19,13 @@ public class Entity {
     public int maxLife;
     public int life;
     public int level;
-    public int strength; //tbd if will be used
-    public int dexterity; //tbd if will be used
-    public int attack;
-    public int defense; //tbd if will be used
     public int exp;
     public int nextLevelExp;
     public Entity currentWeapon;
 
     //Item attributes
     public int attackValue;
-    public int defenseValue; //tbd if will be used
-
+    public int attackSpeed;
     public List<Image> images = new ArrayList<>();
     public String direction = "down"; // Direction Entity is Moving, direction has a default setting (down)
     public int spriteCounter = 0; // Animation Timer
