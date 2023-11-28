@@ -2,12 +2,19 @@ package entity;
 
 import Combat.Scythe;
 import Combat.Slingshot;
+import com.almasb.fxgl.core.collection.Array;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 import main.KeyHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import object.OBJ_Gold;
+import object.OBJ_Stone;
+import object.OBJ_Wood;
 import object.SuperObject;
 
 import java.io.FileInputStream;
@@ -22,6 +29,22 @@ public class Player extends Entity{
     public Slingshot slingshot;
     public ArrayList<SuperObject> inventory = new ArrayList<>();
     public final int maxInventorySize = 8; //subject to change later
+
+    public int bootsGoldCost = 1;
+    public int bootsStoneCost = 1;
+    public int bootsWoodCost = 1;
+
+    public int meleeGoldCost = 1;
+    public int meleeStoneCost = 1;
+    public int meleeWoodCost = 1;
+
+    public int armorGoldCost = 1;
+    public int armorStoneCost = 1;
+    public int armorWoodCost = 1;
+
+    public int projectileGoldCost = 1;
+    public int projectileStoneCost = 1;
+    public int projectileWoodCost = 1;
 
 
     public Player(GameApplication ga, KeyHandler keyH) {
@@ -51,7 +74,15 @@ public class Player extends Entity{
 
     public void setItems() {
         //inventory.add()
-
+        SuperObject gold = new OBJ_Gold(ga);
+        SuperObject wood = new OBJ_Wood(ga);
+        SuperObject stone = new OBJ_Stone(ga);
+        wood.amount = 20;
+        stone.amount = 20;
+        gold.amount = 20;
+        inventory.add(gold);
+        inventory.add(wood);
+        inventory.add(stone);
     }
 
 
@@ -59,27 +90,15 @@ public class Player extends Entity{
     public void setDefaultValues() {
         worldX = ga.TILE_SIZE * 64;
         worldY = ga.TILE_SIZE * 50;
-        speed = 4;
+        speed = 3;
         direction = "down";
 
         //Player stats
         level = 1;
         maxLife = 6;
         life = maxLife;
-        strength = 1;       //more str -> more dmg
-        dexterity = 1;      //more dex -> more dmg can be recieved
         exp = 0;
         nextLevelExp = 5;
-        attack = getAttack();   //total atk determined by str and weapon
-        defense = getDefense(); //total defense determined by dex and armor
-    }
-
-    public int getAttack() {
-        return attack = strength;
-    }
-
-    public int getDefense() {
-        return defense = dexterity; //if there will be an armor system, add in defense value here
     }
     // Loads Player Sprites
     public void getPlayerImage() {
@@ -264,6 +283,121 @@ public class Player extends Entity{
         return canObtain;
     }
 
+public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
+        int goldIndex = searchItemInInventory("Gold");
+        int stoneIndex = searchItemInInventory("Stone");
+        int woodIndex = searchItemInInventory("Wood");
+
+    return goldIndex != 999 && inventory.get(goldIndex).amount >= goldCost &&
+            stoneIndex != 999 && inventory.get(stoneIndex).amount >= stoneCost &&
+            woodIndex != 999 && inventory.get(woodIndex).amount >= woodCost;
+}
+
+    public void upgradeBoots() {
+
+        int bootsGoldIncrease = 1;
+        int bootsStoneIncrease = 1;
+        int bootsWoodIncrease = 1;
+
+        if (hasRequiredItems(bootsGoldCost, bootsStoneCost, bootsWoodCost)) {
+            int goldIndex = searchItemInInventory("Gold");
+            int stoneIndex = searchItemInInventory("Stone");
+            int woodIndex = searchItemInInventory("Wood");
+
+            inventory.get(goldIndex).amount -= bootsGoldCost;
+            inventory.get(stoneIndex).amount -= bootsStoneCost;
+            inventory.get(woodIndex).amount -= bootsWoodCost;
+
+            // apply upgrade to player
+            speed++;
+            // Update the costs for the next upgrade
+            bootsGoldCost += bootsGoldIncrease;
+            bootsStoneCost += bootsStoneIncrease;
+            bootsWoodCost += bootsWoodIncrease;
+        }
+    }
+
+    public void upgradeMelee() {
+
+        int meleeGoldIncrease = 1;
+        int meleeStoneIncrease = 1;
+        int meleeWoodIncrease = 1;
+
+        // Check if player has required items in inventory
+        if (hasRequiredItems(meleeGoldCost, meleeStoneCost, meleeWoodCost)) {
+            int goldIndex = searchItemInInventory("Gold");
+            int stoneIndex = searchItemInInventory("Stone");
+            int woodIndex = searchItemInInventory("Wood");
+
+            inventory.get(goldIndex).amount -= meleeGoldCost;
+            inventory.get(stoneIndex).amount -= meleeStoneCost;
+            inventory.get(woodIndex).amount -= meleeWoodCost;
+
+            //apply upgrade
+            scythe.attackValue++;
+            scythe.attackSpeed -= 5;
+
+            // Update the costs for the next upgrade
+            meleeGoldCost += meleeGoldIncrease;
+            meleeStoneCost += meleeStoneIncrease;
+            meleeWoodCost += meleeWoodIncrease;
+        }
+    }
+
+    public void upgradeArmor() {
+        // Similar implementation as upgradeMelee()
+        int armorGoldIncrease = 1;
+        int armorStoneIncrease = 1;
+        int armorWoodIncrease = 1;
+
+        // Check if player has required items in inventory
+        if (hasRequiredItems(armorGoldCost, armorStoneCost, armorWoodCost)) {
+            int goldIndex = searchItemInInventory("Gold");
+            int stoneIndex = searchItemInInventory("Stone");
+            int woodIndex = searchItemInInventory("Wood");
+
+            inventory.get(goldIndex).amount -= armorGoldCost;
+            inventory.get(stoneIndex).amount -= armorStoneCost;
+            inventory.get(woodIndex).amount -= armorWoodCost;
+
+            //apply upgrade
+            maxLife++;
+            life++;
+
+            // Update the costs for the next upgrade
+            armorGoldCost += armorGoldIncrease;
+            armorStoneCost += armorStoneIncrease;
+            armorWoodCost += armorWoodIncrease;
+        }
+    }
+
+    public void upgradeProjectile() {
+        // Similar implementation as upgradeMelee()
+        int projectileGoldIncrease = 1;
+        int projectileStoneIncrease = 1;
+        int projectileWoodIncrease = 1;
+
+        // Check if player has required items in inventory
+        if (hasRequiredItems(projectileGoldCost, projectileStoneCost, projectileWoodCost)) {
+            int goldIndex = searchItemInInventory("Gold");
+            int stoneIndex = searchItemInInventory("Stone");
+            int woodIndex = searchItemInInventory("Wood");
+
+            inventory.get(goldIndex).amount -= projectileGoldCost;
+            inventory.get(stoneIndex).amount -= projectileStoneCost;
+            inventory.get(woodIndex).amount -= projectileWoodCost;
+
+            //apply upgrade
+            slingshot.attackValue++;
+            slingshot.speed += 2;
+
+            // Update the costs for the next upgrade
+            projectileGoldCost += projectileGoldIncrease;
+            projectileStoneCost += projectileStoneIncrease;
+            projectileWoodCost += projectileWoodIncrease;
+        }
+    }
+
 
     // Render Method
     public void render(GraphicsContext gc) {
@@ -308,4 +442,5 @@ public class Player extends Entity{
         scythe.render(gc);
         slingshot.render(gc);
     }
+
 }

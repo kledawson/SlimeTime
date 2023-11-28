@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -20,7 +21,6 @@ import object.SuperObject;
 import tile.TileManager;
 import tiles_interactive.Rock;
 
-import java.awt.image.BufferedImage;
 
 // Game Application
 public class GameApplication extends Application {
@@ -41,10 +41,9 @@ public class GameApplication extends Application {
     public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 px
     public final int MAX_WORLD_COL = 100;
     public final int MAX_WORLD_ROW = 100;
-    boolean isFullScreen = false;
     int FPS = 60;
 
-    //for full screen
+    //for full screen UI
     int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_SMALL;
     int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_SMALL;
 
@@ -54,23 +53,22 @@ public class GameApplication extends Application {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
     public UI ui = new UI(this);
-
     public Player player = new Player(this, keyH);
     public Entity rock[] = new Entity[10];
     public SuperObject[] obj = new SuperObject[10];
-
-
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int characterState = 3;
+    public Pane root;
+    public boolean upgradeButtonsVisible = false;
 
     public double mouseX;
     public double mouseY;
 
     @Override
     public void start(Stage stage) {
-        Pane root = new Pane();
+        root = new Pane();
         Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
         scene.setFill(Color.BLACK);
         Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -94,7 +92,22 @@ public class GameApplication extends Application {
             }
         });
 
+        Button showUpgradeScreenButton = new Button("Upgrade");
+        showUpgradeScreenButton.setOnAction(e -> {
+            if (!upgradeButtonsVisible) {
+                ui.renderUpgradeScreen();
+                upgradeButtonsVisible = true;
+            } else {
+                ui.removeUpgradeButtons();
+                upgradeButtonsVisible = false;
+            }
+        });
+        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
+        showUpgradeScreenButton.setLayoutY(20);
 
+
+        // Add the button to the root pane
+        root.getChildren().add(showUpgradeScreenButton);
         stage.setTitle("2D Adventure");
         stage.setScene(scene);
         stage.show();
