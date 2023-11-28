@@ -23,10 +23,13 @@ public class Scythe extends Entity implements Weapon {
 
     int damage;
     int attackSpeed;
+    int attackCount;
 
     public Scythe(GameApplication ga, Player player) {
         this.ga = ga;
         this.player = player;
+        attackSpeed = 60;
+        attackCount = 60;
         arc.setCenterX(player.screenX + ga.TILE_SIZE / 2);
         arc.setCenterY(player.screenY + ga.TILE_SIZE / 2);
         arc.setRadiusX(ga.TILE_SIZE);
@@ -40,7 +43,10 @@ public class Scythe extends Entity implements Weapon {
 
     @Override
     public void attack() {
-        attacking = true;
+        if (attackCount >= attackSpeed) {
+            attacking = true;
+            attackCount = 0;
+        }
     }
 
     @Override
@@ -198,6 +204,7 @@ public class Scythe extends Entity implements Weapon {
                 spriteCounter = 0;
             }
         }
+        ++attackCount;
     }
 
     public void render(GraphicsContext gc) {
