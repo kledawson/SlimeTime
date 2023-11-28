@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -85,7 +86,12 @@ public class GameApplication extends Application {
         });
 
         scene.setOnMouseClicked(e -> {
-            player.scythe.attack();
+            if (e.getButton() == MouseButton.PRIMARY) {
+                player.scythe.attack();
+            }
+            else if (e.getButton() == MouseButton.SECONDARY) {
+                player.slingshot.attack();
+            }
         });
 
 
