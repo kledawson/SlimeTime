@@ -53,59 +53,45 @@ public class Scythe extends Entity implements Weapon {
     }
 
     public void getWeaponImage() {
-        setup("scythe_back_0");
-        setup("scythe_back_1");
-        setup("scythe_back_2");
-        setup("scythe_back_idle");
+        setup("scythe_back_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_back_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_back_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_back_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("scythe_front_0");
-        setup("scythe_front_1");
-        setup("scythe_front_2");
-        setup("scythe_front_idle");
+        setup("scythe_front_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_front_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_front_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_front_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("scythe_left_0");
-        setup("scythe_left_1");
-        setup("scythe_left_2");
-        setup("scythe_left_idle");
+        setup("scythe_left_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("scythe_right_0");
-        setup("scythe_right_1");
-        setup("scythe_right_2");
-        setup("scythe_right_idle");
+        setup("scythe_right_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("scythe_left_up_0");
-        setup("scythe_left_up_1");
-        setup("scythe_left_up_2");
-        setup("scythe_left_up_idle");
+        setup("scythe_left_up_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_up_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_up_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_up_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("scythe_left_down_0");
-        setup("scythe_left_down_1");
-        setup("scythe_left_down_2");
-        setup("scythe_left_down_idle");
+        setup("scythe_left_down_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_down_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_down_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_left_down_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("scythe_right_up_0");
-        setup("scythe_right_up_1");
-        setup("scythe_right_up_2");
-        setup("scythe_right_up_idle");
+        setup("scythe_right_up_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_up_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_up_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_up_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("scythe_right_down_0");
-        setup("scythe_right_down_1");
-        setup("scythe_right_down_2");
-        setup("scythe_right_down_idle");
-    }
-
-    public void setup(String imageName) {
-        try {
-            images.add(new Image(new FileInputStream("Slime_Time/res/weapon/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
-        }
-        catch (Exception e) {
-            try {
-                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        setup("scythe_right_down_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_down_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_down_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("scythe_right_down_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
     }
 
     public void update() {
