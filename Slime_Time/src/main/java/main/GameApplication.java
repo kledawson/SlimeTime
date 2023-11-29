@@ -8,12 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
@@ -61,12 +64,16 @@ public class GameApplication extends Application {
     public Entity rock[] = new Entity[10];
     public SuperObject[] obj = new SuperObject[10];
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int characterState = 3;
     public Pane root;
-    public boolean upgradeButtonsVisible = false;
+    private Stage primaryStage;
 
+    public boolean upgradeButtonsVisible = false;
+    public boolean showTitleScreen = true;
+    private Canvas canvas;
     public double mouseX;
     public double mouseY;
 
@@ -107,6 +114,15 @@ public class GameApplication extends Application {
         });
 
         Button showUpgradeScreenButton = new Button("Upgrade");
+        showUpgradeScreenButton.setOnAction(e -> {
+            if (!upgradeButtonsVisible) {
+                ui.renderUpgradeScreen();
+                upgradeButtonsVisible = true;
+            } else {
+                ui.removeUpgradeButtons();
+                upgradeButtonsVisible = false;
+            }
+        });
         showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
         showUpgradeScreenButton.setLayoutY(20);
 
@@ -178,7 +194,88 @@ public class GameApplication extends Application {
         stage.setTitle("2D Adventure");
         stage.setScene(scene);
         stage.show();
-        startGameLoop(gc);
+
+        renderTitleScreen(gc);
+    }
+*/
+   private Scene createGameScene(Stage stage) {
+       root = new Pane();
+       Scene gameScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+       gameScene.setFill(Color.BLACK);
+
+       canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT); // Initialize canvas here
+       GraphicsContext gc = canvas.getGraphicsContext2D();
+       gameScene.setOnKeyPressed(keyH = new KeyHandler(this, true));
+       gameScene.setOnKeyReleased(keyH = new KeyHandler(this, false));
+       gameScene.setOnMouseMoved(e -> {
+           mouseX = e.getSceneX();
+           mouseY = e.getSceneY();
+       });
+
+       gameScene.setOnMouseClicked(e -> {
+           if (e.getButton() == MouseButton.PRIMARY) {
+               player.scythe.attack();
+           } else if (e.getButton() == MouseButton.SECONDARY) {
+               player.slingshot.attack();
+           }
+       });
+
+       Button showUpgradeScreenButton = new Button("Upgrade");
+       showUpgradeScreenButton.setOnAction(e -> {
+           if (!upgradeButtonsVisible) {
+               ui.renderUpgradeScreen();
+               upgradeButtonsVisible = true;
+           } else {
+               ui.removeUpgradeButtons();
+               upgradeButtonsVisible = false;
+           }
+       });
+       showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
+       showUpgradeScreenButton.setLayoutY(20);
+
+       root.getChildren().add(canvas);
+       root.getChildren().add(showUpgradeScreenButton);
+
+       stage.setTitle("2D Adventure");
+       return gameScene;
+   }
+
+   private Scene createTitleScreen(Stage stage) {
+       Pane titleRoot = new Pane();
+       Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
+       titleScene.setFill(Color.BLACK);
+
+       Label titleLabel = new Label("Your Game Title");
+       titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
+       titleLabel.setTextFill(Color.WHITE);
+       titleLabel.setLayoutX(SCREEN_WIDTH / 2 - 150);
+       titleLabel.setLayoutY(SCREEN_HEIGHT / 2 - 50);
+       titleRoot.getChildren().add(titleLabel);
+
+       Button startButton = new Button("Start Game");
+       startButton.setLayoutX(SCREEN_WIDTH / 2 - 50);
+       startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50);
+       startButton.setOnAction(e -> startGame(stage));
+       titleRoot.getChildren().add(startButton);
+
+       return titleScene;
+   }
+
+    private void startGame(Stage stage) {
+        showTitleScreen = false;
+        gameState = playState;
+        stage.setScene(createGameScene(stage));
+        setupGame();
+        startGameLoop(canvas.getGraphicsContext2D());
+    }
+
+
+    @Override
+    public void start(Stage stage) {
+        Scene titleScene = createTitleScreen(stage);
+        stage.setTitle("2D Adventure");
+        stage.setScene(titleScene);
+        stage.show();
     }
 
 
@@ -194,6 +291,9 @@ public class GameApplication extends Application {
 
     }
 
+    public void setupTitleScene() {
+       gameState = titleState;
+    }
     // Game Loop
     public void startGameLoop(GraphicsContext gc) {
         System.out.println("Setup Game");
@@ -205,6 +305,7 @@ public class GameApplication extends Application {
             long currentTime;
             long timer = 0;
             int drawCount = 0;
+            boolean firstRender = true;
 
             @Override
             public void handle(long now) {
@@ -212,11 +313,17 @@ public class GameApplication extends Application {
                 delta += (currentTime - lastTime) / drawInterval;
                 timer += (currentTime - lastTime);
                 lastTime = currentTime;
+                if (showTitleScreen) {
+                    renderTitleScreen(gc);
+                    return;
+                }
+
                 if (delta >= 1) {
                     update();
                     render(gc);
                     --delta;
                     ++drawCount;
+                    firstRender = false;
                 }
                 if (timer >= 1000000000) {
                     System.out.println("FPS: " + drawCount);
@@ -269,6 +376,29 @@ public class GameApplication extends Application {
             gc.fillText("Draw Time: " + passed, 10, 400);
             System.out.println("Draw Time: " + passed);
         }
+    }
+
+    public void renderTitleScreen(GraphicsContext gc) {
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        Label titleLabel = new Label("Your Game Title");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
+        titleLabel.setTextFill(Color.WHITE);
+        titleLabel.setLayoutX(SCREEN_WIDTH / 2 - 150);
+        titleLabel.setLayoutY(SCREEN_HEIGHT / 2 - 50);
+        root.getChildren().add(titleLabel);
+
+        Button startButton = new Button("Start Game");
+        startButton.setLayoutX(SCREEN_WIDTH / 2 - 50);
+        startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50);
+        startButton.setOnAction(e -> {
+            showTitleScreen = false;
+            setupTitleScene();
+            root.getChildren().removeAll(titleLabel, startButton); // Remove title label and start button
+            startGameLoop(gc);
+        });
+        root.getChildren().add(startButton);
     }
 
     public void playMusic(int i) {
