@@ -1,7 +1,10 @@
 package entity;
+import monster.GreenSlime;
 
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+
+import java.util.Random;
 
 public class Entity {
     public int worldX, worldY; // World Coordinates
@@ -37,4 +40,5 @@ public class Entity {
     public Rectangle solidArea; // Hit box
     public int solidAreaDefaultX, solidAreaDefaultY; // Hit box Coordinates
     public boolean collisionOn = false; // Collision State
+
 }

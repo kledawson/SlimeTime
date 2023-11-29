@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 import entity.Player;
 import interactive_resources.ResourceManager;
+import monster.MonsterManager;
+import monster.GreenSlime;
+import monster.SuperMonster;
 import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
@@ -47,9 +50,15 @@ public class GameApplication extends Application {
     public ResourceManager Rock = new ResourceManager(this);
     public ResourceManager Tree = new ResourceManager(this);
 
+    public MonsterManager Monster = new MonsterManager(this);
+    public MonsterManager GreenSlime = new MonsterManager(this);
+
     public Entity resource[] = new Entity[10];
     public Entity rock[] = new Entity[10];
     public Entity tree[] = new Entity[10];
+
+    public Entity monster[] = new Entity[10];
+    public Entity greenSlime[] = new Entity[10];
 
     public int gameState;
     public final int playState = 1;
@@ -97,6 +106,8 @@ public class GameApplication extends Application {
         Resource.setResource();
         Rock.setRock();
         Tree.setTree();
+        Monster.setMonster();
+        GreenSlime.setGreenSlime();
         // playMusic(0);
         gameState = playState;
     }
@@ -137,7 +148,14 @@ public class GameApplication extends Application {
     public void update() {
         if (gameState == playState) {
             player.update();
+
+            for(int i = 0; i < greenSlime.length; i++) {
+                if (greenSlime[i] != null) {
+                    ((GreenSlime)greenSlime[i]).updateGreenSlime();
+                }
+            }
         }
+
         if (gameState == pauseState) {
             // Pause State
         }
@@ -174,6 +192,18 @@ public class GameApplication extends Application {
         for (Entity Trees : tree) {
             if (Trees != null) {
                 ((Tree)Trees).render(gc, this);
+            }
+        }
+
+        for (Entity Monsters : monster) {
+            if (Monsters != null) {
+                ((SuperMonster)Monsters).render(gc, this);
+            }
+        }
+
+        for (Entity GreenSlime : greenSlime) {
+            if (GreenSlime != null) {
+                ((GreenSlime)GreenSlime).render(gc, this);
             }
         }
 
