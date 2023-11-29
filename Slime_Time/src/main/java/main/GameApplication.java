@@ -1,8 +1,11 @@
 package main;
 
 import entity.Entity;
+import interactive_resources.SuperResource;
+import interactive_resources.Tree;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -25,10 +28,16 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import entity.Player;
+import interactive_resources.ResourceManager;
+import monster.MonsterManager;
+import monster.GreenSlime;
+import monster.SuperMonster;
 import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
-import tiles_interactive.Rock;
+import interactive_resources.Rock;
+
+import java.io.FileInputStream;
 
 import java.io.FileInputStream;
 
@@ -39,34 +48,47 @@ public class GameApplication extends Application {
     final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
     public final int SCALE = 3;
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
-    public final int MAX_SCREEN_COL_SMALL = 20;
-    public final int MAX_SCREEN_ROW_SMALL = 12;
-    public final int MAX_SCREEN_COL_LARGE = 24;
-    public final int MAX_SCREEN_ROW_LARGE = 16;
+    public final int MAX_SCREEN_COL_SMALL = 24;
+    public final int MAX_SCREEN_ROW_SMALL = 16;
+    public final int MAX_SCREEN_COL_LARGE = 54;
+    public final int MAX_SCREEN_ROW_LARGE = 29;
 
     // Current maximum screen col and row values
-    public int MAX_SCREEN_COL = MAX_SCREEN_COL_LARGE;
-    public int MAX_SCREEN_ROW = MAX_SCREEN_ROW_LARGE;
+    public int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
+    public int MAX_SCREEN_ROW = MAX_SCREEN_ROW_SMALL;
 
-    public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 px
-    public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 px
+    public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 1152 px
+    public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 768 px
     public final int MAX_WORLD_COL = 100;
     public final int MAX_WORLD_ROW = 100;
     int FPS = 60;
 
     //for full screen UI
-    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_SMALL;
-    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_SMALL;
+    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_LARGE;
+    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_LARGE;
 
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this, false);
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
+    public SuperObject[] obj = new SuperObject[10];
     public UI ui = new UI(this);
     public Player player = new Player(this, keyH);
+    public ResourceManager Resource = new ResourceManager(this);
+    public ResourceManager Rock = new ResourceManager(this);
+    public ResourceManager Tree = new ResourceManager(this);
+
+    public MonsterManager Monster = new MonsterManager(this);
+    public MonsterManager GreenSlime = new MonsterManager(this);
+
+    public Entity resource[] = new Entity[10];
     public Entity rock[] = new Entity[10];
-    public SuperObject[] obj = new SuperObject[10];
+    public Entity tree[] = new Entity[10];
+
+    public Entity monster[] = new Entity[10];
+    public Entity greenSlime[] = new Entity[10];
+
     public int gameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -81,54 +103,16 @@ public class GameApplication extends Application {
     public double mouseX;
     public double mouseY;
 
-   /* @Override
-    public void start(Stage stage) {
-        primaryStage = stage;
+//    Button upgradeMeleeButton; // Declare the buttons
+//    Button upgradeArmorButton;
+//    Button upgradeProjectileButton;
+//    Button upgradeBootsButton;
 
-        root = new Pane();
-        Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
-        scene.setFill(Color.BLACK);
-        Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
-        root.getChildren().add(canvas);
+    ImageView upgradeBootsButton;
+    ImageView upgradeMeleeButton;
+    ImageView upgradeArmorButton;
+    ImageView upgradeProjectileButton;
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        scene.setOnKeyPressed(keyH = new KeyHandler(this, true));
-        scene.setOnKeyReleased(keyH = new KeyHandler(this, false));
-        scene.setOnMouseMoved(e -> {
-            mouseX = e.getSceneX();
-            mouseY = e.getSceneY();
-        });
-
-        scene.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.PRIMARY) {
-                player.scythe.attack();
-            } else if (e.getButton() == MouseButton.SECONDARY) {
-                player.slingshot.attack();
-            }
-        });
-
-        Button showUpgradeScreenButton = new Button("Upgrade");
-        showUpgradeScreenButton.setOnAction(e -> {
-            if (!upgradeButtonsVisible) {
-                ui.renderUpgradeScreen();
-                upgradeButtonsVisible = true;
-            } else {
-                ui.removeUpgradeButtons();
-                upgradeButtonsVisible = false;
-            }
-        });
-        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
-        showUpgradeScreenButton.setLayoutY(20);
-
-        root.getChildren().add(showUpgradeScreenButton);
-        stage.setTitle("2D Adventure");
-        stage.setScene(scene);
-        stage.show();
-
-        renderTitleScreen(gc);
-    }
-*/
    private Scene createGameScene(Stage stage) {
        root = new Pane();
        Scene gameScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -151,21 +135,85 @@ public class GameApplication extends Application {
            }
        });
 
+
+       root.getChildren().add(canvas);
+
        Button showUpgradeScreenButton = new Button("Upgrade");
        showUpgradeScreenButton.setOnAction(e -> {
            if (!upgradeButtonsVisible) {
                ui.renderUpgradeScreen();
                upgradeButtonsVisible = true;
            } else {
-               ui.removeUpgradeButtons();
                upgradeButtonsVisible = false;
            }
        });
        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
        showUpgradeScreenButton.setLayoutY(20);
 
-       root.getChildren().add(canvas);
+
+       // Add the button to the root pane
        root.getChildren().add(showUpgradeScreenButton);
+
+
+       // Set button positions and sizes
+       int buttonWidth = 144;
+       int buttonHeight = 72;
+       int buttonSpacing = 64; // Spacing between buttons
+       int totalButtonWidth = 4 * buttonWidth + 3 * buttonSpacing;
+       int buttonX = SCREEN_WIDTH / 8 + TILE_SIZE;
+       int buttonY = SCREEN_HEIGHT * 5 / 8;
+
+       try {
+           Image buttonImage = new Image(new FileInputStream("Slime_Time/res/ui/button_image.png"), buttonWidth, buttonHeight, false, false);
+           upgradeBootsButton = new ImageView(buttonImage);
+           upgradeMeleeButton = new ImageView(buttonImage);
+           upgradeArmorButton = new ImageView(buttonImage);
+           upgradeProjectileButton = new ImageView(buttonImage);
+       }
+       catch (Exception e) {
+           e.printStackTrace();
+       }
+
+       upgradeBootsButton.setLayoutX(buttonX);
+       upgradeBootsButton.setLayoutY(buttonY);
+
+       upgradeMeleeButton.setLayoutX(buttonX + buttonWidth + buttonSpacing);
+       upgradeMeleeButton.setLayoutY(buttonY);
+
+       upgradeArmorButton.setLayoutX(buttonX + 2 * (buttonWidth + buttonSpacing));
+       upgradeArmorButton.setLayoutY(buttonY);
+
+       upgradeProjectileButton.setLayoutX(buttonX + 3 * (buttonWidth + buttonSpacing));
+       upgradeProjectileButton.setLayoutY(buttonY);
+
+
+       upgradeBootsButton.setVisible(false);
+       upgradeMeleeButton.setVisible(false);
+       upgradeArmorButton.setVisible(false);
+       upgradeProjectileButton.setVisible(false);
+
+       // Add buttons to the root pane
+       root.getChildren().addAll(
+               upgradeBootsButton,
+               upgradeMeleeButton,
+               upgradeArmorButton,
+               upgradeProjectileButton
+       );
+
+       showUpgradeScreenButton.setOnAction(e -> {
+           if (upgradeBootsButton.isVisible()) {
+               upgradeBootsButton.setVisible(false);
+               upgradeMeleeButton.setVisible(false);
+               upgradeArmorButton.setVisible(false);
+               upgradeProjectileButton.setVisible(false);
+           }
+           else {
+               upgradeBootsButton.setVisible(true);
+               upgradeMeleeButton.setVisible(true);
+               upgradeArmorButton.setVisible(true);
+               upgradeProjectileButton.setVisible(true);
+           }
+       });
 
        stage.setTitle("2D Adventure");
        return gameScene;
@@ -234,6 +282,11 @@ public class GameApplication extends Application {
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
         objM.setObject();
+        Resource.setResource();
+        Rock.setRock();
+        Tree.setTree();
+        Monster.setMonster();
+        GreenSlime.setGreenSlime();
         // playMusic(0);
         gameState = playState;
     }
@@ -283,7 +336,14 @@ public class GameApplication extends Application {
     public void update() {
         if (gameState == playState) {
             player.update();
+
+            for(int i = 0; i < greenSlime.length; i++) {
+                if (greenSlime[i] != null) {
+                    ((GreenSlime)greenSlime[i]).updateGreenSlime();
+                }
+            }
         }
+
         if (gameState == pauseState) {
             // Pause State
         }
@@ -305,9 +365,33 @@ public class GameApplication extends Application {
             }
         }
 
-        for (Entity r : rock) {
-            if (r != null) {
-                ((Rock) r).render(gc, this);
+        for (Entity superResource : resource) {
+            if (superResource != null) {
+                ((SuperResource)superResource).render(gc, this);
+            }
+        }
+
+        for (Entity Rocks : rock) {
+            if (Rocks != null) {
+                ((Rock)Rocks).render(gc, this);
+            }
+        }
+
+        for (Entity Trees : tree) {
+            if (Trees != null) {
+                ((Tree)Trees).render(gc, this);
+            }
+        }
+
+        for (Entity Monsters : monster) {
+            if (Monsters != null) {
+                ((SuperMonster)Monsters).render(gc, this);
+            }
+        }
+
+        for (Entity GreenSlime : greenSlime) {
+            if (GreenSlime != null) {
+                ((GreenSlime)GreenSlime).render(gc, this);
             }
         }
 
@@ -317,7 +401,7 @@ public class GameApplication extends Application {
         if (keyH.checkDrawTime) {
             long drawEnd = System.nanoTime();
             long passed = drawEnd - drawStart;
-            gc.setFill(Color.BLACK);
+            gc.setFill(Color.WHITE);
             gc.setTextAlign(TextAlignment.LEFT);
             gc.fillText("Draw Time: " + passed, 10, 400);
             System.out.println("Draw Time: " + passed);

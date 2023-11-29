@@ -102,52 +102,37 @@ public class Player extends Entity{
     }
     // Loads Player Sprites
     public void getPlayerImage() {
-        setup("farmer_back_1");
-        setup("farmer_back_2");
-        setup("farmer_back_idle");
+        setup("farmer_back_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_back_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_back_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("farmer_front_1");
-        setup("farmer_front_2");
-        setup("farmer_front_idle");
+        setup("farmer_front_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_front_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_front_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("farmer_left_1");
-        setup("farmer_left_2");
-        setup("farmer_left_idle");
+        setup("farmer_left_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_left_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_left_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("farmer_right_1");
-        setup("farmer_right_2");
-        setup("farmer_right_idle");
+        setup("farmer_right_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_right_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_right_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("farmer_left_up_1");
-        setup("farmer_left_up_2");
-        setup("farmer_left_up_idle");
+        setup("farmer_left_up_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_left_up_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_left_up_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("farmer_left_down_1");
-        setup("farmer_left_down_2");
-        setup("farmer_left_down_idle");
+        setup("farmer_left_down_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_left_down_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_left_down_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("farmer_right_up_1");
-        setup("farmer_right_up_2");
-        setup("farmer_right_up_idle");
+        setup("farmer_right_up_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_right_up_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_right_up_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
 
-        setup("farmer_right_down_1");
-        setup("farmer_right_down_2");
-        setup("farmer_right_down_idle");
-    }
-
-    // Utility Method for Loading Player Sprites
-    public void setup(String imageName) {
-        try {
-            images.add(new Image(new FileInputStream("Slime_Time/res/player/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
-        }
-        catch (Exception e) {
-            try {
-                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        setup("farmer_right_down_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_right_down_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("farmer_right_down_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
     }
 
     // Update Method

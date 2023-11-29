@@ -2,8 +2,7 @@ package object;
 
 import entity.Entity;
 import main.GameApplication;
-import object.*;
-import tiles_interactive.Rock;
+import interactive_resources.Rock;
 
 public class ObjectManager {
 
