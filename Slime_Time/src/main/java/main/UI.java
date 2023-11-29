@@ -176,8 +176,8 @@ public class UI {
         int buttonHeight = 50;
         int buttonSpacing = 20; // Spacing between buttons
         int totalButtonWidth = 4 * buttonWidth + 3 * buttonSpacing;
-        int buttonX = frameX + 400;
-        int buttonY = frameY + frameHeight / 2 - buttonHeight;
+        int buttonX = frameX - 330;
+        int buttonY = frameY + frameHeight;
 
         upgradeBootsButton.setLayoutX(buttonX);
         upgradeBootsButton.setLayoutY(buttonY);
