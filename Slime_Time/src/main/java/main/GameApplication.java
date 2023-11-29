@@ -1,6 +1,8 @@
 package main;
 
 import entity.Entity;
+import interactive_resources.SuperResource;
+import interactive_resources.Tree;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -21,10 +23,14 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import entity.Player;
+import interactive_resources.ResourceManager;
+import monster.MonsterManager;
+import monster.GreenSlime;
+import monster.SuperMonster;
 import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
-import tiles_interactive.Rock;
+import interactive_resources.Rock;
 
 import java.io.FileInputStream;
 
@@ -59,10 +65,23 @@ public class GameApplication extends Application {
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
+    public SuperObject[] obj = new SuperObject[10];
     public UI ui = new UI(this);
     public Player player = new Player(this, keyH);
+    public ResourceManager Resource = new ResourceManager(this);
+    public ResourceManager Rock = new ResourceManager(this);
+    public ResourceManager Tree = new ResourceManager(this);
+
+    public MonsterManager Monster = new MonsterManager(this);
+    public MonsterManager GreenSlime = new MonsterManager(this);
+
+    public Entity resource[] = new Entity[10];
     public Entity rock[] = new Entity[10];
-    public SuperObject[] obj = new SuperObject[10];
+    public Entity tree[] = new Entity[10];
+
+    public Entity monster[] = new Entity[10];
+    public Entity greenSlime[] = new Entity[10];
+
     public int gameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -239,9 +258,13 @@ public class GameApplication extends Application {
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
         objM.setObject();
+        Resource.setResource();
+        Rock.setRock();
+        Tree.setTree();
+        Monster.setMonster();
+        GreenSlime.setGreenSlime();
         // playMusic(0);
         gameState = playState;
-
     }
 
     public void setupTitleScene() {
@@ -290,7 +313,14 @@ public class GameApplication extends Application {
     public void update() {
         if (gameState == playState) {
             player.update();
+
+            for(int i = 0; i < greenSlime.length; i++) {
+                if (greenSlime[i] != null) {
+                    ((GreenSlime)greenSlime[i]).updateGreenSlime();
+                }
+            }
         }
+
         if (gameState == pauseState) {
             // Pause State
         }
@@ -301,7 +331,7 @@ public class GameApplication extends Application {
         if (keyH.checkDrawTime) {
             drawStart = System.nanoTime();
         }
-
+        gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         tileM.render(gc);
@@ -312,9 +342,33 @@ public class GameApplication extends Application {
             }
         }
 
-        for (Entity r : rock) {
-            if (r != null) {
-                ((Rock) r).render(gc, this);
+        for (Entity superResource : resource) {
+            if (superResource != null) {
+                ((SuperResource)superResource).render(gc, this);
+            }
+        }
+
+        for (Entity Rocks : rock) {
+            if (Rocks != null) {
+                ((Rock)Rocks).render(gc, this);
+            }
+        }
+
+        for (Entity Trees : tree) {
+            if (Trees != null) {
+                ((Tree)Trees).render(gc, this);
+            }
+        }
+
+        for (Entity Monsters : monster) {
+            if (Monsters != null) {
+                ((SuperMonster)Monsters).render(gc, this);
+            }
+        }
+
+        for (Entity GreenSlime : greenSlime) {
+            if (GreenSlime != null) {
+                ((GreenSlime)GreenSlime).render(gc, this);
             }
         }
 
