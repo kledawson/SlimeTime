@@ -224,7 +224,7 @@ public class GameApplication extends Application {
         Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         //titleScene.setFill(Color.BLACK);
-        Image backgroundImage = new Image(getClass().getResourceAsStream("/objects/sussy.png"));
+        Image backgroundImage = new Image(getClass().getResourceAsStream("/objects/Gongaga.png"));
         BackgroundImage background = new BackgroundImage(
                 backgroundImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -239,7 +239,7 @@ public class GameApplication extends Application {
         setupTitleScene();
 
 
-        Label titleLabel = new Label("Sussy amongus");
+        Label titleLabel = new Label("Slime Time");
         titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
         titleLabel.setTextFill(Color.WHITE);
         titleLabel.setLayoutX(SCREEN_WIDTH / 2 - 150);
