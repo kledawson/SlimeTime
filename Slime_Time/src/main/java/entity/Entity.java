@@ -51,13 +51,13 @@ public class Entity {
         }
     }
 
-    public void setup(String imageName, String fileType,int sizeX, int sizeY) {
+    public void setup(String imageName, String fileType, int width, int height) {
         try {
-            images.add(new Image(new FileInputStream("Slime_Time/res/" + fileType + "/" + imageName + ".png"), sizeX, sizeY, false, false));
+            images.add(new Image(new FileInputStream("Slime_Time/res/" + fileType + "/" + imageName + ".png"), width, height, false, false));
         }
         catch (Exception e) {
             try {
-                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
+                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), width, height, false, false));
             }
             catch (Exception ex) {
                 ex.printStackTrace();

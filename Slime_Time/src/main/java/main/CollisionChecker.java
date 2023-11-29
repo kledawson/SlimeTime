@@ -39,7 +39,7 @@ public class CollisionChecker {
         int entityBottomRow = entityBottomWorldY  / ga.TILE_SIZE;
 
 
-        int tileNum1, tileNum2, tileNum3, tileNum4;
+        int tileNum1, tileNum2, tileNum3;
 
         // Determines Collision by Checking Which Tiles the Entity is Adjacent to
         switch(entity.direction) {

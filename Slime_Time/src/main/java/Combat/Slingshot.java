@@ -4,12 +4,8 @@ import entity.Entity;
 import entity.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
-
-import java.io.FileInputStream;
 
 public class Slingshot extends Entity implements Weapon {
 
@@ -25,6 +21,7 @@ public class Slingshot extends Entity implements Weapon {
         this.ga = ga;
         this.player = player;
         attackValue = damage;
+        attackSpeed = 20;
         speed = 20;
         screenX = player.screenX + 4 * ga.SCALE;
         screenY = player.screenY + 4 * ga.SCALE;
@@ -44,24 +41,10 @@ public class Slingshot extends Entity implements Weapon {
     }
 
     public void getWeaponImage() {
-        setup("stone_object1");
-        setup("stone_object2");
-        setup("stone_object3");
-        setup("stone_object4");
-    }
-
-    public void setup(String imageName) {
-        try {
-            images.add(new Image(new FileInputStream("Slime_Time/res/weapon/" + imageName + ".png"), 8 * ga.SCALE, 8 * ga.SCALE, false, false));
-        }
-        catch (Exception e) {
-            try {
-                images.add(new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), 8 * ga.SCALE, 8 * ga.SCALE, false, false));
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        setup("stone_object1", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
+        setup("stone_object2", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
+        setup("stone_object3", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
+        setup("stone_object4", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
     }
 
     public void update() {
@@ -103,7 +86,7 @@ public class Slingshot extends Entity implements Weapon {
             solidArea.setX(screenX);
             solidArea.setY(screenY);
             ++spriteCounter;
-            if (spriteCounter >= 5) {
+            if (spriteCounter >= attackSpeed / 4) {
                 if (spriteNum == 1) {
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
