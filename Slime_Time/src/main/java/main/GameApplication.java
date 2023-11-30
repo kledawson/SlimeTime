@@ -5,7 +5,6 @@ import interactive_resources.SuperResource;
 import interactive_resources.Tree;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -26,7 +24,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
 import entity.Player;
 import interactive_resources.ResourceManager;
 import monster.MonsterManager;
@@ -36,10 +33,8 @@ import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
 import interactive_resources.Rock;
-
 import java.io.FileInputStream;
-
-import java.io.FileInputStream;
+import java.util.Objects;
 
 
 // Game Application
@@ -82,12 +77,12 @@ public class GameApplication extends Application {
     public MonsterManager Monster = new MonsterManager(this);
     public MonsterManager GreenSlime = new MonsterManager(this);
 
-    public Entity resource[] = new Entity[10];
-    public Entity rock[] = new Entity[10];
-    public Entity tree[] = new Entity[10];
+    public Entity[] resource = new Entity[10];
+    public Entity[] rock = new Entity[10];
+    public Entity[] tree = new Entity[10];
 
-    public Entity monster[] = new Entity[10];
-    public Entity greenSlime[] = new Entity[10];
+    public Entity[] monster = new Entity[10];
+    public Entity[] greenSlime = new Entity[10];
 
     public int gameState;
     public final int titleState = 0;
@@ -95,8 +90,6 @@ public class GameApplication extends Application {
     public final int pauseState = 2;
     public final int characterState = 3;
     public Pane root;
-    private Stage primaryStage;
-
     public boolean upgradeButtonsVisible = false;
     public boolean showTitleScreen = true;
     private Canvas canvas;
@@ -224,7 +217,7 @@ public class GameApplication extends Application {
         Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         //titleScene.setFill(Color.BLACK);
-        Image backgroundImage = new Image(getClass().getResourceAsStream("/objects/Gongaga.png"));
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/startscreenbg.png")));
         BackgroundImage background = new BackgroundImage(
                 backgroundImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -234,21 +227,35 @@ public class GameApplication extends Application {
         );
 
         titleRoot.setBackground(new Background(background));
-
-        //titleRoot.setStyle("-fx-background-color: black;");
         setupTitleScene();
 
+        Image titleLogo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/slimetime_logo.png")));
+        double titleWidth = titleLogo.getWidth() * 0.5; // Adjust the scaling factor as needed
+        double titleHeight = titleLogo.getHeight() * 0.5;
+        ImageView titleImageView = new ImageView(titleLogo);
+        titleImageView.setFitWidth(titleWidth);
+        titleImageView.setFitHeight(titleHeight);
+        titleImageView.setLayoutX(SCREEN_WIDTH / 2 - titleLogo.getWidth() / 4);
+        titleImageView.setLayoutY(SCREEN_HEIGHT / 2 - titleLogo.getHeight() / 2);
+        titleRoot.getChildren().add(titleImageView);
 
-        Label titleLabel = new Label("Slime Time");
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
-        titleLabel.setTextFill(Color.WHITE);
-        titleLabel.setLayoutX(SCREEN_WIDTH / 2 - 150);
-        titleLabel.setLayoutY(SCREEN_HEIGHT / 2 - 50);
-        titleRoot.getChildren().add(titleLabel);
+        //Start game button
+        Image buttonImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/start_button.png")));
+        ImageView buttonImageView = new ImageView(buttonImage);
+        double buttonWidth = 150; // Set the desired width
+        double buttonHeight = 60; // Set the desired height
+        buttonImageView.setFitWidth(buttonWidth);
+        buttonImageView.setFitHeight(buttonHeight);
 
-        Button startButton = new Button("Start Game");
-        startButton.setLayoutX(SCREEN_WIDTH / 2 - 50);
-        startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50);
+        Button startButton = new Button();
+        startButton.setGraphic(buttonImageView);
+        //startButton.setPadding(INSETS.Empty);
+        startButton.setPrefSize(buttonWidth, buttonHeight);
+        startButton.setStyle("-fx-background-color: transparent;"); // Set background color to transparent
+        startButton.setLayoutX(SCREEN_WIDTH / 2 - 60); // Adjust X position
+        startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50); // Y position
+
+
         startButton.setOnAction(e -> {
             showTitleScreen = false;
             startGame(stage);});
@@ -337,16 +344,16 @@ public class GameApplication extends Application {
         if (gameState == playState) {
             player.update();
 
-            for(int i = 0; i < greenSlime.length; i++) {
-                if (greenSlime[i] != null) {
-                    ((GreenSlime)greenSlime[i]).updateGreenSlime();
+            for (Entity entity : greenSlime) {
+                if (entity != null) {
+                    ((GreenSlime) entity).updateGreenSlime();
                 }
             }
         }
 
-        if (gameState == pauseState) {
+/*        if (gameState == pauseState) {
             // Pause State
-        }
+        }*/
     }
 
     public void render(GraphicsContext gc) {
@@ -373,25 +380,25 @@ public class GameApplication extends Application {
 
         for (Entity Rocks : rock) {
             if (Rocks != null) {
-                ((Rock)Rocks).render(gc, this);
+                (Rocks).render(gc, this);
             }
         }
 
         for (Entity Trees : tree) {
             if (Trees != null) {
-                ((Tree)Trees).render(gc, this);
+                (Trees).render(gc, this);
             }
         }
 
         for (Entity Monsters : monster) {
             if (Monsters != null) {
-                ((SuperMonster)Monsters).render(gc, this);
+                (Monsters).render(gc, this);
             }
         }
 
         for (Entity GreenSlime : greenSlime) {
             if (GreenSlime != null) {
-                ((GreenSlime)GreenSlime).render(gc, this);
+                (GreenSlime).render(gc, this);
             }
         }
 
