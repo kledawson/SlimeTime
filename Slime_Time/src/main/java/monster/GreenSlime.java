@@ -14,11 +14,13 @@ public class GreenSlime extends Entity {
     public Image greenSlime1, greenSlime2, greenSlime3, greenSlime4, greenSlime5;
     public int greenSlimeHp;
 
+    private int actionLockCounter = 0;
+
 
     public GreenSlime(GameApplication ga) {
         this.ga = ga;
         String name = "Steve";
-        speed = 4;
+        speed = 1;
         int maxSlimeHp = 8;
         greenSlimeHp = maxSlimeHp;
 
@@ -125,24 +127,28 @@ public class GreenSlime extends Entity {
     }
 
     public void setAction(){
-        int actionLockCounter = 0;
         actionLockCounter++;
+        System.out.println(actionLockCounter);
         Random rand = new Random();
-        int i = rand.nextInt(100)+1;
 
-        if (i <= 25) {
-            direction = "up";
-        }
-        if (i > 25 && i <= 50) {
-            direction = "down";
-        }
-        if (i > 50 && i <= 75) {
-            direction = "left";
-        }
-        if (i > 75 && i <= 100) {
-            direction = "right";
-        }
+        if (actionLockCounter == 30) {
+            int i = rand.nextInt(100)+1;
 
-        actionLockCounter = 0;
+            if (i <= 25) {
+                direction = "up";
+            }
+            if (i > 25 && i <= 50) {
+                direction = "down";
+            }
+            if (i > 50 && i <= 75) {
+                direction = "left";
+            }
+            if (i > 75 && i <= 100) {
+                direction = "right";
+            }
+
+            actionLockCounter = 0;
+
+        }
     }
 }
