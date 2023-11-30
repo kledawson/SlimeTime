@@ -210,20 +210,15 @@ public class UI {
             // Handle Upgrade Boots button action
             // Update costs and button text
            ga.player.upgradeBoots();
-           updateUpgradeButtonsText();
-
         });
         ga.upgradeMeleeButton.setOnMouseClicked(e -> {
             ga.player.upgradeMelee();
-            updateUpgradeButtonsText();
         });
         ga.upgradeArmorButton.setOnMouseClicked(e -> {
             ga.player.upgradeArmor();
-            updateUpgradeButtonsText();
         });
         ga.upgradeProjectileButton.setOnMouseClicked(e -> {
             ga.player.upgradeProjectile();
-            updateUpgradeButtonsText();
         });
 
         // Mouse Hover Above
@@ -261,20 +256,6 @@ public class UI {
         gc.setStroke(Color.WHITE); // Set the border color
         gc.setLineWidth(2); // Set the border width
         gc.strokeRoundRect(x,y,width,height,30,20); // Draw white border around the main inventory rectangle
-    }
-    public void updateUpgradeButtonsText() {
-//        // Update upgrade button texts based on the player's inventory and costs
-//        // Update boots costs
-//        ga.upgradeBootsButton.setText("Upgrade Boots\nCost: " + ga.player.bootsGoldCost + " Gold, " + ga.player.bootsStoneCost + " Stone, " + ga.player.bootsWoodCost + " Wood");
-//
-//        // Update melee costs
-//        ga.upgradeMeleeButton.setText("Upgrade Melee\nCost: " + ga.player.meleeGoldCost + " Gold, " + ga.player.meleeStoneCost + " Stone, " + ga.player.meleeWoodCost + " Wood");
-//
-//        // Update armor costs
-//        ga.upgradeArmorButton.setText("Upgrade Armor\nCost: " + ga.player.armorGoldCost + " Gold, " + ga.player.armorStoneCost + " Stone, " + ga.player.armorWoodCost + " Wood");
-//
-//        // Update projectile costs
-//        ga.upgradeProjectileButton.setText("Upgrade Projectile\nCost: " + ga.player.projectileGoldCost + " Gold, " + ga.player.projectileStoneCost + " Stone, " + ga.player.projectileWoodCost + " Wood");
     }
 }
 
