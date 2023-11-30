@@ -77,7 +77,7 @@ public class GameApplication extends Application {
     public MonsterManager Monster = new MonsterManager(this);
     public MonsterManager GreenSlime = new MonsterManager(this);
 
-    public Entity[] resource = new Entity[10];
+    public SuperResource[] resource = new SuperResource[10];
     public Entity[] rock = new Entity[10];
     public Entity[] tree = new Entity[10];
 
@@ -105,6 +105,10 @@ public class GameApplication extends Application {
     ImageView upgradeMeleeButton;
     ImageView upgradeArmorButton;
     ImageView upgradeProjectileButton;
+
+    Image buttonImage;
+    Image titleLogo;
+    Image backgroundImage;
 
     private Scene createGameScene(Stage stage) {
         root = new Pane();
@@ -217,7 +221,13 @@ public class GameApplication extends Application {
         Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         //titleScene.setFill(Color.BLACK);
-        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/startscreenbg.png")));
+//        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Slime_Time/res/ui/startscreenbg.png")));
+        try {
+            backgroundImage = new Image(new FileInputStream("Slime_Time/res/ui/startscreenbg.png"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         BackgroundImage background = new BackgroundImage(
                 backgroundImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -229,7 +239,13 @@ public class GameApplication extends Application {
         titleRoot.setBackground(new Background(background));
         setupTitleScene();
 
-        Image titleLogo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/slimetime_logo.png")));
+//        Image titleLogo = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Slime_Time/res/ui/slimetime_logo.png")));
+        try {
+            titleLogo = new Image(new FileInputStream("Slime_Time/res/ui/slimetime_logo.png"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         double titleWidth = titleLogo.getWidth() * 0.5; // Adjust the scaling factor as needed
         double titleHeight = titleLogo.getHeight() * 0.5;
         ImageView titleImageView = new ImageView(titleLogo);
@@ -240,7 +256,13 @@ public class GameApplication extends Application {
         titleRoot.getChildren().add(titleImageView);
 
         //Start game button
-        Image buttonImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/start_button.png")));
+//        Image buttonImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Slime_Time/res/ui/start_button.png")));
+        try {
+            buttonImage = new Image(new FileInputStream("Slime_Time/res/ui/start_button.png"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         ImageView buttonImageView = new ImageView(buttonImage);
         double buttonWidth = 150; // Set the desired width
         double buttonHeight = 60; // Set the desired height
@@ -290,8 +312,6 @@ public class GameApplication extends Application {
     public void setupGame() {
         objM.setObject();
         Resource.setResource();
-        Rock.setRock();
-        Tree.setTree();
         Monster.setMonster();
         GreenSlime.setGreenSlime();
         // playMusic(0);
@@ -349,6 +369,16 @@ public class GameApplication extends Application {
                     ((GreenSlime) entity).updateGreenSlime();
                 }
             }
+            for (SuperResource superResource : resource) {
+                if (superResource != null) {
+                    if (superResource instanceof Rock) {
+                        ((Rock) superResource).update();
+                    }
+                    else if (superResource instanceof Tree) {
+                        ((Tree) superResource).update();
+                    }
+                }
+            }
         }
 
 /*        if (gameState == pauseState) {
@@ -374,7 +404,7 @@ public class GameApplication extends Application {
 
         for (Entity superResource : resource) {
             if (superResource != null) {
-                ((SuperResource)superResource).render(gc, this);
+                superResource.render(gc, this);
             }
         }
 

@@ -37,7 +37,7 @@ public class SuperObject {
         }
     }
 
-    public void setup(String imageName, String fileType,int sizeX, int sizeY) {
+    public void setup(String imageName, String fileType, int sizeX, int sizeY) {
         try {
             image = new ImageView(new Image(new FileInputStream("Slime_Time/res/" + fileType + "/" + imageName + ".png"), sizeX, sizeY, false, false));
             images.add(new Image(new FileInputStream("Slime_Time/res/" + fileType + "/" + imageName + ".png"), sizeX, sizeY, false, false));

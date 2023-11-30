@@ -164,18 +164,19 @@ public class Scythe extends Entity implements Weapon {
         // Swing Animation & Hit Detection
         if (attacking) {
 //            int monIndex = ga.cChecker.checkMonster(this);
-//            int resourceIndex = ga.cChecker.checkResource(this);
+
 //
 //            if (monIndex != 999) {
 //                // ga.monsters[monIndex].takeDamage(damage);
-//            }
-//            if (resourceIndex != 999) {
-//                // ga.resources[resourceIndex].takeDamage();
 //            }
 
             ++spriteCounter;
             if (spriteCounter >= 5) {
                 if (spriteNum == 1) {
+                    int resourceIndex = ga.cChecker.checkResource(arc);
+                    if (resourceIndex != 999) {
+                        ga.resource[resourceIndex].takeDamage();
+                    }
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
                     spriteNum = 3;
@@ -189,6 +190,9 @@ public class Scythe extends Entity implements Weapon {
             }
         }
         ++attackCount;
+
+        arc.setLayoutX(player.solidArea.getX());
+        arc.setLayoutY(player.solidArea.getY());
     }
 
     public void render(GraphicsContext gc) {

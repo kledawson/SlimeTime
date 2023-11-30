@@ -1,8 +1,10 @@
 package main;
 
 import entity.Entity;
+import javafx.scene.shape.Arc;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import monster.GreenSlime;
 
 public class CollisionChecker {
     GameApplication ga;
@@ -158,6 +160,27 @@ public class CollisionChecker {
                         entity.collisionOn = true;
                         index = i;
                     }
+                }
+            }
+        }
+        return index;
+    }
+
+    public int checkResource(Arc solidArea) {
+        int index = 999;
+        for (int i = 0; i < ga.resource.length; ++i) {
+            if (ga.resource[i] != null) {
+                System.out.println(solidArea.getBoundsInParent());
+                System.out.println(ga.resource[i].solidArea.getBoundsInParent());
+                Shape intersection = Shape.intersect(solidArea, ga.resource[i].solidArea);
+                if (intersection.getBoundsInParent().getWidth() != -1) {
+                    System.out.println("COLLIDING");
+                    if (ga.resource[i].collision) {
+                        index = i;
+                    }
+                }
+                else {
+                    System.out.println("NOT COLLIDING");
                 }
             }
         }
