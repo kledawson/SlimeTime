@@ -88,8 +88,8 @@ public class Player extends Entity{
 
     // Set Spawn, Speed, Direction
     public void setDefaultValues() {
-        worldX = ga.TILE_SIZE * 64;
-        worldY = ga.TILE_SIZE * 50;
+        worldX = ga.TILE_SIZE * 23;
+        worldY = ga.TILE_SIZE * 15;
         speed = 3;
         direction = "down";
 
@@ -188,6 +188,9 @@ public class Player extends Entity{
         ga.cChecker.checkResource(this);
         int objIndex = ga.cChecker.checkObject(this);
         pickUpObject(objIndex);
+
+/*        int monsterIndex = ga.cChecker.checkMonster(this);
+        int resourceIndex = ga.cChecker.checkResource(this);*/
 
 
         // Stops Player if Collision is On
@@ -423,7 +426,7 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
         gcPlayer.drawImage(image, screenX, screenY);
 
         // Renders Player Hit box
-        gcPlayer.setStroke(Color.BLUE);
+        gcPlayer.setStroke(Color.TRANSPARENT);
         gcPlayer.strokeRect(screenX + 8, screenY + 16, 32, 32);
         scythe.render(gc);
         slingshot.render(gc);

@@ -43,10 +43,10 @@ public class GameApplication extends Application {
     final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
     public final int SCALE = 3;
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
-    public final int MAX_SCREEN_COL_SMALL = 20;
-    public final int MAX_SCREEN_ROW_SMALL = 12;
-    public final int MAX_SCREEN_COL_LARGE = 24;
-    public final int MAX_SCREEN_ROW_LARGE = 16;
+    public final int MAX_SCREEN_COL_SMALL = 24;
+    public final int MAX_SCREEN_ROW_SMALL = 16;
+    public final int MAX_SCREEN_COL_LARGE = 48;
+    public final int MAX_SCREEN_ROW_LARGE = 26;
 
     // Current maximum screen col and row values
     public int MAX_SCREEN_COL = MAX_SCREEN_COL_LARGE;
@@ -59,8 +59,8 @@ public class GameApplication extends Application {
     int FPS = 60;
 
     //for full screen UI
-    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_SMALL;
-    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_SMALL;
+    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_LARGE;
+    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_LARGE;
 
     TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this, false);
@@ -81,8 +81,8 @@ public class GameApplication extends Application {
     public Entity[] rock = new Entity[10];
     public Entity[] tree = new Entity[10];
 
-    public Entity[] monster = new Entity[10];
-    public Entity[] greenSlime = new Entity[10];
+    public Entity monster[] = new Entity[10];
+    public Entity greenSlime[] = new Entity[10];
 
     public int gameState;
     public final int titleState = 0;
@@ -95,12 +95,6 @@ public class GameApplication extends Application {
     private Canvas canvas;
     public double mouseX;
     public double mouseY;
-
-//    Button upgradeMeleeButton; // Declare the buttons
-//    Button upgradeArmorButton;
-//    Button upgradeProjectileButton;
-//    Button upgradeBootsButton;
-
     ImageView upgradeBootsButton;
     ImageView upgradeMeleeButton;
     ImageView upgradeArmorButton;
@@ -252,7 +246,7 @@ public class GameApplication extends Application {
         titleImageView.setFitWidth(titleWidth);
         titleImageView.setFitHeight(titleHeight);
         titleImageView.setLayoutX(SCREEN_WIDTH / 2 - titleLogo.getWidth() / 4);
-        titleImageView.setLayoutY(SCREEN_HEIGHT / 2 - titleLogo.getHeight() / 2);
+        titleImageView.setLayoutY(SCREEN_HEIGHT / 2 - (titleLogo.getHeight() / 2) - 30 );
         titleRoot.getChildren().add(titleImageView);
 
         //Start game button
@@ -317,6 +311,7 @@ public class GameApplication extends Application {
         // playMusic(0);
         gameState = playState;
     }
+
     public void setupTitleScene() {
         gameState = titleState;
     }
@@ -459,4 +454,5 @@ public class GameApplication extends Application {
     }
 
 }
+
 

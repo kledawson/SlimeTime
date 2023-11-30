@@ -18,58 +18,41 @@ public class KeyHandler implements EventHandler<KeyEvent> {
     @Override
     public void handle(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
-            case W:
-                upPressed = flag;
-                break;
-            case A:
-                leftPressed = flag;
-                break;
-            case S:
-                downPressed = flag;
-                break;
-            case D:
-                rightPressed = flag;
-                break;
-            case P:
+            case W -> upPressed = flag;
+            case A -> leftPressed = flag;
+            case S -> downPressed = flag;
+            case D -> rightPressed = flag;
+            case P -> {
                 if (!flag) {
                     if (pPressed) {
                         pPressed = false;
                         if (ga.gameState != ga.pauseState) {
                             ga.gameState = ga.pauseState;
-                        }
-                        else {
+                        } else {
                             ga.gameState = ga.playState;
                         }
                     }
-                }
-                else {
+                } else {
                     pPressed = true;
                 }
-                break;
-            case T:
-                if (!checkDrawTime) {
-                    checkDrawTime = true;
-                }
-                else {
-                    checkDrawTime = false;
-                }
-                break;
-            case C:
+            }
+            case T -> {
+                checkDrawTime = !checkDrawTime;
+            }
+            case C -> {
                 if (!flag) {
                     if (cPressed) {
                         cPressed = false;
                         if (ga.gameState != ga.characterState) {
                             ga.gameState = ga.characterState;
-                        }
-                        else {
+                        } else {
                             ga.gameState = ga.playState;
                         }
                     }
-                }
-                else {
+                } else {
                     cPressed = true;
                 }
-                break;
+            }
         }
     }
 }
