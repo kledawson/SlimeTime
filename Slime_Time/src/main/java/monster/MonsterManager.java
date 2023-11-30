@@ -22,32 +22,32 @@ public class MonsterManager {
     public void setGreenSlime() {
 
         ga.greenSlime[0] = new GreenSlime(ga);
-        ga.greenSlime[0].worldX = 25 * ga.TILE_SIZE;
-        ga.greenSlime[0].worldY = 16 * ga.TILE_SIZE;
+        ga.greenSlime[0].worldX = 66 * ga.TILE_SIZE;
+        ga.greenSlime[0].worldY = 53 * ga.TILE_SIZE;
         ga.greenSlime[0].solidArea.setX(3);
         ga.greenSlime[0].solidArea.setY(15);
 
         ga.greenSlime[1] = new GreenSlime(ga);
-        ga.greenSlime[1].worldX = 24 * ga.TILE_SIZE;
-        ga.greenSlime[1].worldY = 16 * ga.TILE_SIZE;
+        ga.greenSlime[1].worldX = 66 * ga.TILE_SIZE;
+        ga.greenSlime[1].worldY = 52 * ga.TILE_SIZE;
         ga.greenSlime[1].solidArea.setX(3);
         ga.greenSlime[1].solidArea.setY(15);
 
         ga.greenSlime[2] = new GreenSlime(ga);
-        ga.greenSlime[2].worldX = 23 * ga.TILE_SIZE;
-        ga.greenSlime[2].worldY = 16 * ga.TILE_SIZE;
+        ga.greenSlime[2].worldX = 66 * ga.TILE_SIZE;
+        ga.greenSlime[2].worldY = 51 * ga.TILE_SIZE;
         ga.greenSlime[2].solidArea.setX(3);
         ga.greenSlime[2].solidArea.setY(15);
 
         ga.greenSlime[3] = new GreenSlime(ga);
-        ga.greenSlime[3].worldX = 22 * ga.TILE_SIZE;
-        ga.greenSlime[3].worldY = 16 * ga.TILE_SIZE;
+        ga.greenSlime[3].worldX = 66 * ga.TILE_SIZE;
+        ga.greenSlime[3].worldY = 50 * ga.TILE_SIZE;
         ga.greenSlime[3].solidArea.setX(3);
         ga.greenSlime[3].solidArea.setY(15);
 
         ga.greenSlime[4] = new GreenSlime(ga);
-        ga.greenSlime[4].worldX = 21 * ga.TILE_SIZE;
-        ga.greenSlime[4].worldY = 16 * ga.TILE_SIZE;
+        ga.greenSlime[4].worldX = 66 * ga.TILE_SIZE;
+        ga.greenSlime[4].worldY = 49 * ga.TILE_SIZE;
         ga.greenSlime[4].solidArea.setX(3);
         ga.greenSlime[4].solidArea.setY(15);
 
