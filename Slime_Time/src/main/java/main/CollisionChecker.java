@@ -134,11 +134,27 @@ public class CollisionChecker {
 
     public int checkMonster(Entity entity) {
         int index = 999;
-        for (int i = 0; i < ga.monster.length; ++i) {
-            if (ga.monster[i] != null) {
-                Shape intersection = Shape.intersect(entity.solidArea, ga.monster[i].solidArea);
+        for (int i = 0; i < ga.greenSlime.length; ++i) {
+            if (ga.greenSlime[i] != null && entity != ga.greenSlime[i]) {
+                Shape intersection = Shape.intersect(entity.solidArea, ga.greenSlime[i].solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
-                    if (ga.monster[i].collision) {
+                    if (ga.greenSlime[i].collision) {
+                        entity.collisionOn = true;
+                        index = i;
+                    }
+                }
+            }
+        }
+        return index;
+    }
+/*
+    public int checkRock(Entity entity) {
+        int index = 999;
+        for (int i = 0; i < ga.rock.length; ++i) {
+            if (ga.rock[i] != null) {
+                Shape intersection = Shape.intersect(entity.solidArea, ga.rock[i].solidArea);
+                if (intersection.getBoundsInParent().getWidth() != -1) {
+                    if (ga.rock[i].collision) {
                         entity.collisionOn = true;
                         index = i;
                     }
@@ -148,13 +164,13 @@ public class CollisionChecker {
         return index;
     }
 
-    public int checkResource(Entity entity) {
+    public int checkTree(Entity entity) {
         int index = 999;
-        for (int i = 0; i < ga.resource.length; ++i) {
-            if (ga.resource[i] != null) {
-                Shape intersection = Shape.intersect(entity.solidArea, ga.resource[i].solidArea);
+        for (int i = 0; i < ga.tree.length; ++i) {
+            if (ga.tree[i] != null) {
+                Shape intersection = Shape.intersect(entity.solidArea, ga.tree[i].solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
-                    if (ga.resource[i].collision) {
+                    if (ga.tree[i].collision) {
                         entity.collisionOn = true;
                         index = i;
                     }
@@ -162,5 +178,5 @@ public class CollisionChecker {
             }
         }
         return index;
-    }
+    }*/
 }

@@ -17,7 +17,7 @@ public class Tree extends Entity {
         this.ga = ga;
         String name = "Tree";
         int speed = 0;
-        int maxTreeLife = 8;
+        int maxTreeLife = 12;
         treeLife = maxTreeLife;
 
         getTreeImage();
@@ -61,16 +61,16 @@ public class Tree extends Entity {
 
     public void updateTreeImage() {
 
-        if (treeLife == 7 || treeLife == 8) {
+        if (treeLife == 10 || treeLife == 11 || treeLife == 12) {
             tree = setupTree("tree");
         }
-        else if (treeLife == 5 || treeLife == 6) {
+        else if (treeLife == 7 || treeLife == 8 || treeLife == 9) {
             tree = setupTree("tree_break_1");
         }
-        else if (treeLife == 3 || treeLife == 4) {
+        else if (treeLife == 4 || treeLife == 5 || treeLife == 6) {
             tree = setupTree("tree_break_2");
         }
-        else if (treeLife == 1 || treeLife == 2) {
+        else if (treeLife == 1 || treeLife == 2 || treeLife == 3) {
             tree = setupTree("tree_break_3");
         }
         else if (treeLife == 0) {
