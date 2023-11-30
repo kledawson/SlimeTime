@@ -95,12 +95,6 @@ public class GameApplication extends Application {
     private Canvas canvas;
     public double mouseX;
     public double mouseY;
-
-//    Button upgradeMeleeButton; // Declare the buttons
-//    Button upgradeArmorButton;
-//    Button upgradeProjectileButton;
-//    Button upgradeBootsButton;
-
     ImageView upgradeBootsButton;
     ImageView upgradeMeleeButton;
     ImageView upgradeArmorButton;
@@ -217,7 +211,7 @@ public class GameApplication extends Application {
         Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         //titleScene.setFill(Color.BLACK);
-        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/startscreenbg.png")));
+        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/ui/STBG.png")));
         BackgroundImage background = new BackgroundImage(
                 backgroundImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -236,7 +230,7 @@ public class GameApplication extends Application {
         titleImageView.setFitWidth(titleWidth);
         titleImageView.setFitHeight(titleHeight);
         titleImageView.setLayoutX(SCREEN_WIDTH / 2 - titleLogo.getWidth() / 4);
-        titleImageView.setLayoutY(SCREEN_HEIGHT / 2 - titleLogo.getHeight() / 2);
+        titleImageView.setLayoutY(SCREEN_HEIGHT / 2 - (titleLogo.getHeight() / 2) - 30 );
         titleRoot.getChildren().add(titleImageView);
 
         //Start game button

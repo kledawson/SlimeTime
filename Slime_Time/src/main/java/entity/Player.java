@@ -425,7 +425,7 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
         gcPlayer.drawImage(image, screenX, screenY);
 
         // Renders Player Hit box
-        gcPlayer.setStroke(Color.BLUE);
+        gcPlayer.setStroke(Color.TRANSPARENT);
         gcPlayer.strokeRect(screenX + 8, screenY + 16, 32, 32);
         scythe.render(gc);
         slingshot.render(gc);
