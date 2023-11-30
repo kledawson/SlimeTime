@@ -185,6 +185,7 @@ public class Player extends Entity{
         // Checks Collision
         collisionOn = false;
         ga.cChecker.checkTile(this);
+        ga.cChecker.checkResource(this);
         int objIndex = ga.cChecker.checkObject(this);
         pickUpObject(objIndex);
 

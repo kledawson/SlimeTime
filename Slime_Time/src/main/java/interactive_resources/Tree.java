@@ -7,82 +7,23 @@ import main.GameApplication;
 
 import java.io.FileInputStream;
 
-public class Tree extends Entity {
-    GameApplication ga;
-    public Image tree; // Rock Sprites
-    public int treeLife;
-
+public class Tree extends SuperResource {
 
     public Tree(GameApplication ga) {
-        this.ga = ga;
+        super(ga);
         String name = "Tree";
-        int speed = 0;
-        int maxTreeLife = 12;
-        treeLife = maxTreeLife;
-
         getTreeImage();
-        updateTreeImage();
     }
-
 
     public void getTreeImage() {
-        tree = setupTree("tree");
+        setup("tree", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
+        setup("tree_broken", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
     }
 
-    public Image setupTree(String imageName) {
-        try {
-            return new Image(new FileInputStream("Slime_Time/res/interactive_resources/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+    public void update() {
+        switch (life) {
+            case 4, 3, 2, 1 -> spriteNum = 1;
+            case 0 -> spriteNum = 2;
         }
-        catch (Exception e) {
-            try {
-                return new Image(new FileInputStream("Slime_Time/res/tiles/no_sprite.png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
-            }
-            catch (Exception ex) {
-                System.err.println("Error loading image: " + imageName);
-                ex.printStackTrace();
-                return null;
-            }
-        }
-    }
-
-    public void render(GraphicsContext gc, GameApplication ga) {
-        GraphicsContext gcObj = gc;
-        int screenX = worldX - ga.player.worldX + ga.player.screenX;
-        int screenY = worldY - ga.player.worldY + ga.player.screenY;
-
-        // Draws Only What Camera Can See
-        if (worldX + ga.TILE_SIZE > ga.player.worldX - ga.player.screenX &&
-                worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
-                worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
-                worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gcObj.drawImage(tree, screenX, screenY);
-        }
-    }
-
-    public void updateTreeImage() {
-
-        if (treeLife == 10 || treeLife == 11 || treeLife == 12) {
-            tree = setupTree("tree");
-        }
-        else if (treeLife == 7 || treeLife == 8 || treeLife == 9) {
-            tree = setupTree("tree_break_1");
-        }
-        else if (treeLife == 4 || treeLife == 5 || treeLife == 6) {
-            tree = setupTree("tree_break_2");
-        }
-        else if (treeLife == 1 || treeLife == 2 || treeLife == 3) {
-            tree = setupTree("tree_break_3");
-        }
-        else if (treeLife == 0) {
-            tree = setupTree("tree_broken");
-        }
-        else {
-            tree = setupTree("error");
-        }
-    }
-
-    public void treeDamage() {
-        treeLife--;
-        updateTreeImage();
     }
 }

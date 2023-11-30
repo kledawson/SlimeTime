@@ -11,60 +11,67 @@ public class ResourceManager {
         this.ga = ga;
     }
 
-
     public void setResource() {
 
-        ga.resource[0] = new SuperResource(ga);
-        ga.resource[0].worldX = 0 * ga.TILE_SIZE;
-        ga.resource[0].worldY = 0 * ga.TILE_SIZE;
+        ga.resource[0] = new Rock(ga);
+        ga.resource[0].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[0].worldY = 45 * ga.TILE_SIZE;
+        ga.resource[0].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[0].solidArea.setY(45 * ga.TILE_SIZE);
 
-    }
+        ga.resource[1] = new Rock(ga);
+        ga.resource[1].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[1].worldY = 46 * ga.TILE_SIZE;
+        ga.resource[1].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[1].solidArea.setY(46 * ga.TILE_SIZE);
 
-    public void setRock() {
+        ga.resource[2] = new Rock(ga);
+        ga.resource[2].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[2].worldY = 47 * ga.TILE_SIZE;
+        ga.resource[2].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[2].solidArea.setY(47 * ga.TILE_SIZE);
 
-        ga.rock[0] = new Rock(ga);
-        ga.rock[0].worldX = 25 * ga.TILE_SIZE;
-        ga.rock[0].worldY = 23 * ga.TILE_SIZE;
+        ga.resource[3] = new Rock(ga);
+        ga.resource[3].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[3].worldY = 48 * ga.TILE_SIZE;
+        ga.resource[3].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[3].solidArea.setY(48 * ga.TILE_SIZE);
 
-        ga.rock[1] = new Rock(ga);
-        ga.rock[1].worldX = 24 * ga.TILE_SIZE;
-        ga.rock[1].worldY = 23 * ga.TILE_SIZE;
+        ga.resource[4] = new Rock(ga);
+        ga.resource[4].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[4].worldY = 49 * ga.TILE_SIZE;
+        ga.resource[4].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[4].solidArea.setY(49 * ga.TILE_SIZE);
 
-        ga.rock[2] = new Rock(ga);
-        ga.rock[2].worldX = 23 * ga.TILE_SIZE;
-        ga.rock[2].worldY = 23 * ga.TILE_SIZE;
+        ga.resource[5] = new Tree(ga);
+        ga.resource[5].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[5].worldY = 50 * ga.TILE_SIZE;
+        ga.resource[5].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[5].solidArea.setY(50 * ga.TILE_SIZE);
 
-        ga.rock[3] = new Rock(ga);
-        ga.rock[3].worldX = 22 * ga.TILE_SIZE;
-        ga.rock[3].worldY = 23 * ga.TILE_SIZE;
+        ga.resource[6] = new Tree(ga);
+        ga.resource[6].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[6].worldY = 51 * ga.TILE_SIZE;
+        ga.resource[6].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[6].solidArea.setY(51 * ga.TILE_SIZE);
 
-        ga.rock[4] = new Rock(ga);
-        ga.rock[4].worldX = 21 * ga.TILE_SIZE;
-        ga.rock[4].worldY = 23 * ga.TILE_SIZE;
+        ga.resource[7] = new Tree(ga);
+        ga.resource[7].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[7].worldY = 52 * ga.TILE_SIZE;
+        ga.resource[7].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[7].solidArea.setY(52 * ga.TILE_SIZE);
 
-    }
+        ga.resource[8] = new Tree(ga);
+        ga.resource[8].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[8].worldY = 53 * ga.TILE_SIZE;
+        ga.resource[8].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[8].solidArea.setY(53 * ga.TILE_SIZE);
 
-    public void setTree() {
-
-        ga.tree[0] = new Tree(ga);
-        ga.tree[0].worldX = 25 * ga.TILE_SIZE;
-        ga.tree[0].worldY = 19 * ga.TILE_SIZE;
-
-        ga.tree[1] = new Tree(ga);
-        ga.tree[1].worldX = 24 * ga.TILE_SIZE;
-        ga.tree[1].worldY = 19 * ga.TILE_SIZE;
-
-        ga.tree[2] = new Tree(ga);
-        ga.tree[2].worldX = 23 * ga.TILE_SIZE;
-        ga.tree[2].worldY = 19 * ga.TILE_SIZE;
-
-        ga.tree[3] = new Tree(ga);
-        ga.tree[3].worldX = 22 * ga.TILE_SIZE;
-        ga.tree[3].worldY = 19 * ga.TILE_SIZE;
-
-        ga.tree[4] = new Tree(ga);
-        ga.tree[4].worldX = 21 * ga.TILE_SIZE;
-        ga.tree[4].worldY = 19 * ga.TILE_SIZE;
+        ga.resource[9] = new Tree(ga);
+        ga.resource[9].worldX = 75 * ga.TILE_SIZE;
+        ga.resource[9].worldY = 54 * ga.TILE_SIZE;
+        ga.resource[9].solidArea.setX(75 * ga.TILE_SIZE);
+        ga.resource[9].solidArea.setY(54 * ga.TILE_SIZE);
 
     }
 }

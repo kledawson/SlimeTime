@@ -57,7 +57,6 @@ public class ObjectManager {
         ga.obj[6].worldY = 64 * ga.TILE_SIZE;
         ga.obj[6].solidArea.setY(64 * ga.TILE_SIZE);
 
-
         ga.obj[7] = new OBJ_Gold(ga);
         ga.obj[7].worldX = 71 * ga.TILE_SIZE;
         ga.obj[7].solidArea.setX(71 * ga.TILE_SIZE);
@@ -75,9 +74,6 @@ public class ObjectManager {
         ga.obj[9].solidArea.setX(67 * ga.TILE_SIZE);
         ga.obj[9].worldY = 61 * ga.TILE_SIZE;
         ga.obj[9].solidArea.setY(61 * ga.TILE_SIZE);
-
-
-
 
     }
 }
