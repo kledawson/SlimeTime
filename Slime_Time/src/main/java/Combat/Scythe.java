@@ -163,15 +163,15 @@ public class Scythe extends Entity implements Weapon {
 
         // Swing Animation & Hit Detection
         if (attacking) {
-            int monIndex = ga.cChecker.checkMonster(this);
-            int resourceIndex = ga.cChecker.checkResource(this);
-
-            if (monIndex != 999) {
-                // ga.monsters[monIndex].takeDamage(damage);
-            }
-            if (resourceIndex != 999) {
-                // ga.resources[resourceIndex].takeDamage();
-            }
+//            int monIndex = ga.cChecker.checkMonster(this);
+//            int resourceIndex = ga.cChecker.checkResource(this);
+//
+//            if (monIndex != 999) {
+//                // ga.monsters[monIndex].takeDamage(damage);
+//            }
+//            if (resourceIndex != 999) {
+//                // ga.resources[resourceIndex].takeDamage();
+//            }
 
             ++spriteCounter;
             if (spriteCounter >= 5) {
