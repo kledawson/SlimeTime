@@ -3,6 +3,7 @@ package monster;
 import entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 
 import java.io.FileInputStream;
@@ -12,15 +13,17 @@ public class GreenSlime extends Entity {
     GameApplication ga;
     public Image greenSlime1, greenSlime2, greenSlime3, greenSlime4, greenSlime5;
     public int greenSlimeHp;
-    public int i;
 
 
     public GreenSlime(GameApplication ga) {
         this.ga = ga;
-        String name = "Green_Slime";
-        int speed = 0;
+        String name = "Steve";
+        speed = 4;
         int maxSlimeHp = 8;
         greenSlimeHp = maxSlimeHp;
+
+        solidArea = new Rectangle(0,0, 42,33);
+
 
         getGreenSlimeImage();
         updateGreenSlimeImage();
@@ -38,7 +41,7 @@ public class GreenSlime extends Entity {
 
     public Image setupGreenSlime(String imageName) {
         try {
-            return new Image(new FileInputStream("Slime_Time/res/monster/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
+            return new Image(new FileInputStream("Slime_Time/res/slimes/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false);
         }
         catch (Exception e) {
             try {
@@ -96,9 +99,16 @@ public class GreenSlime extends Entity {
     public void updateGreenSlime() {
         setAction();
         collisionOn = false;
+        int tempWorldX = worldX;
+        int tempWorldY = worldY;
+        ga.cChecker.checkTile(this);
+        ga.cChecker.checkMonster(this);
+/*        ga.cChecker.checkRock(this);
+        ga.cChecker.checkTree(this);*/
+
         //collision checker here
 
-        if (collisionOn == false) {
+        if (!collisionOn) {
             switch(direction){
                 case "up": worldY -= speed;
                     break;
@@ -109,8 +119,8 @@ public class GreenSlime extends Entity {
                 case "right": worldX += speed;
                     break;
             }
-
-
+            solidArea.setX(worldX);
+            solidArea.setY(worldY);
         }
     }
 
