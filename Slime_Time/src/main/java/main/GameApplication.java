@@ -344,9 +344,6 @@ public class GameApplication extends Application {
             }
         }
 
-        if (gameState == pauseState) {
-            // Pause State
-        }
     }
 
     public void render(GraphicsContext gc) {
