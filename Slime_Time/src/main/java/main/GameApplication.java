@@ -14,6 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -31,6 +36,8 @@ import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
 import interactive_resources.Rock;
+
+import java.io.FileInputStream;
 
 import java.io.FileInputStream;
 
@@ -109,7 +116,7 @@ public class GameApplication extends Application {
    private Scene createGameScene(Stage stage) {
        root = new Pane();
        Scene gameScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
-       gameScene.setFill(Color.BLACK);
+       gameScene.setFill(Color.TURQUOISE);
 
        canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT); // Initialize canvas here
        GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -212,26 +219,43 @@ public class GameApplication extends Application {
        return gameScene;
    }
 
-   private Scene createTitleScreen(Stage stage) {
-       Pane titleRoot = new Pane();
-       Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
-       titleScene.setFill(Color.BLACK);
+    private Scene createTitleScreen(Stage stage) {
+        Pane titleRoot = new Pane();
+        Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-       Label titleLabel = new Label("Your Game Title");
-       titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
-       titleLabel.setTextFill(Color.WHITE);
-       titleLabel.setLayoutX(SCREEN_WIDTH / 2 - 150);
-       titleLabel.setLayoutY(SCREEN_HEIGHT / 2 - 50);
-       titleRoot.getChildren().add(titleLabel);
+        //titleScene.setFill(Color.BLACK);
+        Image backgroundImage = new Image(getClass().getResourceAsStream("/objects/Gongaga.png"));
+        BackgroundImage background = new BackgroundImage(
+                backgroundImage,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(SCREEN_WIDTH, SCREEN_HEIGHT, false, false, false, false)
+        );
 
-       Button startButton = new Button("Start Game");
-       startButton.setLayoutX(SCREEN_WIDTH / 2 - 50);
-       startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50);
-       startButton.setOnAction(e -> startGame(stage));
-       titleRoot.getChildren().add(startButton);
+        titleRoot.setBackground(new Background(background));
 
-       return titleScene;
-   }
+        //titleRoot.setStyle("-fx-background-color: black;");
+        setupTitleScene();
+
+
+        Label titleLabel = new Label("Slime Time");
+        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
+        titleLabel.setTextFill(Color.WHITE);
+        titleLabel.setLayoutX(SCREEN_WIDTH / 2 - 150);
+        titleLabel.setLayoutY(SCREEN_HEIGHT / 2 - 50);
+        titleRoot.getChildren().add(titleLabel);
+
+        Button startButton = new Button("Start Game");
+        startButton.setLayoutX(SCREEN_WIDTH / 2 - 50);
+        startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50);
+        startButton.setOnAction(e -> {
+            showTitleScreen = false;
+            startGame(stage);});
+        titleRoot.getChildren().add(startButton);
+
+        return titleScene;
+    }
 
     private void startGame(Stage stage) {
         showTitleScreen = false;
@@ -266,7 +290,6 @@ public class GameApplication extends Application {
         // playMusic(0);
         gameState = playState;
     }
-
     public void setupTitleScene() {
        gameState = titleState;
     }
@@ -290,7 +313,7 @@ public class GameApplication extends Application {
                 timer += (currentTime - lastTime);
                 lastTime = currentTime;
                 if (showTitleScreen) {
-                    renderTitleScreen(gc);
+                    setupTitleScene();
                     return;
                 }
 
@@ -331,7 +354,7 @@ public class GameApplication extends Application {
         if (keyH.checkDrawTime) {
             drawStart = System.nanoTime();
         }
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         tileM.render(gc);
@@ -383,29 +406,6 @@ public class GameApplication extends Application {
             gc.fillText("Draw Time: " + passed, 10, 400);
             System.out.println("Draw Time: " + passed);
         }
-    }
-
-    public void renderTitleScreen(GraphicsContext gc) {
-        gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        Label titleLabel = new Label("Your Game Title");
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 48));
-        titleLabel.setTextFill(Color.WHITE);
-        titleLabel.setLayoutX(SCREEN_WIDTH / 2 - 150);
-        titleLabel.setLayoutY(SCREEN_HEIGHT / 2 - 50);
-        root.getChildren().add(titleLabel);
-
-        Button startButton = new Button("Start Game");
-        startButton.setLayoutX(SCREEN_WIDTH / 2 - 50);
-        startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50);
-        startButton.setOnAction(e -> {
-            showTitleScreen = false;
-            setupTitleScene();
-            root.getChildren().removeAll(titleLabel, startButton); // Remove title label and start button
-            startGameLoop(gc);
-        });
-        root.getChildren().add(startButton);
     }
 
     public void playMusic(int i) {
