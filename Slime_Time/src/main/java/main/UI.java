@@ -105,17 +105,20 @@ public class UI {
 
 
     public void renderCharacterScreen() {
-        //RECTANGLE
-        double rectangleWidth = ga.SCREEN_WIDTH2 - 538;
+        // RECTANGLE
+        double rectangleWidth = ga.SCREEN_WIDTH2 - 538; // Decrease the width by 100 pixels
+        double rectangleX = 275; // X-coordinate of the rectangle
+        double rectangleY = 200; // Y-coordinate of the rectangle
+
         gc.setFill(Color.BLACK);
-        gc.setFill((Color.rgb(0,0,0,0.8)));
-        gc.fillRoundRect(25,45,rectangleWidth, ga.SCREEN_HEIGHT2 - 250, 30, 20);
+        gc.setFill((Color.rgb(0, 0, 0, 0.8)));
+        gc.fillRoundRect(rectangleX, rectangleY, rectangleWidth - 100, ga.SCREEN_HEIGHT2 - 250, 30, 20);
         gc.setStroke((Color.WHITE));
         gc.setLineWidth(2);
-        gc.strokeRoundRect(25,45, rectangleWidth, ga.SCREEN_HEIGHT2 - 250, 20, 20);
+        gc.strokeRoundRect(rectangleX, rectangleY, rectangleWidth - 100, ga.SCREEN_HEIGHT2 - 250, 20, 20);
 
-        //TEXT
-        int yStart = 120;
+        // TEXT
+        int yStart = 270;
         int lineHeight = 50;
         int valueOffset = 200;
 
@@ -123,70 +126,60 @@ public class UI {
         gc.setFill(Color.WHITE);
         gc.setTextAlign(TextAlignment.LEFT);
 
+        // Calculate the center of the rectangle for x-coordinate of the text
+        double textCenterX = rectangleX + rectangleWidth / 2;
 
-        gc.fillText("Level:", 50, yStart);
-        gc.fillText(Integer.toString(ga.player.level), valueOffset, yStart);
+        gc.fillText("Level:", rectangleX + 50, yStart, rectangleWidth);
+        gc.fillText(Integer.toString(ga.player.level), textCenterX, yStart);
 
-        gc.fillText("Life:", 50, yStart + lineHeight);
-        gc.fillText(ga.player.life + "/" + ga.player.maxLife, valueOffset, yStart + lineHeight);
+        gc.fillText("Life:", rectangleX + 50, yStart + lineHeight, rectangleWidth);
+        gc.fillText(ga.player.life + "/" + ga.player.maxLife, textCenterX, yStart + lineHeight);
 
-        gc.fillText("Melee Atk:", 50, yStart + 2 * lineHeight);
-        gc.fillText(Integer.toString(ga.player.scythe.attackValue), valueOffset, yStart + 2 * lineHeight);
+        gc.fillText("Melee Atk:", rectangleX + 50, yStart + 2 * lineHeight, rectangleWidth);
+        gc.fillText(Integer.toString(ga.player.scythe.attackValue), textCenterX, yStart + 2 * lineHeight);
 
-        gc.fillText("Projectile Atk:", 50, yStart + 3 * lineHeight);
-        gc.fillText(Integer.toString(ga.player.slingshot.attackValue), valueOffset, yStart + 3 * lineHeight);
+        gc.fillText("Projectile Atk:", rectangleX + 50, yStart + 3 * lineHeight, rectangleWidth);
+        gc.fillText(Integer.toString(ga.player.slingshot.attackValue), textCenterX, yStart + 3 * lineHeight);
 
-        gc.fillText("Speed:", 50, yStart + 4 * lineHeight);
-        gc.fillText(Integer.toString(ga.player.speed), valueOffset, yStart + 4 * lineHeight);
+        gc.fillText("Speed:", rectangleX + 50, yStart + 4 * lineHeight, rectangleWidth);
+        gc.fillText(Integer.toString(ga.player.speed), textCenterX, yStart + 4 * lineHeight);
     }
 
-    public void renderInventory() {
-        //rectangle
-        int frameX = ga.SCREEN_WIDTH2 - 925; //452m 1050
-        int frameY = ga.SCREEN_HEIGHT2 - 200;
-        int frameWidth = ga.TILE_SIZE + 352;
-        int frameHeight = ga.TILE_SIZE + 22;
-        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
-        //slots
-        int slotWidth = 37; // Width of each slot
-        int slotHeight = 37; // Height of each slot
+    public void renderInventory() {
+        // Inventory rendering (2x4 slots)
+        int frameX = ga.SCREEN_WIDTH2 - 340; // X position for inventory
+        int frameY = ga.SCREEN_HEIGHT2 - 370; // Y position for inventory
+        int slotWidth = 67; // Width of each slot
+        int slotHeight = 67; // Height of each slot
         int inventoryX = frameX + 18; // Starting X position for slots
         int inventoryY = frameY + 15; // Starting Y position for slots
-        //Looks like slot size/bar won't be changed at all for the foreseeable future, should be good to just leave it tiled
-        //and then have items occupy the empty tiles (kind of like minecraft)
-        // Draw inventory slots
 
-        for (int i = 0; i < 8; i++) {
-            gc.strokeRoundRect(inventoryX + i * (slotWidth + 10), inventoryY, slotWidth, slotHeight, 20, 10);
-        }
+        // Draw the inventory frame
+        int invWidth = 2; // Number of columns in the inventory
+        int invHeight = 4; // Number of rows in the inventory
+        drawSubWindow(frameX, frameY, slotWidth * invWidth + 50, slotHeight * invHeight + 50);
 
+        // Draw inventory items within the available slots
+        int currentSlot = 0; // Keep track of the current slot being filled
         for (int i = 0; i < ga.player.inventory.size(); i++) {
-            Image itemImage = ga.player.inventory.get(i).images.get(0);
-            int amount = ga.player.inventory.get(i).amount;
-
-            int slotX = inventoryX + i * (slotWidth + 10);
-            int slotY = inventoryY;
-
-            // Draw inventory slot
-            gc.strokeRoundRect(slotX, slotY, slotWidth, slotHeight, 20, 10);
-
-            // Draw item image
-            gc.drawImage(itemImage, slotX, slotY);
-
             SuperObject item = ga.player.inventory.get(i);
+            int slotX = inventoryX + (currentSlot % invWidth) * (slotWidth + 10);
+            int slotY = inventoryY + (currentSlot / invWidth) * (slotHeight + 10);
+            // Draw the item image within the slot
+            gc.drawImage(item.images.get(0), slotX, slotY);
 
-            // Draw the quantity of items stacked
+            // Draw the quantity of items stacked (if greater than 1)
             if (item.amount > 1) {
                 gc.setFont(new Font("Arial", 19));
                 gc.setFill(Color.WHITE);
                 gc.setTextAlign(TextAlignment.RIGHT);
-                gc.fillText(String.valueOf(ga.player.inventory.get(i).amount ), slotX + slotWidth - 5, slotY + slotHeight - 5);
-            }
-            else {
+                gc.fillText(String.valueOf(item.amount), slotX + slotWidth - 5, slotY + slotHeight - 5);
+            } else {
                 ga.player.inventory.remove(item);
             }
 
+            currentSlot++;
         }
     }
 
@@ -218,8 +211,6 @@ public class UI {
             // Update costs and button text
            ga.player.upgradeBoots();
            updateUpgradeButtonsText();
-
-           // ga.player.test();
 
         });
         ga.upgradeMeleeButton.setOnMouseClicked(e -> {
