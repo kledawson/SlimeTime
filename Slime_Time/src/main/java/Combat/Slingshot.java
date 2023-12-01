@@ -10,7 +10,6 @@ import main.GameApplication;
 public class Slingshot extends Entity implements Weapon {
 
     Player player;
-    public Rectangle solidArea = new Rectangle();
     int screenX;
     int screenY;
     boolean attacking;
@@ -25,10 +24,9 @@ public class Slingshot extends Entity implements Weapon {
         speed = 20;
         screenX = player.screenX + 4 * ga.SCALE;
         screenY = player.screenY + 4 * ga.SCALE;
+        solidArea = new Rectangle(0, 0, 8 * ga.SCALE, 8 * ga.SCALE);
         solidArea.setX(screenX);
         solidArea.setY(screenY);
-        solidArea.setHeight(8 * ga.SCALE);
-        solidArea.setWidth(8 * ga.SCALE);
         getWeaponImage();
     }
     @Override
@@ -83,8 +81,14 @@ public class Slingshot extends Entity implements Weapon {
                     screenY -= diagonalSpeed;
                 }
             }
-            solidArea.setX(screenX);
-            solidArea.setY(screenY);
+            solidArea.setX(screenX - player.screenX + player.worldX);
+            solidArea.setY(screenY - player.screenY + player.worldY);
+
+            int resourceIndex = ga.cChecker.checkResource(this);
+            if (resourceIndex != 999) {
+                ga.resource[resourceIndex].takeDamage();
+            }
+
             ++spriteCounter;
             if (spriteCounter >= attackSpeed / 4) {
                 if (spriteNum == 1) {
@@ -111,7 +115,7 @@ public class Slingshot extends Entity implements Weapon {
         image = images.get(-1 + spriteNum);
         if (attacking) {
             gcSlingshot.drawImage(image, screenX, screenY);
+            gcSlingshot.strokeRect(screenX, screenY, 8 * ga.SCALE, 8 * ga.SCALE);
         }
-        gcSlingshot.strokeRect(screenX, screenY, 8 * ga.SCALE, 8 * ga.SCALE);
     }
 }

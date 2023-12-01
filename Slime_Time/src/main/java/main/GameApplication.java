@@ -49,8 +49,8 @@ public class GameApplication extends Application {
     public final int MAX_SCREEN_ROW_LARGE = 26;
 
     // Current maximum screen col and row values
-    public int MAX_SCREEN_COL = MAX_SCREEN_COL_LARGE;
-    public int MAX_SCREEN_ROW = MAX_SCREEN_ROW_LARGE;
+    public int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
+    public int MAX_SCREEN_ROW = MAX_SCREEN_ROW_SMALL;
 
     public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 1152 px
     public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 768 px
@@ -71,9 +71,6 @@ public class GameApplication extends Application {
     public UI ui = new UI(this);
     public Player player = new Player(this, keyH);
     public ResourceManager Resource = new ResourceManager(this);
-    public ResourceManager Rock = new ResourceManager(this);
-    public ResourceManager Tree = new ResourceManager(this);
-
     public MonsterManager Monster = new MonsterManager(this);
     public MonsterManager GreenSlime = new MonsterManager(this);
 
@@ -296,7 +293,6 @@ public class GameApplication extends Application {
         stage.setScene(titleScene);
         stage.show();
     }
-
 
     public static void main(String[] args) {
         launch();

@@ -150,12 +150,20 @@ public class CollisionChecker {
         return index;
     }
 
+    public void checkPlayer(Entity entity) {
+        Shape intersection = Shape.intersect(entity.solidArea, ga.player.solidArea);
+        if (intersection.getBoundsInParent().getWidth() != -1) {
+            entity.collisionOn = true;
+        }
+    }
+
     public int checkResource(Entity entity) {
         int index = 999;
         for (int i = 0; i < ga.resource.length; ++i) {
             if (ga.resource[i] != null) {
                 Shape intersection = Shape.intersect(entity.solidArea, ga.resource[i].solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
+                    System.out.println("COLLIDING");
                     if (ga.resource[i].collision) {
                         entity.collisionOn = true;
                         index = i;
@@ -170,8 +178,8 @@ public class CollisionChecker {
         int index = 999;
         for (int i = 0; i < ga.resource.length; ++i) {
             if (ga.resource[i] != null) {
-                System.out.println(solidArea.getBoundsInParent());
-                System.out.println(ga.resource[i].solidArea.getBoundsInParent());
+                //System.out.println(solidArea.getBoundsInParent());
+                //System.out.println(ga.resource[i].solidArea.getBoundsInParent());
                 Shape intersection = Shape.intersect(solidArea, ga.resource[i].solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
                     System.out.println("COLLIDING");
