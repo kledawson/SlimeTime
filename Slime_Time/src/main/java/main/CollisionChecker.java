@@ -29,10 +29,10 @@ public class CollisionChecker {
     // Checks Collision b/w Entity and Tile
     public void checkTile(Entity entity) {
         // Calculates Coordinates of Entity
-        int entityLeftWorldX = (int) (entity.solidArea.getX());
-        int entityRightWorldX = (int) (entity.solidArea.getX() + entity.solidArea.getWidth());
-        int entityTopWorldY = (int) (entity.solidArea.getY());
-        int entityBottomWorldY = (int) (entity.solidArea.getY() + entity.solidArea.getHeight());
+        int entityLeftWorldX = (int) (((Rectangle)entity.solidArea).getX());
+        int entityRightWorldX = (int) (((Rectangle)entity.solidArea).getX() + ((Rectangle)entity.solidArea).getWidth());
+        int entityTopWorldY = (int) (((Rectangle)entity.solidArea).getY());
+        int entityBottomWorldY = (int) (((Rectangle)entity.solidArea).getY() + ((Rectangle)entity.solidArea).getHeight());
 
         // Calculates Tile Row/Col of Entity
         int entityLeftCol = entityLeftWorldX / ga.TILE_SIZE;
@@ -168,27 +168,6 @@ public class CollisionChecker {
                         entity.collisionOn = true;
                         index = i;
                     }
-                }
-            }
-        }
-        return index;
-    }
-
-    public int checkResource(Arc solidArea) {
-        int index = 999;
-        for (int i = 0; i < ga.resource.length; ++i) {
-            if (ga.resource[i] != null) {
-                //System.out.println(solidArea.getBoundsInParent());
-                //System.out.println(ga.resource[i].solidArea.getBoundsInParent());
-                Shape intersection = Shape.intersect(solidArea, ga.resource[i].solidArea);
-                if (intersection.getBoundsInParent().getWidth() != -1) {
-                    System.out.println("COLLIDING");
-                    if (ga.resource[i].collision) {
-                        index = i;
-                    }
-                }
-                else {
-                    System.out.println("NOT COLLIDING");
                 }
             }
         }

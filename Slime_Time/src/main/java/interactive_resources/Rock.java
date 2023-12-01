@@ -9,8 +9,8 @@ import java.io.FileInputStream;
 
 public class Rock extends SuperResource {
 
-    public Rock(GameApplication ga) {
-        super(ga);
+    public Rock(GameApplication ga, int worldCol, int worldRow) {
+        super(ga, worldCol, worldRow);
         String name = "Rock";
         getRockImage();
     }

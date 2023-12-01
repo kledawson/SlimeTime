@@ -3,7 +3,7 @@ package entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import main.GameApplication;
 
 import java.io.FileInputStream;
@@ -21,7 +21,6 @@ public class Entity {
     public int level;
     public int exp;
     public int nextLevelExp;
-    public Entity currentWeapon;
 
     //Item attributes
     public int attackValue;
@@ -30,12 +29,16 @@ public class Entity {
     public String direction = "down"; // Direction Entity is Moving, direction has a default setting (down)
     public int spriteCounter = 0; // Animation Timer
     public int spriteNum = 1; // Sprite Frame
-    public Rectangle solidArea; // Hit box
+    public Shape solidArea; // Hit box
     public int solidAreaDefaultX, solidAreaDefaultY; // Hit box Coordinates
     public boolean collision = false; // Collision State
     public boolean collisionOn;
     public String name;
 
+    public Entity(GameApplication ga) {
+        this.ga = ga;
+    }
+    public Entity(){}
 
     public void render(GraphicsContext gc, GameApplication ga) {
         GraphicsContext gcObj = gc;
@@ -64,10 +67,4 @@ public class Entity {
             }
         }
     }
-
-    public Entity(GameApplication ga) {
-        this.ga = ga;
-    }
-
-    public Entity(){}
 }

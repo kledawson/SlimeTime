@@ -124,8 +124,8 @@ public class GreenSlime extends Entity {
                     break;
             }
         }
-        solidArea.setX(worldX + 3);
-        solidArea.setY(worldY + 15);
+        ((Rectangle)solidArea).setX(worldX + 3);
+        ((Rectangle)solidArea).setY(worldY + 15);
     }
 
     public void setAction(){

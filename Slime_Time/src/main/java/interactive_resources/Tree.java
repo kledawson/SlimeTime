@@ -9,8 +9,8 @@ import java.io.FileInputStream;
 
 public class Tree extends SuperResource {
 
-    public Tree(GameApplication ga) {
-        super(ga);
+    public Tree(GameApplication ga, int worldCol, int worldRow) {
+        super(ga, worldCol, worldRow);
         String name = "Tree";
         getTreeImage();
     }

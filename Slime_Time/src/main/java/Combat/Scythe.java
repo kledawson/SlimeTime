@@ -8,14 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 
 import java.io.FileInputStream;
 
 public class Scythe extends Entity implements Weapon {
-
     Player player;
-    public Arc arc = new Arc();
     int screenX;
     int screenY;
     double mouseAngle;
@@ -23,19 +22,20 @@ public class Scythe extends Entity implements Weapon {
     int damage = 1;
     int attackCount;
     public Scythe(GameApplication ga, Player player) {
-        this.ga = ga;
+        super(ga);
         this.player = player;
+        solidArea = new Arc();
         attackValue = damage;
         attackSpeed = 60;
         attackCount = 60;
-        arc.setCenterX(player.screenX + ga.TILE_SIZE / 2);
-        arc.setCenterY(player.screenY + ga.TILE_SIZE / 2);
-        arc.setRadiusX(ga.TILE_SIZE);
-        arc.setRadiusY(ga.TILE_SIZE);
-        arc.setLength(90);
-        arc.setStroke(Color.BLUE);
-        arc.setType(ArcType.ROUND);
-        arc.setFill(Color.TRANSPARENT);
+        ((Arc)solidArea).setCenterX(player.screenX + ga.TILE_SIZE / 2);
+        ((Arc)solidArea).setCenterY(player.screenY + ga.TILE_SIZE / 2);
+        ((Arc)solidArea).setRadiusX(ga.TILE_SIZE);
+        ((Arc)solidArea).setRadiusY(ga.TILE_SIZE);
+        ((Arc)solidArea).setLength(90);
+        ((Arc)solidArea).setType(ArcType.ROUND);
+        solidArea.setStroke(Color.BLUE);
+        solidArea.setFill(Color.TRANSPARENT);
         getWeaponImage();
     }
 
@@ -96,9 +96,9 @@ public class Scythe extends Entity implements Weapon {
 
     public void update() {
         if (!attacking) {
-            mouseAngle = Math.atan((ga.mouseY - arc.getCenterY()) / (ga.mouseX - arc.getCenterX())) * 180 / Math.PI;
-            double yDiff = ga.mouseY - arc.getCenterY();
-            double xDiff = ga.mouseX - arc.getCenterX();
+            mouseAngle = Math.atan((ga.mouseY - ((Arc)solidArea).getCenterY()) / (ga.mouseX - ((Arc)solidArea).getCenterX())) * 180 / Math.PI;
+            double yDiff = ga.mouseY - ((Arc)solidArea).getCenterY();
+            double xDiff = ga.mouseX - ((Arc)solidArea).getCenterX();
             if (yDiff <= 0 && mouseAngle > -67.5 && mouseAngle <= -22.5) {
                 direction = "right_up";
             } else if (yDiff <= 0 && (mouseAngle > 67.5 || mouseAngle <= -67.5)) {
@@ -119,42 +119,42 @@ public class Scythe extends Entity implements Weapon {
 
             switch (direction) {
                 case "up" -> {
-                    arc.setStartAngle(45);
+                    ((Arc)solidArea).setStartAngle(45);
                     screenX = player.screenX;
                     screenY = player.screenY - ga.TILE_SIZE + ga.SCALE;
                 }
                 case "left_up" -> {
-                    arc.setStartAngle(90);
+                    ((Arc)solidArea).setStartAngle(90);
                     screenX = player.screenX - ga.TILE_SIZE / 2;
                     screenY = player.screenY - ga.TILE_SIZE / 2;
                 }
                 case "left" -> {
-                    arc.setStartAngle(135);
+                    ((Arc)solidArea).setStartAngle(135);
                     screenX = player.screenX - ga.TILE_SIZE + ga.SCALE;
                     screenY = player.screenY;
                 }
                 case "left_down" -> {
-                    arc.setStartAngle(180);
+                    ((Arc)solidArea).setStartAngle(180);
                     screenX = player.screenX - ga.TILE_SIZE / 2;
                     screenY = player.screenY + ga.TILE_SIZE / 2;
                 }
                 case "down" -> {
-                    arc.setStartAngle(225);
+                    ((Arc)solidArea).setStartAngle(225);
                     screenX = player.screenX;
                     screenY = player.screenY + ga.TILE_SIZE - ga.SCALE;
                 }
                 case "right_down" -> {
-                    arc.setStartAngle(270);
+                    ((Arc)solidArea).setStartAngle(270);
                     screenX = player.screenX + ga.TILE_SIZE / 2;
                     screenY = player.screenY + ga.TILE_SIZE / 2;
                 }
                 case "right" -> {
-                    arc.setStartAngle(315);
+                    ((Arc)solidArea).setStartAngle(315);
                     screenX = player.screenX + ga.TILE_SIZE - ga.SCALE;
                     screenY = player.screenY;
                 }
                 case "right_up" -> {
-                    arc.setStartAngle(0);
+                    ((Arc)solidArea).setStartAngle(0);
                     screenX = player.screenX + ga.TILE_SIZE / 2;
                     screenY = player.screenY - ga.TILE_SIZE / 2;
                 }
@@ -173,7 +173,7 @@ public class Scythe extends Entity implements Weapon {
             ++spriteCounter;
             if (spriteCounter >= 5) {
                 if (spriteNum == 1) {
-                    int resourceIndex = ga.cChecker.checkResource(arc);
+                    int resourceIndex = ga.cChecker.checkResource(this);
                     if (resourceIndex != 999) {
                         ga.resource[resourceIndex].takeDamage();
                     }
@@ -191,8 +191,8 @@ public class Scythe extends Entity implements Weapon {
         }
         ++attackCount;
 
-        arc.setLayoutX(player.solidArea.getX());
-        arc.setLayoutY(player.solidArea.getY());
+        solidArea.setLayoutX(((Rectangle)(player.solidArea)).getX());
+        solidArea.setLayoutY(((Rectangle)(player.solidArea)).getY());
     }
 
     public void render(GraphicsContext gc) {
@@ -227,7 +227,9 @@ public class Scythe extends Entity implements Weapon {
         }
         if (attacking) {
             gcScythe.drawImage(image, screenX, screenY);
-            gcScythe.strokeArc(player.screenX - 24, player.screenY - 24, arc.getRadiusX() * 2, arc.getRadiusY() * 2, arc.getStartAngle(), arc.getLength(), ArcType.ROUND);
+            gcScythe.strokeArc(player.screenX - 24, player.screenY - 24,
+                    ((Arc)solidArea).getRadiusX() * 2, ((Arc)solidArea).getRadiusY() * 2,
+                    ((Arc)solidArea).getStartAngle(), ((Arc)solidArea).getLength(), ArcType.ROUND);
         }
     }
 }

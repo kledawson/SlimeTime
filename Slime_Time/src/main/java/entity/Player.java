@@ -57,12 +57,12 @@ public class Player extends Entity{
 
         // Sets Hit box to be Smaller Than Sprite
         solidArea = new Rectangle();
-        solidArea.setX(ga.TILE_SIZE / 6 + worldX);
-        solidArea.setY(ga.TILE_SIZE / 3 + worldY);
-        solidAreaDefaultX = (int) solidArea.getX();
-        solidAreaDefaultY = (int) solidArea.getY();
-        solidArea.setWidth(ga.TILE_SIZE * 2 / 3);
-        solidArea.setHeight(ga.TILE_SIZE * 2 / 3);
+        ((Rectangle)solidArea).setX(ga.TILE_SIZE / 6 + worldX);
+        ((Rectangle)solidArea).setY(ga.TILE_SIZE / 3 + worldY);
+        solidAreaDefaultX = (int) ((Rectangle)solidArea).getX();
+        solidAreaDefaultY = (int) ((Rectangle)solidArea).getY();
+        ((Rectangle)solidArea).setWidth(ga.TILE_SIZE * 2 / 3);
+        ((Rectangle)solidArea).setHeight(ga.TILE_SIZE * 2 / 3);
 
         scythe = new Scythe(ga, this);
         slingshot = new Slingshot(ga, this);
@@ -179,8 +179,8 @@ public class Player extends Entity{
         }
 
         // Changes Hitbox Coordinates
-        solidArea.setX(ga.TILE_SIZE / 6 + worldX);
-        solidArea.setY(ga.TILE_SIZE / 3 + worldY);
+        ((Rectangle)solidArea).setX(ga.TILE_SIZE / 6 + worldX);
+        ((Rectangle)solidArea).setY(ga.TILE_SIZE / 3 + worldY);
 
         // Checks Collision
         collisionOn = false;
