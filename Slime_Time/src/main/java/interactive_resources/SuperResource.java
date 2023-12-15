@@ -14,12 +14,14 @@ import java.io.FileInputStream;
 
 public class SuperResource extends Entity {
 
-    public SuperResource(GameApplication ga) {
+    public SuperResource(GameApplication ga, int worldCol, int worldRow) {
         this.ga = ga;
+        worldX = worldCol * ga.TILE_SIZE;
+        worldY = worldRow * ga.TILE_SIZE;
+        solidArea = new Rectangle(worldX, worldY, ga.TILE_SIZE, ga.TILE_SIZE);
         name = "Resource";
         maxLife = 4;
         life = maxLife;
-        solidArea = new Rectangle(0, 0, ga.TILE_SIZE, ga.TILE_SIZE);
         collision = true;
     }
 

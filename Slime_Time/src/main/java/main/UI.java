@@ -106,16 +106,16 @@ public class UI {
 
     public void renderCharacterScreen() {
         // RECTANGLE
-        double rectangleWidth = ga.SCREEN_WIDTH2 - 538; // Decrease the width by 100 pixels
+        double rectangleWidth = ga.SCREEN_WIDTH - 538; // Decrease the width by 100 pixels
         double rectangleX = 275; // X-coordinate of the rectangle
         double rectangleY = 200; // Y-coordinate of the rectangle
 
         gc.setFill(Color.BLACK);
         gc.setFill((Color.rgb(0, 0, 0, 0.8)));
-        gc.fillRoundRect(rectangleX, rectangleY, rectangleWidth - 100, ga.SCREEN_HEIGHT2 - 250, 30, 20);
+        gc.fillRoundRect(rectangleX, rectangleY, rectangleWidth - 100, ga.SCREEN_HEIGHT - 250, 30, 20);
         gc.setStroke((Color.WHITE));
         gc.setLineWidth(2);
-        gc.strokeRoundRect(rectangleX, rectangleY, rectangleWidth - 100, ga.SCREEN_HEIGHT2 - 250, 20, 20);
+        gc.strokeRoundRect(rectangleX, rectangleY, rectangleWidth - 100, ga.SCREEN_HEIGHT - 250, 20, 20);
 
         // TEXT
         int yStart = 270;
@@ -148,8 +148,8 @@ public class UI {
 
     public void renderInventory() {
         // Inventory rendering (2x4 slots)
-        int frameX = ga.SCREEN_WIDTH2 - 340; // X position for inventory
-        int frameY = ga.SCREEN_HEIGHT2 - 370; // Y position for inventory
+        int frameX = ga.SCREEN_WIDTH - 340; // X position for inventory
+        int frameY = ga.SCREEN_HEIGHT - 370; // Y position for inventory
         int slotWidth = 67; // Width of each slot
         int slotHeight = 67; // Height of each slot
         int inventoryX = frameX + 18; // Starting X position for slots

@@ -23,7 +23,7 @@ public class GreenSlime extends Entity {
         speed = 1;
         int maxSlimeHp = 8;
         greenSlimeHp = maxSlimeHp;
-
+        collision = true;
         solidArea = new Rectangle(0,0, 42,33);
 
 
@@ -69,6 +69,7 @@ public class GreenSlime extends Entity {
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
             gcObj.drawImage(greenSlime1, screenX, screenY);
         }
+        gcObj.strokeRect(screenX + 3, screenY + 15, 42, 33);
     }
 
     public void updateGreenSlimeImage() {
@@ -104,8 +105,9 @@ public class GreenSlime extends Entity {
         int tempWorldX = worldX;
         int tempWorldY = worldY;
         ga.cChecker.checkTile(this);
-        ga.cChecker.checkMonster(this);
-/*        ga.cChecker.checkRock(this);
+        //ga.cChecker.checkMonster(this);
+        ga.cChecker.checkPlayer(this);
+/*      ga.cChecker.checkRock(this);
         ga.cChecker.checkTree(this);*/
 
         //collision checker here
@@ -121,14 +123,14 @@ public class GreenSlime extends Entity {
                 case "right": worldX += speed;
                     break;
             }
-            solidArea.setX(worldX);
-            solidArea.setY(worldY);
         }
+        ((Rectangle)solidArea).setX(worldX + 3);
+        ((Rectangle)solidArea).setY(worldY + 15);
     }
 
     public void setAction(){
         actionLockCounter++;
-        System.out.println(actionLockCounter);
+        //System.out.println(actionLockCounter);
         Random rand = new Random();
 
         if (actionLockCounter == 30) {
