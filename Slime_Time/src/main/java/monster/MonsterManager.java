@@ -28,7 +28,7 @@ public class MonsterManager {
         ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
         ((Rectangle)ga.greenSlime[0].solidArea).setY(53 * ga.TILE_SIZE);
 
-/*        ga.greenSlime[1] = new GreenSlime(ga);
+        ga.greenSlime[1] = new GreenSlime(ga);
         ga.greenSlime[1].worldX = 66 * ga.TILE_SIZE;
         ga.greenSlime[1].worldY = 51 * ga.TILE_SIZE;
         ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
@@ -50,7 +50,7 @@ public class MonsterManager {
         ga.greenSlime[4].worldX = 66 * ga.TILE_SIZE;
         ga.greenSlime[4].worldY = 48 * ga.TILE_SIZE;
         ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
-        ((Rectangle)ga.greenSlime[0].solidArea).setY(49 * ga.TILE_SIZE);*/
+        ((Rectangle)ga.greenSlime[0].solidArea).setY(49 * ga.TILE_SIZE);
 
     }
 

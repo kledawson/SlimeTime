@@ -133,7 +133,13 @@ public class GreenSlime extends Entity {
         int yDistance = Math.abs(worldY - ga.player.worldY);
         int tileDistance = (xDistance + yDistance)/ga.TILE_SIZE;
 
-        onPath = true;
+        if(onPath == false && tileDistance < 5) {
+            int i = new Random().nextInt(100)+1;
+            if(i > 50) {
+                onPath = true;
+            }
+        }
+        //onPath = true;
 
         // De-aggro monster if you get 20 tiles away
 /*        if(onPath == true && tileDistance > 20) {
