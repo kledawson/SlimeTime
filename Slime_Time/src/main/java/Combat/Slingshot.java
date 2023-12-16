@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 
+import java.util.List;
+
 public class Slingshot extends Entity implements Weapon {
 
     Player player;
@@ -84,10 +86,15 @@ public class Slingshot extends Entity implements Weapon {
             ((Rectangle)solidArea).setX(screenX - player.screenX + player.worldX);
             ((Rectangle)solidArea).setY(screenY - player.screenY + player.worldY);
 
-            int resourceIndex = ga.cChecker.checkResource(this);
-            if (resourceIndex != 999) {
-                ga.resource[resourceIndex].takeDamage();
-                spriteNum = 3;
+            List<Integer> resourceIndices = ga.cChecker.checkResource(this);
+            for (Integer index : resourceIndices) {
+                ga.resource[index].takeDamage();
+                spriteNum = 4;
+                attacking = false;
+                screenX = player.screenX + 4 * ga.SCALE;
+                screenY = player.screenY + 4 * ga.SCALE;
+                ((Rectangle)solidArea).setX(screenX);
+                ((Rectangle)solidArea).setY(screenY);
             }
 
             ++spriteCounter;
