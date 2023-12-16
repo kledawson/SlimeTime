@@ -64,4 +64,6 @@ public class SuperMonster extends Entity {
             gc.drawImage(monster, screenX, screenY);
         }
     }
+
+
 }

@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 import java.util.ArrayList;
 import java.util.List;
@@ -251,6 +252,11 @@ public class Scythe extends Entity implements Weapon {
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
             for (Integer index : resourceIndices) {
                 ga.resource[index].takeDamage();
+            }
+
+            List<Integer> monsterIndices = ga.cChecker.checkMonster(this);
+            for (Integer index : monsterIndices) {
+                ga.greenSlime.get(index).greenSlimeDamage();
             }
 
             ++spriteCounter;

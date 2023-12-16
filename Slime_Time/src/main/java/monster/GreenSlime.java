@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
+import object.OBJ_Gold;
 
 import java.io.FileInputStream;
 import java.util.Random;
@@ -12,7 +13,6 @@ import java.util.Random;
 public class GreenSlime extends Entity {
     GameApplication ga;
     public Image greenSlime1, greenSlime2, greenSlime3, greenSlime4, greenSlime5;
-    public int greenSlimeHp;
 
     private int actionLockCounter = 0;
 
@@ -22,7 +22,7 @@ public class GreenSlime extends Entity {
         String name = "Steve";
         speed = 1;
         int maxSlimeHp = 8;
-        greenSlimeHp = maxSlimeHp;
+        life = maxSlimeHp;
         collision = true;
         solidArea = new Rectangle(0,0, 42,33);
 
@@ -73,19 +73,19 @@ public class GreenSlime extends Entity {
 
     public void updateGreenSlimeImage() {
 
-        if (greenSlimeHp == 7 || greenSlimeHp == 8) {
+        if (life == 7 || life == 8) {
             greenSlime1 = setupGreenSlime("greenSlime1");
         }
-        else if (greenSlimeHp == 5 || greenSlimeHp == 6) {
+        else if (life == 5 || life == 6) {
             greenSlime2 = setupGreenSlime("greenSlime1");
         }
-        else if (greenSlimeHp == 3 || greenSlimeHp == 4) {
+        else if (life == 3 || life == 4) {
             greenSlime3 = setupGreenSlime("greenSlime1");
         }
-        else if (greenSlimeHp == 1 || greenSlimeHp == 2) {
+        else if (life == 1 || life == 2) {
             greenSlime4 = setupGreenSlime("greenSlime1");
         }
-        else if (greenSlimeHp == 0) {
+        else if (life == 0) {
             greenSlime5 = setupGreenSlime("greenSlime1");
         }
         else {
@@ -94,11 +94,14 @@ public class GreenSlime extends Entity {
     }
 
     public void greenSlimeDamage() {
-        greenSlimeHp--;
-        updateGreenSlimeImage();
+        if (life > 0) {
+            life--;
+            updateGreenSlimeImage();
+        }
+        System.out.println("Monster taking damage!");
     }
 
-    public void updateGreenSlime() {
+    public void updateGreenSlime(int index) {
         setAction();
         checkCollision();
         collisionOn = false;
@@ -136,12 +139,39 @@ public class GreenSlime extends Entity {
                 onPath = true;
             }
         }
+
+        if (life == 0) {
+            ga.greenSlime.get(index).monsterKill(index);
+        }
         //onPath = true;
 
         // De-aggro monster if you get 20 tiles away
 /*        if(onPath == true && tileDistance > 20) {
             onPath = false;
         }*/
+    }
+
+    public void monsterKill(int index) {
+        //saving coordinates right before despawn
+            int worldX = ga.greenSlime.get(index).worldX;
+            int worldY = ga.greenSlime.get(index).worldY;
+            ga.greenSlime.set(index, null);
+            // Add the new object to objM
+            ga.objM.addItem(new OBJ_Gold(ga), worldX, worldY);
+
+            //spawn a new slime after
+        int centerX = 55 * ga.TILE_SIZE;
+        int centerY = 50 * ga.TILE_SIZE;
+        int respawnRange = 40; // Adjust this value for the range around the center
+
+        int randomX = (int) (centerX - respawnRange + Math.random() * (15 * respawnRange));
+        int randomY = (int) (centerY - respawnRange + Math.random() * (15 * respawnRange));
+
+
+
+        ga.Monster.spawnMonster(new GreenSlime(ga), randomX, randomY);
+
+
     }
 
     public void setAction() {

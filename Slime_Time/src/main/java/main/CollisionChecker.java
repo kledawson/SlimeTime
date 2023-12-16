@@ -141,11 +141,11 @@ public class CollisionChecker {
 
     public List<Integer> checkMonster(Entity entity) {
         List<Integer> indices = new ArrayList<>();
-        for (int i = 0; i < ga.greenSlime.length; ++i) {
-            if (ga.greenSlime[i] != null && entity != ga.greenSlime[i]) {
-                Shape intersection = Shape.intersect(entity.solidArea, ga.greenSlime[i].solidArea);
+        for (int i = 0; i < ga.greenSlime.size(); ++i) {
+            if (ga.greenSlime.get(i) != null && entity != ga.greenSlime.get(i)) {
+                Shape intersection = Shape.intersect(entity.solidArea, ga.greenSlime.get(i).solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
-                    if (ga.greenSlime[i].collision) {
+                    if (ga.greenSlime.get(i).collision) {
                         entity.collisionOn = true;
                         indices.add(i);
                     }
