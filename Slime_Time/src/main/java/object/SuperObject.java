@@ -20,7 +20,7 @@ public class SuperObject {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // Hit box
     public boolean stackable;
     public int amount = 1;
-
+    //rendering when player gets into range for view
     public void render(GraphicsContext gc, GameApplication ga) {
         int screenX = worldX - ga.player.worldX + ga.player.screenX;
         int screenY = worldY - ga.player.worldY + ga.player.screenY;
@@ -33,7 +33,7 @@ public class SuperObject {
                 gc.drawImage(image.getImage(), screenX, screenY);
         }
     }
-
+//quick setup for images
     public void setup(String imageName, String fileType, int sizeX, int sizeY) {
         try {
             image = new ImageView(new Image(new FileInputStream("Slime_Time/res/" + fileType + "/" + imageName + ".png"), sizeX, sizeY, false, false));

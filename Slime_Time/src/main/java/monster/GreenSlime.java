@@ -14,9 +14,7 @@ import java.io.FileInputStream;
 import java.util.Random;
 
 public class GreenSlime extends Entity {
-    Node[][] node;
     GameApplication ga;
-    public Image greenSlime1, greenSlime2, greenSlime3, greenSlime4, greenSlime5;
 
     private int actionLockCounter = 0;
 
@@ -32,7 +30,6 @@ public class GreenSlime extends Entity {
         attackValue = 1;
 
         getGreenSlimeImage();
-        // updateGreenSlimeImage();
     }
 
 
@@ -56,7 +53,6 @@ public class GreenSlime extends Entity {
             catch (Exception ex) {
                 System.err.println("Error loading image: " + imageName);
                 ex.printStackTrace();
-                return null;
             }
         }
     }
@@ -71,32 +67,10 @@ public class GreenSlime extends Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gc.drawImage(greenSlime1, screenX, screenY);
+            gc.drawImage(images.get(-1 + spriteNum) , screenX, screenY);
         }
         gc.strokeRect(screenX + 3, screenY + 15, 42, 33);
     }
-
-//    public void updateGreenSlimeImage() {
-//
-//        if (life == 7 || life == 8) {
-//            greenSlime1 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 5 || life == 6) {
-//            greenSlime2 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 3 || life == 4) {
-//            greenSlime3 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 1 || life == 2) {
-//            greenSlime4 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 0) {
-//            greenSlime5 = setupGreenSlime("greenSlime1");
-//        }
-//        else {
-//            greenSlime1 = setupGreenSlime("greenSlime1");
-//        }
-//    }
 
     public void greenSlimeDamage(int damage) {
         if (iFrameCount >= 20) {
@@ -115,15 +89,11 @@ public class GreenSlime extends Entity {
         ga.cChecker.checkResource(this);
 
         if (!collisionOn) {
-            switch(direction){
-                case "up": worldY -= speed;
-                    break;
-                case "down": worldY += speed;
-                    break;
-                case "left": worldX -= speed;
-                    break;
-                case "right": worldX += speed;
-                    break;
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
             }
         }
         ((Rectangle)solidArea).setX(worldX + 3);
@@ -158,12 +128,6 @@ public class GreenSlime extends Entity {
         ++spriteCounter;
 
         ++iFrameCount;
-        //onPath = true;
-
-        // De-aggro monster if you get 20 tiles away
-/*        if(onPath == true && tileDistance > 20) {
-            onPath = false;
-        }*/
     }
 
     public void monsterKill(int index) {
@@ -298,12 +262,6 @@ public class GreenSlime extends Entity {
                 }
             }
 
-            // for slime to path to a specific tile
-/*            int nextCol = ga.pFinder.pathList.get(0).col;
-            int nextRow = ga.pFinder.pathList.get(0).row;
-            if(nextCol == goalCol && nextRow == goalRow) {
-                onPath = false;
-            }*/
         }
     }
 
