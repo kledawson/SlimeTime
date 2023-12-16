@@ -1,20 +1,12 @@
 package interactive_resources;
 
-import entity.Entity;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import main.GameApplication;
-import object.OBJ_Gold;
 import object.OBJ_Stone;
-import object.SuperObject;
-
-import java.io.FileInputStream;
 
 public class Rock extends SuperResource {
 
     public Rock(GameApplication ga, int worldCol, int worldRow) {
         super(ga, worldCol, worldRow);
-        String name = "Rock";
         getRockImage();
     }
 
@@ -34,9 +26,7 @@ public class Rock extends SuperResource {
             case 3 -> spriteNum = 2;
             case 2 -> spriteNum = 3;
             case 1 -> spriteNum = 4;
-            case 0 -> {
-               removeFromGame(i, new OBJ_Stone(ga));
-            }
+            case 0 -> removeFromGame(i, new OBJ_Stone(ga));
         }
         ++iFrameCount;
     }

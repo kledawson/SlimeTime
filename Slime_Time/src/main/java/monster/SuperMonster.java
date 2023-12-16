@@ -18,8 +18,6 @@ public class SuperMonster extends Entity {
 
     public boolean collision = false;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // Hit box
-    public int solidAreaDefaultX = 0;
-    public int solidAreaDefaultY = 0;
     int speed;
     int maxLife;
     int life = maxLife;
@@ -55,7 +53,6 @@ public class SuperMonster extends Entity {
     }
 
     public void render(GraphicsContext gc, GameApplication ga) {
-        GraphicsContext gcObj = gc;
         int screenX = worldX - ga.player.worldX + ga.player.screenX;
         int screenY = worldY - ga.player.worldY + ga.player.screenY;
 
@@ -64,7 +61,7 @@ public class SuperMonster extends Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gcObj.drawImage(monster, screenX, screenY);
+            gc.drawImage(monster, screenX, screenY);
         }
     }
 }

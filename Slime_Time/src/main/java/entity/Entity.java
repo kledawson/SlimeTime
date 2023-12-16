@@ -32,7 +32,6 @@ public class Entity {
     public Shape solidArea; // Hit box
     public int solidAreaDefaultX, solidAreaDefaultY; // Hit box Coordinates
     public boolean collision = false; // Collision State
-    public boolean destroyed = false;
     public boolean collisionOn;
     public String name;
     public boolean onPath = false;
@@ -45,7 +44,6 @@ public class Entity {
     public Entity(){}
 
     public void render(GraphicsContext gc, GameApplication ga) {
-        GraphicsContext gcObj = gc;
         int screenX = worldX - ga.player.worldX + ga.player.screenX;
         int screenY = worldY - ga.player.worldY + ga.player.screenY;
 
@@ -54,7 +52,7 @@ public class Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gcObj.drawImage(image.getImage(), screenX, screenY);
+            gc.drawImage(image.getImage(), screenX, screenY);
         }
     }
 

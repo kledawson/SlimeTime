@@ -2,8 +2,8 @@ package ai;
 
 import java.util.ArrayList;
 
+import interactive_resources.SuperResource;
 import main.GameApplication;
-import entity.Entity;
 
 public class PathFinder {
 
@@ -72,7 +72,7 @@ public class PathFinder {
         while(col < ga.MAX_WORLD_COL && row < ga.MAX_WORLD_ROW) {
 
             int tileNum = ga.tileM.mapTileNum[col][row];
-            if(ga.tileM.tile[tileNum].collision == true) {
+            if(ga.tileM.tile[tileNum].collision) {
                 node[col][row].solid = true;
             }
 
@@ -81,6 +81,13 @@ public class PathFinder {
             if(col == ga.MAX_WORLD_COL) {
                 col = 0;
                 row++;
+            }
+        }
+        for (SuperResource res : ga.resource) {
+            if (res != null) {
+                col = res.worldX / ga.TILE_SIZE;
+                row = res.worldY / ga.TILE_SIZE;
+                node[col][row].solid = true;
             }
         }
     }
@@ -101,7 +108,7 @@ public class PathFinder {
     }
     public boolean search() {
 
-        while(goalReached == false && step < 500) {
+        while(!goalReached && step < 500) {
 
             int col = currentNode.col;
             int row = currentNode.row;
@@ -137,7 +144,7 @@ public class PathFinder {
                 }
             }
 
-            if(openList.size() == 0) {
+            if(openList.isEmpty()) {
                 break;
             }
 
@@ -153,7 +160,7 @@ public class PathFinder {
     }
     public void openNode(Node node) {
 
-        if(node.open == false && node.checked == false && node.solid == false) {
+        if(!node.open && !node.checked && !node.solid) {
 
             node.open = true;
             node.parent = currentNode;

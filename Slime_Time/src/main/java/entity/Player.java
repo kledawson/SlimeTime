@@ -2,22 +2,15 @@ package entity;
 
 import Combat.Scythe;
 import Combat.Slingshot;
-import com.almasb.fxgl.core.collection.Array;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 import main.KeyHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import object.OBJ_Gold;
 import object.OBJ_Stone;
 import object.OBJ_Wood;
 import object.SuperObject;
-
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class Player extends Entity{
@@ -57,12 +50,12 @@ public class Player extends Entity{
 
         // Sets Hit box to be Smaller Than Sprite
         solidArea = new Rectangle();
-        ((Rectangle)solidArea).setX(ga.TILE_SIZE / 6 + worldX);
-        ((Rectangle)solidArea).setY(ga.TILE_SIZE / 3 + worldY);
+        ((Rectangle)solidArea).setX((double) ga.TILE_SIZE / 6 + worldX);
+        ((Rectangle)solidArea).setY((double) ga.TILE_SIZE / 3 + worldY);
         solidAreaDefaultX = (int) ((Rectangle)solidArea).getX();
         solidAreaDefaultY = (int) ((Rectangle)solidArea).getY();
-        ((Rectangle)solidArea).setWidth(ga.TILE_SIZE * 2 / 3);
-        ((Rectangle)solidArea).setHeight(ga.TILE_SIZE * 2 / 3);
+        ((Rectangle)solidArea).setWidth((double) (ga.TILE_SIZE * 2) / 3);
+        ((Rectangle)solidArea).setHeight((double) (ga.TILE_SIZE * 2) / 3);
 
         scythe = new Scythe(ga, this);
         slingshot = new Slingshot(ga, this);
@@ -141,7 +134,7 @@ public class Player extends Entity{
         int tempWorldX = worldX;
         int tempWorldY = worldY;
 
-        double diagonalSpeed = speed / Math.sqrt(2); // Calculate diagonal speed
+        int diagonalSpeed = (int) (speed / Math.sqrt(2)); // Calculate diagonal speed
         if (KeyHandler.upPressed || KeyHandler.downPressed || KeyHandler.leftPressed || KeyHandler.rightPressed) {
             if (KeyHandler.upPressed) {
                 if (KeyHandler.leftPressed) {
@@ -179,14 +172,13 @@ public class Player extends Entity{
         }
 
         // Changes Hitbox Coordinates
-        ((Rectangle)solidArea).setX(ga.TILE_SIZE / 6 + worldX);
-        ((Rectangle)solidArea).setY(ga.TILE_SIZE / 3 + worldY);
+        ((Rectangle)solidArea).setX((double) ga.TILE_SIZE / 6 + worldX);
+        ((Rectangle)solidArea).setY((double) ga.TILE_SIZE / 3 + worldY);
 
         // Checks Collision
         collisionOn = false;
         ga.cChecker.checkTile(this);
         ga.cChecker.checkResource(this);
-        ga.cChecker.checkMonster(this);
         int objIndex = ga.cChecker.checkObject(this);
         pickUpObject(objIndex);
 
@@ -281,11 +273,6 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
 }
 
     public void upgradeBoots() {
-
-        int bootsGoldIncrease = 1;
-        int bootsStoneIncrease = 1;
-        int bootsWoodIncrease = 1;
-
         if (hasRequiredItems(bootsGoldCost, bootsStoneCost, bootsWoodCost)) {
             int goldIndex = searchItemInInventory("Gold");
             int stoneIndex = searchItemInInventory("Stone");
@@ -298,45 +285,13 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
             // apply upgrade to player
             speed++;
             // Update the costs for the next upgrade
-            bootsGoldCost += bootsGoldIncrease;
-            bootsStoneCost += bootsStoneIncrease;
-            bootsWoodCost += bootsWoodIncrease;
-        }
-    }
-
-    public void upgradeMelee() {
-
-        int meleeGoldIncrease = 1;
-        int meleeStoneIncrease = 1;
-        int meleeWoodIncrease = 1;
-
-        // Check if player has required items in inventory
-        if (hasRequiredItems(meleeGoldCost, meleeStoneCost, meleeWoodCost)) {
-            int goldIndex = searchItemInInventory("Gold");
-            int stoneIndex = searchItemInInventory("Stone");
-            int woodIndex = searchItemInInventory("Wood");
-
-            inventory.get(goldIndex).amount -= meleeGoldCost;
-            inventory.get(stoneIndex).amount -= meleeStoneCost;
-            inventory.get(woodIndex).amount -= meleeWoodCost;
-
-            //apply upgrade
-            scythe.attackValue++;
-            scythe.attackSpeed -= 5;
-
-            // Update the costs for the next upgrade
-            meleeGoldCost += meleeGoldIncrease;
-            meleeStoneCost += meleeStoneIncrease;
-            meleeWoodCost += meleeWoodIncrease;
+            ++bootsGoldCost;
+            ++bootsStoneCost;
+            ++bootsWoodCost;
         }
     }
 
     public void upgradeArmor() {
-        // Similar implementation as upgradeMelee()
-        int armorGoldIncrease = 1;
-        int armorStoneIncrease = 1;
-        int armorWoodIncrease = 1;
-
         // Check if player has required items in inventory
         if (hasRequiredItems(armorGoldCost, armorStoneCost, armorWoodCost)) {
             int goldIndex = searchItemInInventory("Gold");
@@ -352,80 +307,51 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
             life++;
 
             // Update the costs for the next upgrade
-            armorGoldCost += armorGoldIncrease;
-            armorStoneCost += armorStoneIncrease;
-            armorWoodCost += armorWoodIncrease;
+            ++armorGoldCost;
+            ++armorStoneCost;
+            ++armorWoodCost;
         }
     }
-
-    public void upgradeProjectile() {
-        // Similar implementation as upgradeMelee()
-        int projectileGoldIncrease = 1;
-        int projectileStoneIncrease = 1;
-        int projectileWoodIncrease = 1;
-
-        // Check if player has required items in inventory
-        if (hasRequiredItems(projectileGoldCost, projectileStoneCost, projectileWoodCost)) {
-            int goldIndex = searchItemInInventory("Gold");
-            int stoneIndex = searchItemInInventory("Stone");
-            int woodIndex = searchItemInInventory("Wood");
-
-            inventory.get(goldIndex).amount -= projectileGoldCost;
-            inventory.get(stoneIndex).amount -= projectileStoneCost;
-            inventory.get(woodIndex).amount -= projectileWoodCost;
-
-            //apply upgrade
-            slingshot.attackValue++;
-            slingshot.speed += 2;
-
-            // Update the costs for the next upgrade
-            projectileGoldCost += projectileGoldIncrease;
-            projectileStoneCost += projectileStoneIncrease;
-            projectileWoodCost += projectileWoodIncrease;
-        }
-    }
-
 
     // Render Method
     public void render(GraphicsContext gc) {
-        GraphicsContext gcPlayer = gc;
         Image image = null;
 
         // Sets Sprite Based on Direction and Animation Frame
         switch(scythe.direction) {
-            case "up" -> {
+            case "up" ->
                 image = images.get(-1 + spriteNum);
-            }
-            case "down" -> {
+
+            case "down" ->
                 image = images.get(2 + spriteNum);
-            }
-            case "left" -> {
+
+            case "left" ->
                 image = images.get(5 + spriteNum);
-            }
-            case "right" -> {
+
+            case "right" ->
                 image = images.get(8 + spriteNum);
-            }
-            case "left_up" -> {
+
+            case "left_up" ->
                 image = images.get(11 + spriteNum);
-            }
-            case "left_down" -> {
+
+            case "left_down" ->
                 image = images.get(14 + spriteNum);
-            }
-            case "right_up" -> {
+
+            case "right_up" ->
                 image = images.get(17 + spriteNum);
-            }
-            case "right_down" -> {
+
+            case "right_down" ->
                 image = images.get(20 + spriteNum);
-            }
+
 
         }
 
         // Renders Player
-        gcPlayer.drawImage(image, screenX, screenY);
+        gc.drawImage(image, screenX, screenY);
 
         // Renders Player Hit box
         //gcPlayer.setStroke(Color.TRANSPARENT);
-        gcPlayer.strokeRect(screenX + 8, screenY + 16, 32, 32);
+        gc.strokeRect(screenX + 8, screenY + 16, 32, 32);
         scythe.render(gc);
         slingshot.render(gc);
     }

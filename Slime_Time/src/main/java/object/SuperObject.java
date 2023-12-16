@@ -18,13 +18,10 @@ public class SuperObject {
     public boolean collision = false;
     public int worldX, worldY;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48); // Hit box
-    public int solidAreaDefaultX = 0;
-    public int solidAreaDefaultY = 0;
     public boolean stackable;
     public int amount = 1;
 
     public void render(GraphicsContext gc, GameApplication ga) {
-        GraphicsContext gcObj = gc;
         int screenX = worldX - ga.player.worldX + ga.player.screenX;
         int screenY = worldY - ga.player.worldY + ga.player.screenY;
 
@@ -33,7 +30,7 @@ public class SuperObject {
             worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
             worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
             worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-                gcObj.drawImage(image.getImage(), screenX, screenY);
+                gc.drawImage(image.getImage(), screenX, screenY);
         }
     }
 
