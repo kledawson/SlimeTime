@@ -232,20 +232,17 @@ public class Player extends Entity{
         }
         return itemIndex;
     }
-
     public void pickUpObject(int i) {
         if (i != 999) {
             //pickup only
-
-            String text;
-            if (canObtainItem(ga.obj[i])) {
-                text = ga.obj[i].name + "acquired!";
+            if (canObtainItem(ga.obj.get(i))) {
+                System.out.println(ga.obj.get(i).name + " acquired!");
             }
             else {
-                text = "You cannot carry anymore";
+                System.out.println("Can't carry anymore!");
             }
             // ga.ui.addMessage(text); ->  implement later
-            ga.obj[i] = null;
+            ga.obj.set(i, null);
         }
     }
     public boolean canObtainItem(SuperObject item) {

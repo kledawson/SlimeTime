@@ -120,11 +120,11 @@ public class CollisionChecker {
     // Returns Which Index of Which Object is Being Collided
     public int checkObject(Entity entity) {
         int index = 999;
-        for (int i = 0; i < ga.obj.length; ++i) {
-            if (ga.obj[i] != null) {
-                Shape intersection = Shape.intersect(entity.solidArea, ga.obj[i].solidArea);
+        for (int i = 0; i < ga.obj.size(); ++i) {
+            if (ga.obj.get(i) != null) {
+                Shape intersection = Shape.intersect(entity.solidArea, ga.obj.get(i).solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
-                    if (ga.obj[i].collision) {
+                    if (ga.obj.get(i).collision) {
                         entity.collisionOn = true;
                         index = i;
                     }

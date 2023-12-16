@@ -29,11 +29,13 @@ import interactive_resources.ResourceManager;
 import monster.MonsterManager;
 import monster.GreenSlime;
 import monster.SuperMonster;
+import object.OBJ_Stone;
 import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
 import interactive_resources.Rock;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -67,7 +69,9 @@ public class GameApplication extends Application {
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
-    public SuperObject[] obj = new SuperObject[10];
+//    public SuperObject[] obj = new SuperObject[12];
+
+    public ArrayList<SuperObject> obj = new ArrayList<SuperObject>();
     public UI ui = new UI(this);
     public Player player = new Player(this, keyH);
     public ResourceManager Resource = new ResourceManager(this);
@@ -75,6 +79,7 @@ public class GameApplication extends Application {
     public MonsterManager GreenSlime = new MonsterManager(this);
 
     public SuperResource[] resource = new SuperResource[10];
+    public SuperResource superResource;
     public Entity[] rock = new Entity[10];
     public Entity[] tree = new Entity[10];
 
@@ -302,10 +307,10 @@ public class GameApplication extends Application {
 
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
-        objM.setObject();
         Resource.setResource();
         Monster.setMonster();
         GreenSlime.setGreenSlime();
+
         // playMusic(0);
         gameState = playState;
     }
@@ -316,6 +321,7 @@ public class GameApplication extends Application {
     // Game Loop
     public void startGameLoop(GraphicsContext gc) {
         System.out.println("Setup Game");
+        objM.setObject();
         setupGame();
         new AnimationTimer() {
             double drawInterval = 1000000000 / FPS; // Running at Certain FPS
@@ -357,27 +363,26 @@ public class GameApplication extends Application {
         if (gameState == playState) {
             player.update();
 
+
             for (Entity entity : greenSlime) {
                 if (entity != null) {
                     ((GreenSlime) entity).updateGreenSlime();
                 }
             }
-            for (SuperResource superResource : resource) {
-                if (superResource != null) {
-                    if (superResource instanceof Rock) {
-                        ((Rock) superResource).update();
-                    }
-                    else if (superResource instanceof Tree) {
-                        ((Tree) superResource).update();
+
+            for (int i = 0; i < resource.length; i++) {
+                if (resource[i] != null) {
+                    if (resource[i] instanceof Rock) {
+                        ((Rock) resource[i]).update(i);
+                    } else if (resource[i] instanceof Tree) {
+                        ((Tree) resource[i]).update(i);
+                        // Add logic here if needed for Tree resources
                     }
                 }
             }
         }
-
-/*        if (gameState == pauseState) {
-            // Pause State
-        }*/
     }
+
 
     public void render(GraphicsContext gc) {
         long drawStart = 0;

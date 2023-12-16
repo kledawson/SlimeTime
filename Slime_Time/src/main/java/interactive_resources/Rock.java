@@ -4,6 +4,9 @@ import entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import main.GameApplication;
+import object.OBJ_Gold;
+import object.OBJ_Stone;
+import object.SuperObject;
 
 import java.io.FileInputStream;
 
@@ -24,13 +27,18 @@ public class Rock extends SuperResource {
         setup("rock_broken", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
     }
 
-    public void update() {
+    public void update(int i) {
+       // int index = ga.cChecker.checkResource(this);
         switch (life) {
             case 4 -> spriteNum = 1;
             case 3 -> spriteNum = 2;
             case 2 -> spriteNum = 3;
             case 1 -> spriteNum = 4;
-            case 0 -> spriteNum = 5;
+            case 0 -> {
+               removeFromGame(i, new OBJ_Stone(ga));
+            }
         }
+
     }
+
 }

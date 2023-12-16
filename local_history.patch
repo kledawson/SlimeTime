@@ -1,0 +1,16 @@
+Index: Slime_Time/src/main/java/object/ObjectManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Slime_Time/src/main/java/object/ObjectManager.java b/Slime_Time/src/main/java/object/ObjectManager.java
+--- a/Slime_Time/src/main/java/object/ObjectManager.java	
++++ b/Slime_Time/src/main/java/object/ObjectManager.java	(date 1702692876173)
+@@ -24,7 +24,6 @@
+         addItem(new OBJ_Gold(ga), 69 * ga.TILE_SIZE,64 * ga.TILE_SIZE);
+         addItem(new OBJ_Gold(ga), 70 * ga.TILE_SIZE,64 * ga.TILE_SIZE);
+         addItem(new OBJ_Gold(ga), 71 * ga.TILE_SIZE,64 * ga.TILE_SIZE);
+-
+     }
+ 
+     public void addItem(SuperObject item, int worldCol, int worldRow) {
