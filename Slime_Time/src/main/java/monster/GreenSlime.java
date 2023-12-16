@@ -152,7 +152,6 @@ public class GreenSlime extends Entity {
             ga.objM.addItem(new OBJ_Gold(ga), worldX, worldY);
 
             //spawn a new slime after
-        //2512, 3852
         int[][] spawnPoints = {
                 {70 * ga.TILE_SIZE, 64 * ga.TILE_SIZE},
                 {70 * ga.TILE_SIZE, 50 * ga.TILE_SIZE},
