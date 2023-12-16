@@ -1,5 +1,6 @@
 package main;
 
+import ai.PathFinder;
 import entity.Entity;
 import interactive_resources.SuperResource;
 import interactive_resources.Tree;
@@ -47,8 +48,8 @@ public class GameApplication extends Application {
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
     public final int MAX_SCREEN_COL_SMALL = 24;
     public final int MAX_SCREEN_ROW_SMALL = 16;
-    public final int MAX_SCREEN_COL_LARGE = 48;
-    public final int MAX_SCREEN_ROW_LARGE = 26;
+    public final int MAX_SCREEN_COL_LARGE = 44;
+    public final int MAX_SCREEN_ROW_LARGE = 24;
 
     // Current maximum screen col and row values
     public int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
@@ -64,7 +65,7 @@ public class GameApplication extends Application {
     int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_LARGE;
     int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_LARGE;
 
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this, false);
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -73,6 +74,9 @@ public class GameApplication extends Application {
 
     public ArrayList<SuperObject> obj = new ArrayList<SuperObject>();
     public UI ui = new UI(this);
+    public PathFinder pFinder = new PathFinder(this);
+
+
     public Player player = new Player(this, keyH);
     public ResourceManager Resource = new ResourceManager(this);
     public MonsterManager Monster = new MonsterManager(this);
