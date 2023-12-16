@@ -1,9 +1,7 @@
 package main;
 
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import java.io.File;
 
 // Handles PLaying Music, Sound Effects
 public class Sound {
@@ -19,12 +17,9 @@ public class Sound {
     }
 
     public void loop(int num) {
-        soundMedia[num].setOnEndOfMedia(new Runnable() {
-           @Override
-           public void run() {
-               soundMedia[num].seek(Duration.ZERO);
-               soundMedia[num].play();
-           }
+        soundMedia[num].setOnEndOfMedia(() -> {
+            soundMedia[num].seek(Duration.ZERO);
+            soundMedia[num].play();
         });
     }
     public void stop(int num) {

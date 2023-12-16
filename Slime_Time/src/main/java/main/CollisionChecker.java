@@ -1,10 +1,8 @@
 package main;
 
 import entity.Entity;
-import javafx.scene.shape.Arc;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import monster.GreenSlime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,10 @@ public class CollisionChecker {
 
     private void checkTileUtil(Entity entity, int tileNum1, int col1, int row1) {
         if (ga.tileM.tile[tileNum1].collision) {
+//            if (entity != ga.player) {
+//                entity.collisionOn = true;
+//                return;
+//            }
             ga.tileM.tile[tileNum1].solidArea.setTranslateX(col1 * ga.TILE_SIZE);
             ga.tileM.tile[tileNum1].solidArea.setTranslateY(row1 * ga.TILE_SIZE);
             Shape intersection = Shape.intersect(entity.solidArea, ga.tileM.tile[tileNum1].solidArea);
@@ -47,36 +49,36 @@ public class CollisionChecker {
         int tileNum1, tileNum2, tileNum3;
 
         // Determines Collision by Checking Which Tiles the Entity is Adjacent to
-        switch(entity.direction) {
-            case "up":
+        switch (entity.direction) {
+            case "up" -> {
                 entityTopRow = (entityTopWorldY - entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
                 checkTileUtil(entity, tileNum1, entityLeftCol, entityTopRow);
                 checkTileUtil(entity, tileNum2, entityRightCol, entityTopRow);
-                break;
-            case "down":
+            }
+            case "down" -> {
                 entityBottomRow = (entityBottomWorldY + entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 checkTileUtil(entity, tileNum1, entityLeftCol, entityBottomRow);
                 checkTileUtil(entity, tileNum2, entityRightCol, entityBottomRow);
-                break;
-            case "left":
+            }
+            case "left" -> {
                 entityLeftCol = (entityLeftWorldX - entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 checkTileUtil(entity, tileNum1, entityLeftCol, entityTopRow);
                 checkTileUtil(entity, tileNum2, entityLeftCol, entityBottomRow);
-                break;
-            case "right":
+            }
+            case "right" -> {
                 entityRightCol = (entityRightWorldX + entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
                 tileNum2 = ga.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 checkTileUtil(entity, tileNum1, entityRightCol, entityTopRow);
                 checkTileUtil(entity, tileNum2, entityRightCol, entityBottomRow);
-                break;
-            case "left_up":
+            }
+            case "left_up" -> {
                 entityLeftCol = (entityLeftWorldX - entity.speed) / ga.TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
@@ -85,8 +87,8 @@ public class CollisionChecker {
                 checkTileUtil(entity, tileNum1, entityLeftCol, entityTopRow);
                 checkTileUtil(entity, tileNum2, entityLeftCol, entityBottomRow);
                 checkTileUtil(entity, tileNum3, entityRightCol, entityTopRow);
-                break;
-            case "left_down":
+            }
+            case "left_down" -> {
                 entityLeftCol = (entityLeftWorldX - entity.speed) / ga.TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityLeftCol][entityTopRow];
@@ -95,8 +97,8 @@ public class CollisionChecker {
                 checkTileUtil(entity, tileNum1, entityLeftCol, entityTopRow);
                 checkTileUtil(entity, tileNum2, entityLeftCol, entityBottomRow);
                 checkTileUtil(entity, tileNum3, entityRightCol, entityBottomRow);
-                break;
-            case "right_up":
+            }
+            case "right_up" -> {
                 entityRightCol = (entityRightWorldX + entity.speed) / ga.TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
@@ -105,8 +107,8 @@ public class CollisionChecker {
                 checkTileUtil(entity, tileNum1, entityRightCol, entityTopRow);
                 checkTileUtil(entity, tileNum2, entityRightCol, entityBottomRow);
                 checkTileUtil(entity, tileNum3, entityLeftCol, entityTopRow);
-                break;
-            case "right_down":
+            }
+            case "right_down" -> {
                 entityRightCol = (entityRightWorldX + entity.speed) / ga.TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed) / ga.TILE_SIZE;
                 tileNum1 = ga.tileM.mapTileNum[entityRightCol][entityTopRow];
@@ -115,7 +117,7 @@ public class CollisionChecker {
                 checkTileUtil(entity, tileNum1, entityRightCol, entityTopRow);
                 checkTileUtil(entity, tileNum2, entityRightCol, entityBottomRow);
                 checkTileUtil(entity, tileNum3, entityLeftCol, entityBottomRow);
-                break;
+            }
         }
     }
 

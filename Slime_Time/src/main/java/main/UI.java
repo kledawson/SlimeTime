@@ -2,17 +2,11 @@ package main;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
-
-import javafx.scene.control.*;
 import object.SuperObject;
-
 import java.io.FileInputStream;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,17 +15,12 @@ public class UI {
     GameApplication ga;
     GraphicsContext gc;
 
-    Font arial_40, arial_80B;
     Font pix20, pix23, pix80;
     //    ImageView keyImage;
     public List<Image> images = new ArrayList<>();
     public boolean messageOn = false;
     public String message = "";
-    int messageCounter = 0;
-    public boolean gameFinished = false;
     public boolean showUpgradeScreen = false;
-    double playTime;
-    DecimalFormat dFormat  = new DecimalFormat("#0.00");
 
     // Variables to store upgrade costs
 
@@ -82,10 +71,10 @@ public class UI {
         }
     }
 
-    public void showMessage(String text) {
-        message = text;
-        messageOn = true;
-    }
+//    public void showMessage(String text) {
+//        message = text;
+//        messageOn = true;
+//    }
     public void render(GraphicsContext gc) {
         this.gc = gc;
         gc.setFill(Color.WHITE);
@@ -136,8 +125,8 @@ public class UI {
         gc.fillText("Hit Points:", rectangleX + ga.TILE_SIZE, yStart, rectangleWidth);
         gc.fillText(ga.player.life + "/" + ga.player.maxLife, textCenterX, yStart);
 
-        gc.fillText("Melee ATK:", rectangleX + ga.TILE_SIZE, yStart + 1 * lineHeight, rectangleWidth);
-        gc.fillText(Integer.toString(ga.player.scythe.attackValue), textCenterX, yStart + 1 * lineHeight);
+        gc.fillText("Melee ATK:", rectangleX + ga.TILE_SIZE, yStart + lineHeight, rectangleWidth);
+        gc.fillText(Integer.toString(ga.player.scythe.attackValue), textCenterX, yStart + lineHeight);
 
         gc.fillText("MATK Speed:", rectangleX + ga.TILE_SIZE, yStart + 2 * lineHeight, rectangleWidth);
         gc.fillText(String.format("%.2f", (double)(ga.player.scythe.attackSpeed) / 60) + " PER SECOND", textCenterX, yStart + 2 * lineHeight);
@@ -250,7 +239,7 @@ public class UI {
 
         // Negative Button Images
         int buttonX2 = ga.SCREEN_WIDTH / 9 + ga.TILE_SIZE * 17 / 2;
-        int buttonY2 = ga.SCREEN_HEIGHT / 8 + ga.TILE_SIZE + 28;;
+        int buttonY2 = ga.SCREEN_HEIGHT / 8 + ga.TILE_SIZE + 28;
         if (!ga.player.hasRequiredItems(ga.player.armorGoldCost, ga.player.armorStoneCost, ga.player.armorWoodCost)) {
             gc.drawImage(images.get(10), buttonX2, buttonY2);
             ga.upgradeArmorButton.setVisible(false);
@@ -287,15 +276,9 @@ public class UI {
             // Update costs and button text
            ga.player.upgradeBoots();
         });
-        ga.upgradeMeleeButton.setOnMouseClicked(e -> {
-            ga.player.upgradeMelee();
-        });
-        ga.upgradeArmorButton.setOnMouseClicked(e -> {
-            ga.player.upgradeArmor();
-        });
-        ga.upgradeProjectileButton.setOnMouseClicked(e -> {
-            ga.player.upgradeProjectile();
-        });
+        ga.upgradeMeleeButton.setOnMouseClicked(e -> ga.player.scythe.upgrade());
+        ga.upgradeArmorButton.setOnMouseClicked(e -> ga.player.upgradeArmor());
+        ga.upgradeProjectileButton.setOnMouseClicked(e -> ga.player.slingshot.upgrade());
 
         renderInventory();
     }

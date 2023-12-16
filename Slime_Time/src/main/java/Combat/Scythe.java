@@ -7,8 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import main.GameApplication;
-
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,57 +46,74 @@ public class Scythe extends Entity implements Weapon {
 
     @Override
     public void upgrade() {
+        if (player.hasRequiredItems(player.meleeGoldCost, player.meleeStoneCost, player.meleeWoodCost)) {
+            int goldIndex = player.searchItemInInventory("Gold");
+            int stoneIndex = player.searchItemInInventory("Stone");
+            int woodIndex = player.searchItemInInventory("Wood");
 
+            player.inventory.get(goldIndex).amount -= player.meleeGoldCost;
+            player.inventory.get(stoneIndex).amount -= player.meleeStoneCost;
+            player.inventory.get(woodIndex).amount -= player.meleeWoodCost;
+
+            //apply upgrade
+            ++attackValue;
+            attackSpeed *= 2.0 / 3;
+
+            // Update the costs for the next upgrade
+            ++player.meleeGoldCost;
+            ++player.meleeStoneCost;
+            ++player.meleeWoodCost;
+        }
     }
 
     public void getScytheSolidAreas() {
         for (int i = 0; i < 6; ++i) {
             scytheSolidAreas.add(new Polygon());
         }
-        scytheSolidAreas.get(0).getPoints().addAll(new Double[]{
+        scytheSolidAreas.get(0).getPoints().addAll(
                 0.0, 0.0,
                 0.0, 30.0,
                 48.0, 0.0,
-                48.0, 30.0,
-        });
-        scytheSolidAreas.get(1).getPoints().addAll(new Double[]{
+                48.0, 30.0
+        );
+        scytheSolidAreas.get(1).getPoints().addAll(
                 0.0, 0.0,
                 0.0, 48.0,
                 30.0, 0.0,
-                30.0, 48.0,
-        });
-        scytheSolidAreas.get(2).getPoints().addAll(new Double[]{
+                30.0, 48.0
+        );
+        scytheSolidAreas.get(2).getPoints().addAll(
                 0.0, 0.0,
                 0.0, 45.0,
                 24.0, 24.0,
                 24.0, 45.0,
                 45.0, 0.0,
-                45.0, 24.0,
-        });
-        scytheSolidAreas.get(3).getPoints().addAll(new Double[]{
+                45.0, 24.0
+        );
+        scytheSolidAreas.get(3).getPoints().addAll(
                 0.0, 0.0,
                 0.0, 45.0,
                 24.0, 0.0,
                 24.0, 21.0,
                 45.0, 21.0,
-                45.0, 45.0,
-        });
-        scytheSolidAreas.get(4).getPoints().addAll(new Double[]{
+                45.0, 45.0
+        );
+        scytheSolidAreas.get(4).getPoints().addAll(
                 0.0, 21.0,
                 0.0, 45.0,
                 21.0, 0.0,
                 21.0, 21.0,
                 45.0, 0.0,
-                45.0, 45.0,
-        });
-        scytheSolidAreas.get(5).getPoints().addAll(new Double[]{
+                45.0, 45.0
+        );
+        scytheSolidAreas.get(5).getPoints().addAll(
                 0.0, 0.0,
                 0.0, 24.0,
                 21.0, 24.0,
                 21.0, 45.0,
                 45.0, 0.0,
-                45.0, 45.0,
-        });
+                45.0, 45.0
+        );
     }
 
     public void getWeaponImage() {
@@ -152,7 +167,7 @@ public class Scythe extends Entity implements Weapon {
                 direction = "right_up";
             } else if (yDiff <= 0 && (mouseAngle > 67.5 || mouseAngle <= -67.5)) {
                 direction = "up";
-            } else if (yDiff <= 0 && mouseAngle > 22.5 && mouseAngle <= 67.5) {
+            } else if (yDiff <= 0 && mouseAngle > 22.5) {
                 direction = "left_up";
             } else if (xDiff <= 0 && mouseAngle > -22.5 && mouseAngle <= 22.5) {
                 direction = "left";
@@ -160,9 +175,9 @@ public class Scythe extends Entity implements Weapon {
                 direction = "left_down";
             } else if (mouseAngle > 67.5 || mouseAngle <= -67.5) {
                 direction = "down";
-            } else if (mouseAngle > 22.5 && mouseAngle <= 67.5) {
+            } else if (mouseAngle > 22.5) {
                 direction = "right_down";
-            } else if (mouseAngle > -22.5 && mouseAngle <= 22.5) {
+            } else if (mouseAngle > -22.5) {
                 direction = "right";
             }
 
@@ -191,34 +206,34 @@ public class Scythe extends Entity implements Weapon {
                 case "left_down" -> {
                     solidArea = scytheSolidAreas.get(3);
                     solidArea.setTranslateX(player.worldX - 7 * ga.SCALE);
-                    solidArea.setTranslateY(player.worldY + 7 * ga.SCALE + ga.TILE_SIZE);
+                    solidArea.setTranslateY(player.worldY + 8 * ga.SCALE);
                     screenX = player.screenX - ga.TILE_SIZE / 2;
                     screenY = player.screenY + ga.TILE_SIZE / 2;
                 }
                 case "down" -> {
                     solidArea = scytheSolidAreas.get(0);
                     solidArea.setTranslateX(player.worldX);
-                    solidArea.setTranslateY(player.worldY + 9 * ga.SCALE + ga.TILE_SIZE);
+                    solidArea.setTranslateY(player.worldY - ga.SCALE + ga.TILE_SIZE);
                     screenX = player.screenX;
                     screenY = player.screenY + ga.TILE_SIZE - ga.SCALE;
                 }
                 case "right_down" -> {
                     solidArea = scytheSolidAreas.get(4);
-                    solidArea.setTranslateX(player.worldX + 7 * ga.SCALE + ga.TILE_SIZE);
-                    solidArea.setTranslateY(player.worldY + 7 * ga.SCALE + ga.TILE_SIZE);
+                    solidArea.setTranslateX(player.worldX + 8 * ga.SCALE);
+                    solidArea.setTranslateY(player.worldY + 8 * ga.SCALE);
                     screenX = player.screenX + ga.TILE_SIZE / 2;
                     screenY = player.screenY + ga.TILE_SIZE / 2;
                 }
                 case "right" -> {
                     solidArea = scytheSolidAreas.get(1);
-                    solidArea.setTranslateX(player.worldX + 9 * ga.SCALE + ga.TILE_SIZE);
+                    solidArea.setTranslateX(player.worldX - ga.SCALE + ga.TILE_SIZE);
                     solidArea.setTranslateY(player.worldY);
                     screenX = player.screenX + ga.TILE_SIZE - ga.SCALE;
                     screenY = player.screenY;
                 }
                 case "right_up" -> {
                     solidArea = scytheSolidAreas.get(5);
-                    solidArea.setTranslateX(player.worldX + 7 * ga.SCALE + ga.TILE_SIZE);
+                    solidArea.setTranslateX(player.worldX + 8 * ga.SCALE);
                     solidArea.setTranslateY(player.worldY - 7 * ga.SCALE);
                     screenX = player.screenX + ga.TILE_SIZE / 2;
                     screenY = player.screenY - ga.TILE_SIZE / 2;
@@ -228,11 +243,9 @@ public class Scythe extends Entity implements Weapon {
 
         // Swing Animation & Hit Detection
         if (attacking) {
-//            int monIndex = ga.cChecker.checkMonster(this);
-
-//
-//            if (monIndex != 999) {
-//                // ga.monsters[monIndex].takeDamage(damage);
+//            List<Integer> monIndices = ga.cChecker.checkMonster(this);
+//            for (Integer index : monIndices) {
+//                ga.greenSlime[index].takeDamage();
 //            }
 
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
@@ -262,37 +275,36 @@ public class Scythe extends Entity implements Weapon {
     }
 
     public void render(GraphicsContext gc) {
-        GraphicsContext gcScythe = gc;
         Image image = null;
         if (attacking) {
             switch(direction) {
-                case "up" -> {
+                case "up" ->
                     image = images.get(-1 + spriteNum);
-                }
-                case "down" -> {
+
+                case "down" ->
                     image = images.get(3 + spriteNum);
-                }
-                case "left" -> {
+
+                case "left" ->
                     image = images.get(7 + spriteNum);
-                }
-                case "right" -> {
+
+                case "right" ->
                     image = images.get(11 + spriteNum);
-                }
-                case "left_up" -> {
+
+                case "left_up" ->
                     image = images.get(15 + spriteNum);
-                }
-                case "left_down" -> {
+
+                case "left_down" ->
                     image = images.get(19 + spriteNum);
-                }
-                case "right_up" -> {
+
+                case "right_up" ->
                     image = images.get(23 + spriteNum);
-                }
-                case "right_down" -> {
+
+                case "right_down" ->
                     image = images.get(27 + spriteNum);
-                }
+
             }
 
-            gcScythe.drawImage(image, screenX, screenY);
+            gc.drawImage(image, screenX, screenY);
         }
     }
 }

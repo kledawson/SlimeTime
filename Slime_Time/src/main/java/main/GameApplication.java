@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -21,24 +20,18 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import entity.Player;
 import interactive_resources.ResourceManager;
 import monster.MonsterManager;
 import monster.GreenSlime;
-import monster.SuperMonster;
-import object.OBJ_Stone;
 import object.ObjectManager;
 import object.SuperObject;
 import tile.TileManager;
 import interactive_resources.Rock;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Objects;
-
 
 // Game Application
 public class GameApplication extends Application {
@@ -48,8 +41,8 @@ public class GameApplication extends Application {
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
     public final int MAX_SCREEN_COL_SMALL = 24;
     public final int MAX_SCREEN_ROW_SMALL = 16;
-    public final int MAX_SCREEN_COL_LARGE = 44;
-    public final int MAX_SCREEN_ROW_LARGE = 24;
+//    public final int MAX_SCREEN_COL_LARGE = 44;
+//    public final int MAX_SCREEN_ROW_LARGE = 24;
 
     // Current maximum screen col and row values
     public int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
@@ -62,8 +55,8 @@ public class GameApplication extends Application {
     int FPS = 60;
 
     //for full screen UI
-    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_LARGE;
-    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_LARGE;
+//    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_LARGE;
+//    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_LARGE;
 
     public TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this, false);
@@ -72,7 +65,7 @@ public class GameApplication extends Application {
     public ObjectManager objM = new ObjectManager(this);
 //    public SuperObject[] obj = new SuperObject[12];
 
-    public ArrayList<SuperObject> obj = new ArrayList<SuperObject>();
+    public ArrayList<SuperObject> obj = new ArrayList<>();
     public UI ui = new UI(this);
     public PathFinder pFinder = new PathFinder(this);
 
@@ -82,13 +75,12 @@ public class GameApplication extends Application {
     public MonsterManager Monster = new MonsterManager(this);
     public MonsterManager GreenSlime = new MonsterManager(this);
 
-    public SuperResource[] resource = new SuperResource[10];
-    public SuperResource superResource;
+    public SuperResource[] resource = new SuperResource[80];
     public Entity[] rock = new Entity[10];
     public Entity[] tree = new Entity[10];
 
-    public Entity monster[] = new Entity[10];
-    public Entity greenSlime[] = new Entity[10];
+    public Entity[] monster = new Entity[10];
+    public Entity[] greenSlime = new Entity[10];
 
     public int gameState;
     public final int titleState = 0;
@@ -96,7 +88,6 @@ public class GameApplication extends Application {
     public final int pauseState = 2;
     public final int characterState = 3;
     public Pane root;
-    public boolean upgradeButtonsVisible = false;
     public boolean showTitleScreen = true;
     private Canvas canvas;
     public double mouseX;
@@ -135,28 +126,10 @@ public class GameApplication extends Application {
 
         root.getChildren().add(canvas);
 
-//        Button showUpgradeScreenButton = new Button("Upgrade");
-//        showUpgradeScreenButton.setOnAction(e -> {
-//            if (!upgradeButtonsVisible) {
-//                ui.renderUpgradeScreen();
-//                upgradeButtonsVisible = true;
-//            } else {
-//                upgradeButtonsVisible = false;
-//            }
-//        });
-//        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
-//        showUpgradeScreenButton.setLayoutY(20);
-//
-//
-//        // Add the button to the root pane
-//        root.getChildren().add(showUpgradeScreenButton);
-
-
         // Set button positions and sizes
         int buttonWidth = TILE_SIZE * 5 / 2;
         int buttonHeight = TILE_SIZE + 18;
         int buttonSpacing = TILE_SIZE + 6; // Spacing between buttons
-        int totalButtonWidth = 4 * buttonWidth + 3 * buttonSpacing;
         int buttonX = SCREEN_WIDTH / 9 + TILE_SIZE * 17 / 2;
         int buttonY = SCREEN_HEIGHT / 8 + TILE_SIZE + 28;
 
@@ -311,7 +284,7 @@ public class GameApplication extends Application {
         objM.setObject();
         setupGame();
         new AnimationTimer() {
-            double drawInterval = 1000000000 / FPS; // Running at Certain FPS
+            final double drawInterval = 1000000000 / FPS; // Running at Certain FPS
             double delta = 0;
             long lastTime = System.nanoTime();
             long currentTime;
