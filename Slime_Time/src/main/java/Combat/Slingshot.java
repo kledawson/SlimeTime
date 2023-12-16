@@ -105,6 +105,7 @@ public class Slingshot extends Entity implements Weapon {
             ((Rectangle)solidArea).setX(screenX - player.screenX + player.worldX);
             ((Rectangle)solidArea).setY(screenY - player.screenY + player.worldY);
 
+            //setting up the player to be able to attack monsters and resources
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
             for (Integer index : resourceIndices) {
                 ga.resource[index].takeDamage();

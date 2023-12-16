@@ -13,15 +13,7 @@ public class MonsterManager {
         this.ga = ga;
     }
 
-
-    public void setMonster() {
-
-//        ga.monster[0] = new SuperMonster(ga);
-//        ga.monster[0].worldX = 0 * ga.TILE_SIZE;
-//        ga.monster[0].worldY = 0 * ga.TILE_SIZE;
-
-    }
-
+    //sets greenslimes on the map
     public void setGreenSlime() {
         spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 53 * ga.TILE_SIZE );
         spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 51 * ga.TILE_SIZE );

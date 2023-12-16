@@ -6,7 +6,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 import java.util.ArrayList;
 import java.util.List;
@@ -244,11 +243,7 @@ public class Scythe extends Entity implements Weapon {
 
         // Swing Animation & Hit Detection
         if (attacking) {
-//            List<Integer> monIndices = ga.cChecker.checkMonster(this);
-//            for (Integer index : monIndices) {
-//                ga.greenSlime[index].takeDamage();
-//            }
-
+            //setting up the player to be able to attack monsters and resources
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
             for (Integer index : resourceIndices) {
                 ga.resource[index].takeDamage();
