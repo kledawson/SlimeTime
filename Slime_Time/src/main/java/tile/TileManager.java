@@ -2,6 +2,7 @@ package tile;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import main.GameApplication;
 
@@ -21,6 +22,7 @@ public class TileManager {
     public List<String> tileCollisions = new ArrayList<String>();
     public List<String> tileNameCollision = new ArrayList<>();
     public List<Polygon> tileSolidAreas = new ArrayList<>();
+    boolean drawPath = true;
 
     // Generates Empty Tiles
     public TileManager(GameApplication ga) {
@@ -338,6 +340,23 @@ public class TileManager {
                 worldCol = 0;
                 ++worldRow;
             }
+        }
+
+        if(drawPath == true) {
+            Color aliceBlue = Color.ALICEBLUE;
+            gcTile.setFill(aliceBlue.deriveColor(1.0, 1.0, 1.0, 0.5));
+
+            for(int i = 0; i <ga.pFinder.pathList.size(); i++) {
+
+                int worldX = ga.pFinder.pathList.get(i).col * ga.TILE_SIZE;
+                int worldY = ga.pFinder.pathList.get(i).row * ga.TILE_SIZE;
+                int screenX = worldX - ga.player.worldX + ga.player.screenX;
+                int screenY = worldY - ga.player.worldY + ga.player.screenY;
+
+                gcTile.fillRect(screenX,screenY, ga.TILE_SIZE, ga.TILE_SIZE);
+
+            }
+
         }
     }
 

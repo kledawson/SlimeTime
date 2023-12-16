@@ -34,6 +34,7 @@ public class Entity {
     public boolean collision = false; // Collision State
     public boolean collisionOn;
     public String name;
+    public boolean onPath = false;
 
     public Entity(GameApplication ga) {
         this.ga = ga;
