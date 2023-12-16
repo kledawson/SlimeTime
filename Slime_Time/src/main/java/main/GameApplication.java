@@ -20,6 +20,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import entity.Player;
@@ -41,9 +42,6 @@ public class GameApplication extends Application {
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
     public final int MAX_SCREEN_COL_SMALL = 24;
     public final int MAX_SCREEN_ROW_SMALL = 16;
-//    public final int MAX_SCREEN_COL_LARGE = 44;
-//    public final int MAX_SCREEN_ROW_LARGE = 24;
-
     // Current maximum screen col and row values
     public int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
     public int MAX_SCREEN_ROW = MAX_SCREEN_ROW_SMALL;
@@ -53,10 +51,6 @@ public class GameApplication extends Application {
     public final int MAX_WORLD_COL = 100;
     public final int MAX_WORLD_ROW = 100;
     int FPS = 60;
-
-    //for full screen UI
-//    int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_LARGE;
-//    int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_LARGE;
 
     public TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this, false);
@@ -279,6 +273,7 @@ public class GameApplication extends Application {
     // Game Loop
     public void startGameLoop(GraphicsContext gc) {
         System.out.println("Setup Game");
+        //setting objects/monsters (important for proper updates after resource/monster destruction)
         GreenSlime.setGreenSlime();
         objM.setObject();
         setupGame();
@@ -319,16 +314,18 @@ public class GameApplication extends Application {
     }
 
     public void update() {
+        //constantly checks for playstate, if gamestate changes, background processes pause
         if (gameState == playState) {
             player.update();
 
-
+            //checking for green slime health
             for (int i = 0; i < greenSlime.size(); i++) {
                 if (greenSlime.get(i) != null) {
                     greenSlime.get(i).updateGreenSlime(i);
                 }
             }
 
+            //checking for resource health
             for (int i = 0; i < resource.length; i++) {
                 if (resource[i] != null) {
                     if (resource[i] instanceof Rock) {
@@ -344,6 +341,7 @@ public class GameApplication extends Application {
 
 
     public void render(GraphicsContext gc) {
+        //rendering what the player can see
         long drawStart = 0;
         if (keyH.checkDrawTime) {
             drawStart = System.nanoTime();
@@ -399,6 +397,8 @@ public class GameApplication extends Application {
             gc.setTextAlign(TextAlignment.LEFT);
             gc.fillText("Draw Time: " + passed, 10, 400);
             System.out.println("Draw Time: " + passed);
+            gc.fillText("World X: " + player.worldX, 10, 450);
+            gc.fillText("World Y: " + player.worldY, 10, 500);
         }
     }
 

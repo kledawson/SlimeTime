@@ -18,16 +18,7 @@ public class UI {
     Font pix20, pix23, pix80;
     //    ImageView keyImage;
     public List<Image> images = new ArrayList<>();
-    public boolean messageOn = false;
-    public String message = "";
     public boolean showUpgradeScreen = false;
-
-    // Variables to store upgrade costs
-
-//    Button upgradeMeleeButton; // Declare the buttons
-//    Button upgradeArmorButton;
-//    Button upgradeProjectileButton;
-//    Button upgradeBootsButton;
 
     public UI(GameApplication ga) {
         this.ga = ga;
@@ -71,10 +62,6 @@ public class UI {
         }
     }
 
-//    public void showMessage(String text) {
-//        message = text;
-//        messageOn = true;
-//    }
     public void render(GraphicsContext gc) {
         this.gc = gc;
         gc.setFill(Color.WHITE);
@@ -292,13 +279,6 @@ public class UI {
         gc.fillRect(0, 0, ga.SCREEN_WIDTH, ga.SCREEN_HEIGHT);
         gc.drawImage(images.get(0), frameX, frameY, frameWidth, frameHeight);
     }
-//    public void drawSubWindow (int x, int y, int width, int height) {
-//        gc.setFill(Color.rgb(0, 0, 0, 0.8)); // Set the background color
-//        gc.fillRoundRect(x, y, width, height, 30, 20); // Draw the main inventory rectangle
-//        gc.setStroke(Color.WHITE); // Set the border color
-//        gc.setLineWidth(2); // Set the border width
-//        gc.strokeRoundRect(x,y,width,height,30,20); // Draw white border around the main inventory rectangle
-//    }
 }
 
 
