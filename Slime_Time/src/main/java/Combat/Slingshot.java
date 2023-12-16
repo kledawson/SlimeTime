@@ -17,7 +17,7 @@ public class Slingshot extends Entity implements Weapon {
     boolean attacking;
 
     int damage = 1;
-    int attackSpeed;
+    public int attackSpeed;
     int attackCount;
     public Slingshot (GameApplication ga, Player player) {
         super(ga);
@@ -118,7 +118,7 @@ public class Slingshot extends Entity implements Weapon {
 
             List<Integer> monsterIndices = ga.cChecker.checkMonster(this);
             for (Integer index : monsterIndices) {
-                ga.greenSlime.get(index).greenSlimeDamage();
+                ga.greenSlime.get(index).greenSlimeDamage(attackValue);
                 spriteNum = 4;
                 attacking = false;
                 screenX = player.screenX + 4 * ga.SCALE;

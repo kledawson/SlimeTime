@@ -146,7 +146,7 @@ public class CollisionChecker {
                 Shape intersection = Shape.intersect(entity.solidArea, ga.greenSlime.get(i).solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
                     if (ga.greenSlime.get(i).collision) {
-                        entity.collisionOn = true;
+                        // entity.collisionOn = true;
                         indices.add(i);
                     }
                 }
@@ -164,6 +164,7 @@ public class CollisionChecker {
 
     public List<Integer> checkResource(Entity entity) {
         List<Integer> indices = new ArrayList<>();
+        System.out.println(ga.resource.length);
         for (int i = 0; i < ga.resource.length; ++i) {
             if (ga.resource[i] != null) {
                 Shape intersection = Shape.intersect(entity.solidArea, ga.resource[i].solidArea);

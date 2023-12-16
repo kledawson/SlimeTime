@@ -83,6 +83,7 @@ public class PathFinder {
                 row++;
             }
         }
+
         for (SuperResource res : ga.resource) {
             if (res != null) {
                 col = res.worldX / ga.TILE_SIZE;
