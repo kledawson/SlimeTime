@@ -333,7 +333,7 @@ public class GameApplication extends Application {
 
             for (int i = 0; i < greenSlime.size(); i++) {
                 if (greenSlime.get(i) != null) {
-                    greenSlime.get(i).updateGreenSlime(i);
+                    greenSlime.get(i).update(i);
                 }
             }
 
