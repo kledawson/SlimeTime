@@ -1,6 +1,9 @@
 package monster;
 
+import ai.Node;
+import ai.PathFinder;
 import entity.Entity;
+import interactive_resources.SuperResource;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
@@ -11,6 +14,7 @@ import java.io.FileInputStream;
 import java.util.Random;
 
 public class GreenSlime extends Entity {
+    Node[][] node;
     GameApplication ga;
     public Image greenSlime1, greenSlime2, greenSlime3, greenSlime4, greenSlime5;
 
@@ -52,6 +56,7 @@ public class GreenSlime extends Entity {
             catch (Exception ex) {
                 System.err.println("Error loading image: " + imageName);
                 ex.printStackTrace();
+                return null;
             }
         }
     }
@@ -66,7 +71,7 @@ public class GreenSlime extends Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gc.drawImage(images.get(-1 + spriteNum), screenX, screenY);
+            gc.drawImage(greenSlime1, screenX, screenY);
         }
         gc.strokeRect(screenX + 3, screenY + 15, 42, 33);
     }
@@ -106,14 +111,8 @@ public class GreenSlime extends Entity {
         setAction();
         checkCollision();
         collisionOn = false;
-        int tempWorldX = worldX;
-        int tempWorldY = worldY;
         ga.cChecker.checkTile(this);
         ga.cChecker.checkResource(this);
-//        ga.cChecker.checkMonster(this);
-        //ga.cChecker.checkPlayer(this);
-
-        //collision checker here
 
         if (!collisionOn) {
             switch(direction){
@@ -176,14 +175,26 @@ public class GreenSlime extends Entity {
             ga.objM.addItem(new OBJ_Gold(ga), worldX, worldY);
 
             //spawn a new slime after
-        int centerX = 55 * ga.TILE_SIZE;
-        int centerY = 50 * ga.TILE_SIZE;
-        int respawnRange = 40; // Adjust this value for the range around the center
+        int[][] spawnPoints = {
+                {70 * ga.TILE_SIZE, 64 * ga.TILE_SIZE},
+                {70 * ga.TILE_SIZE, 50 * ga.TILE_SIZE},
+                {70 * ga.TILE_SIZE, 75 * ga.TILE_SIZE},
+                {70 * ga.TILE_SIZE, 45 * ga.TILE_SIZE}
+        };
 
-        int randomX = (int) (centerX - respawnRange + Math.random() * (15 * respawnRange));
-        int randomY = (int) (centerY - respawnRange + Math.random() * (15 * respawnRange));
+        // Randomly select a spawn point index
+        int spawnIndex = (int) (Math.random() * spawnPoints.length);
+
+        // Get the coordinates of the randomly selected spawn point
+        int[] selectedSpawnPoint = spawnPoints[spawnIndex];
+        int randomX = selectedSpawnPoint[0];
+        int randomY = selectedSpawnPoint[1];
+
+
 
         ga.Monster.spawnMonster(new GreenSlime(ga), randomX, randomY);
+
+
     }
 
     public void setAction() {
@@ -198,7 +209,6 @@ public class GreenSlime extends Entity {
         }
         else {
             actionLockCounter++;
-            //System.out.println(actionLockCounter);
             Random rand = new Random();
 
         if (actionLockCounter == 30) {
