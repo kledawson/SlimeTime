@@ -14,9 +14,9 @@ public class MonsterManager {
 
     public void setMonster() {
 
-        ga.monster[0] = new SuperMonster(ga);
-        ga.monster[0].worldX = 0 * ga.TILE_SIZE;
-        ga.monster[0].worldY = 0 * ga.TILE_SIZE;
+//        ga.monster[0] = new SuperMonster(ga);
+//        ga.monster[0].worldX = 0 * ga.TILE_SIZE;
+//        ga.monster[0].worldY = 0 * ga.TILE_SIZE;
 
     }
 

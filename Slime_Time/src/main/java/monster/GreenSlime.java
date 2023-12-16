@@ -4,7 +4,6 @@ import entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
-import main.CollisionChecker;
 import main.GameApplication;
 
 import java.io.FileInputStream;
@@ -59,7 +58,6 @@ public class GreenSlime extends Entity {
     }
 
     public void render(GraphicsContext gc, GameApplication ga) {
-        GraphicsContext gcObj = gc;
         int screenX = worldX - ga.player.worldX + ga.player.screenX;
         int screenY = worldY - ga.player.worldY + ga.player.screenY;
 
@@ -68,9 +66,9 @@ public class GreenSlime extends Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gcObj.drawImage(greenSlime1, screenX, screenY);
+            gc.drawImage(greenSlime1, screenX, screenY);
         }
-        gcObj.strokeRect(screenX + 3, screenY + 15, 42, 33);
+        gc.strokeRect(screenX + 3, screenY + 15, 42, 33);
     }
 
     public void updateGreenSlimeImage() {
@@ -102,15 +100,14 @@ public class GreenSlime extends Entity {
 
     public void updateGreenSlime() {
         setAction();
-        //checkCollision();
+        checkCollision();
         collisionOn = false;
         int tempWorldX = worldX;
         int tempWorldY = worldY;
-        //ga.cChecker.checkTile(this);
-        //ga.cChecker.checkMonster(this);
+        ga.cChecker.checkTile(this);
+        ga.cChecker.checkResource(this);
+//        ga.cChecker.checkMonster(this);
         //ga.cChecker.checkPlayer(this);
-        //ga.cChecker.checkRock(this);
-        //ga.cChecker.checkTree(this);
 
         //collision checker here
 
@@ -133,7 +130,7 @@ public class GreenSlime extends Entity {
         int yDistance = Math.abs(worldY - ga.player.worldY);
         int tileDistance = (xDistance + yDistance)/ga.TILE_SIZE;
 
-        if(onPath == false && tileDistance < 5) {
+        if(!onPath && tileDistance < 5) {
             int i = new Random().nextInt(100)+1;
             if(i > 50) {
                 onPath = true;
@@ -149,10 +146,10 @@ public class GreenSlime extends Entity {
 
     public void setAction() {
 
-        if(onPath == true) {
+        if(onPath) {
 
-            int goalCol = (ga.player.worldX + (int)ga.player.solidArea.getLayoutX())/ga.TILE_SIZE;
-            int goalRow = (ga.player.worldY + (int)ga.player.solidArea.getLayoutY())/ga.TILE_SIZE;
+            int goalCol = (int)((Rectangle)ga.player.solidArea).getX()/ga.TILE_SIZE;
+            int goalRow = (int)((Rectangle)ga.player.solidArea).getY()/ga.TILE_SIZE;
 
             searchPath(goalCol,goalRow);
 
@@ -187,12 +184,12 @@ public class GreenSlime extends Entity {
 
     public void searchPath(int goalCol, int goalRow) {
 
-        int startCol = (worldX + (int)solidArea.getLayoutX())/ga.TILE_SIZE;
-        int startRow = (worldY + (int)solidArea.getLayoutY())/ga.TILE_SIZE;
+        int startCol = (int)((Rectangle)solidArea).getX()/ga.TILE_SIZE;
+        int startRow = (int)((Rectangle)solidArea).getY()/ga.TILE_SIZE;
 
         ga.pFinder.setNodes(startCol,startRow,goalCol,goalRow);
 
-        if(ga.pFinder.search() == true) {
+        if(ga.pFinder.search()) {
 
             int nextX = ga.pFinder.pathList.get(0).col * ga.TILE_SIZE;
             int nextY = ga.pFinder.pathList.get(0).row * ga.TILE_SIZE;
@@ -220,7 +217,7 @@ public class GreenSlime extends Entity {
 
                 direction = "up";
                 checkCollision();
-                if(collisionOn == true) {
+                if(collisionOn) {
                     direction = "left";
                 }
             }
@@ -228,7 +225,7 @@ public class GreenSlime extends Entity {
 
                 direction = "up";
                 checkCollision();
-                if(collisionOn == true) {
+                if(collisionOn) {
                     direction = "right";
                 }
             }
@@ -236,7 +233,7 @@ public class GreenSlime extends Entity {
 
                 direction = "down";
                 checkCollision();
-                if(collisionOn = true) {
+                if(collisionOn) {
                     direction = "left";
                 }
             }
@@ -244,7 +241,7 @@ public class GreenSlime extends Entity {
 
                 direction = "down";
                 checkCollision();
-                if(collisionOn = true) {
+                if(collisionOn) {
                     direction = "right";
                 }
             }

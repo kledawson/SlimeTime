@@ -18,12 +18,13 @@ public class Slingshot extends Entity implements Weapon {
 
     int damage = 1;
     int attackSpeed;
+    int attackCount;
     public Slingshot (GameApplication ga, Player player) {
         super(ga);
         this.player = player;
         attackValue = damage;
-        attackSpeed = 20;
-        speed = 20;
+        attackSpeed = 60;
+        speed = 4;
         screenX = player.screenX + 4 * ga.SCALE;
         screenY = player.screenY + 4 * ga.SCALE;
         solidArea = new Rectangle(0, 0, 8 * ga.SCALE, 8 * ga.SCALE);
@@ -33,11 +34,33 @@ public class Slingshot extends Entity implements Weapon {
     }
     @Override
     public void attack() {
-        attacking = true;
+        if (attackCount >= attackSpeed) {
+            attacking = true;
+            attackCount = 0;
+        }
     }
 
     @Override
     public void upgrade() {
+        if (player.hasRequiredItems(player.projectileGoldCost, player.projectileStoneCost, player.projectileWoodCost)) {
+            int goldIndex = player.searchItemInInventory("Gold");
+            int stoneIndex = player.searchItemInInventory("Stone");
+            int woodIndex = player.searchItemInInventory("Wood");
+
+            player.inventory.get(goldIndex).amount -= player.projectileGoldCost;
+            player.inventory.get(stoneIndex).amount -= player.projectileStoneCost;
+            player.inventory.get(woodIndex).amount -= player.projectileWoodCost;
+
+            //apply upgrade
+            ++attackValue;
+            attackSpeed *= 2.0 / 3;
+            speed *= 3.0 / 2;
+
+            // Update the costs for the next upgrade
+            ++player.projectileGoldCost;
+            ++player.projectileStoneCost;
+            ++player.projectileWoodCost;
+        }
     }
 
     public void getWeaponImage() {
@@ -52,32 +75,28 @@ public class Slingshot extends Entity implements Weapon {
             direction = player.scythe.direction;
         }
         else {
-            double diagonalSpeed = speed / Math.sqrt(2);
+            int diagonalSpeed = (int) (speed / Math.sqrt(2));
             switch (direction) {
-                case "up" -> {
+                case "up" ->
                     screenY -= speed;
-                }
                 case "left_up" -> {
                     screenX -= diagonalSpeed;
                     screenY -= diagonalSpeed;
                 }
-                case "left" -> {
+                case "left" ->
                     screenX -= speed;
-                }
                 case "left_down" -> {
                     screenX -= diagonalSpeed;
                     screenY += diagonalSpeed;
                 }
-                case "down" -> {
+                case "down" ->
                     screenY += speed;
-                }
                 case "right_down" -> {
                     screenX += diagonalSpeed;
                     screenY += diagonalSpeed;
                 }
-                case "right" -> {
-                    screenX += speed;
-                }
+                case "right" ->
+                        screenX += speed;
                 case "right_up" -> {
                     screenX += diagonalSpeed;
                     screenY -= diagonalSpeed;
@@ -116,14 +135,15 @@ public class Slingshot extends Entity implements Weapon {
                 spriteCounter = 0;
             }
         }
+
+        ++attackCount;
     }
     public void render(GraphicsContext gc) {
-        GraphicsContext gcSlingshot = gc;
-        Image image = null;
+        Image image;
         image = images.get(-1 + spriteNum);
         if (attacking) {
-            gcSlingshot.drawImage(image, screenX, screenY);
-            gcSlingshot.strokeRect(screenX, screenY, 8 * ga.SCALE, 8 * ga.SCALE);
+            gc.drawImage(image, screenX, screenY);
+            gc.strokeRect(screenX, screenY, 8 * ga.SCALE, 8 * ga.SCALE);
         }
     }
 }

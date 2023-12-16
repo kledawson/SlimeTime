@@ -36,9 +36,9 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     pPressed = true;
                 }
             }
-            case T -> {
+            case T ->
                 checkDrawTime = !checkDrawTime;
-            }
+
             case C -> {
                 if (!flag) {
                     if (cPressed) {
