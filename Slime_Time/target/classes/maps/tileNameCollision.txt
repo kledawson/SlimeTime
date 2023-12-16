@@ -340,3 +340,5 @@ bridge_tile14
 n
 bridge_tile15
 n
+border_tile
+0
