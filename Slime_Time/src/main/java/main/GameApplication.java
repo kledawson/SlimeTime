@@ -144,12 +144,12 @@ public class GameApplication extends Application {
 
 
         // Set button positions and sizes
-        int buttonWidth = 144;
-        int buttonHeight = 72;
-        int buttonSpacing = 64; // Spacing between buttons
+        int buttonWidth = TILE_SIZE * 5 / 2;
+        int buttonHeight = TILE_SIZE + 18;
+        int buttonSpacing = TILE_SIZE + 6; // Spacing between buttons
         int totalButtonWidth = 4 * buttonWidth + 3 * buttonSpacing;
-        int buttonX = SCREEN_WIDTH / 8 + TILE_SIZE;
-        int buttonY = SCREEN_HEIGHT * 5 / 8;
+        int buttonX = SCREEN_WIDTH / 9 + TILE_SIZE * 17 / 2;
+        int buttonY = SCREEN_HEIGHT / 8 + TILE_SIZE + 28;
 
         try {
             Image buttonImage = new Image(new FileInputStream("Slime_Time/res/ui/button_image.png"), buttonWidth, buttonHeight, false, false);
@@ -162,17 +162,17 @@ public class GameApplication extends Application {
             e.printStackTrace();
         }
 
-        upgradeBootsButton.setLayoutX(buttonX);
-        upgradeBootsButton.setLayoutY(buttonY);
-
-        upgradeMeleeButton.setLayoutX(buttonX + buttonWidth + buttonSpacing);
-        upgradeMeleeButton.setLayoutY(buttonY);
-
-        upgradeArmorButton.setLayoutX(buttonX + 2 * (buttonWidth + buttonSpacing));
+        upgradeArmorButton.setLayoutX(buttonX);
         upgradeArmorButton.setLayoutY(buttonY);
 
-        upgradeProjectileButton.setLayoutX(buttonX + 3 * (buttonWidth + buttonSpacing));
-        upgradeProjectileButton.setLayoutY(buttonY);
+        upgradeMeleeButton.setLayoutX(buttonX);
+        upgradeMeleeButton.setLayoutY(buttonY + buttonHeight + buttonSpacing);
+
+        upgradeProjectileButton.setLayoutX(buttonX);
+        upgradeProjectileButton.setLayoutY(buttonY + 2 * (buttonHeight + buttonSpacing));
+
+        upgradeBootsButton.setLayoutX(buttonX);
+        upgradeBootsButton.setLayoutY(buttonY + 3 * (buttonHeight + buttonSpacing));
 
 
         upgradeBootsButton.setVisible(false);
@@ -194,12 +194,14 @@ public class GameApplication extends Application {
                 upgradeMeleeButton.setVisible(false);
                 upgradeArmorButton.setVisible(false);
                 upgradeProjectileButton.setVisible(false);
+                ui.showUpgradeScreen = false;
             }
             else {
                 upgradeBootsButton.setVisible(true);
                 upgradeMeleeButton.setVisible(true);
                 upgradeArmorButton.setVisible(true);
                 upgradeProjectileButton.setVisible(true);
+                ui.showUpgradeScreen = true;
             }
         });
 
