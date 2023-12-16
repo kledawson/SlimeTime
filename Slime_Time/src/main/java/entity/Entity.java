@@ -35,6 +35,9 @@ public class Entity {
     public boolean destroyed = false;
     public boolean collisionOn;
     public String name;
+    public boolean onPath = false;
+
+    public int iFrameCount;
 
     public Entity(GameApplication ga) {
         this.ga = ga;

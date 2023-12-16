@@ -1,5 +1,6 @@
 package main;
 
+import ai.PathFinder;
 import entity.Entity;
 import interactive_resources.SuperResource;
 import interactive_resources.Tree;
@@ -47,8 +48,8 @@ public class GameApplication extends Application {
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
     public final int MAX_SCREEN_COL_SMALL = 24;
     public final int MAX_SCREEN_ROW_SMALL = 16;
-    public final int MAX_SCREEN_COL_LARGE = 48;
-    public final int MAX_SCREEN_ROW_LARGE = 26;
+    public final int MAX_SCREEN_COL_LARGE = 44;
+    public final int MAX_SCREEN_ROW_LARGE = 24;
 
     // Current maximum screen col and row values
     public int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
@@ -64,7 +65,7 @@ public class GameApplication extends Application {
     int SCREEN_WIDTH2 = TILE_SIZE * MAX_SCREEN_COL_LARGE;
     int SCREEN_HEIGHT2 = TILE_SIZE * MAX_SCREEN_ROW_LARGE;
 
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler(this, false);
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -73,6 +74,9 @@ public class GameApplication extends Application {
 
     public ArrayList<SuperObject> obj = new ArrayList<SuperObject>();
     public UI ui = new UI(this);
+    public PathFinder pFinder = new PathFinder(this);
+
+
     public Player player = new Player(this, keyH);
     public ResourceManager Resource = new ResourceManager(this);
     public MonsterManager Monster = new MonsterManager(this);
@@ -131,21 +135,21 @@ public class GameApplication extends Application {
 
         root.getChildren().add(canvas);
 
-        Button showUpgradeScreenButton = new Button("Upgrade");
-        showUpgradeScreenButton.setOnAction(e -> {
-            if (!upgradeButtonsVisible) {
-                ui.renderUpgradeScreen();
-                upgradeButtonsVisible = true;
-            } else {
-                upgradeButtonsVisible = false;
-            }
-        });
-        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
-        showUpgradeScreenButton.setLayoutY(20);
-
-
-        // Add the button to the root pane
-        root.getChildren().add(showUpgradeScreenButton);
+//        Button showUpgradeScreenButton = new Button("Upgrade");
+//        showUpgradeScreenButton.setOnAction(e -> {
+//            if (!upgradeButtonsVisible) {
+//                ui.renderUpgradeScreen();
+//                upgradeButtonsVisible = true;
+//            } else {
+//                upgradeButtonsVisible = false;
+//            }
+//        });
+//        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
+//        showUpgradeScreenButton.setLayoutY(20);
+//
+//
+//        // Add the button to the root pane
+//        root.getChildren().add(showUpgradeScreenButton);
 
 
         // Set button positions and sizes
@@ -193,22 +197,6 @@ public class GameApplication extends Application {
                 upgradeProjectileButton
         );
 
-        showUpgradeScreenButton.setOnAction(e -> {
-            if (upgradeBootsButton.isVisible()) {
-                upgradeBootsButton.setVisible(false);
-                upgradeMeleeButton.setVisible(false);
-                upgradeArmorButton.setVisible(false);
-                upgradeProjectileButton.setVisible(false);
-                ui.showUpgradeScreen = false;
-            }
-            else {
-                upgradeBootsButton.setVisible(true);
-                upgradeMeleeButton.setVisible(true);
-                upgradeArmorButton.setVisible(true);
-                upgradeProjectileButton.setVisible(true);
-                ui.showUpgradeScreen = true;
-            }
-        });
 
         stage.setTitle("2D Adventure");
         return gameScene;
@@ -274,7 +262,6 @@ public class GameApplication extends Application {
         startButton.setStyle("-fx-background-color: transparent;"); // Set background color to transparent
         startButton.setLayoutX(SCREEN_WIDTH / 2 - 60); // Adjust X position
         startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50); // Y position
-
 
         startButton.setOnAction(e -> {
             showTitleScreen = false;

@@ -4,6 +4,7 @@ import entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import main.CollisionChecker;
 import main.GameApplication;
 
 import java.io.FileInputStream;
@@ -101,14 +102,15 @@ public class GreenSlime extends Entity {
 
     public void updateGreenSlime() {
         setAction();
+        //checkCollision();
         collisionOn = false;
         int tempWorldX = worldX;
         int tempWorldY = worldY;
-        ga.cChecker.checkTile(this);
+        //ga.cChecker.checkTile(this);
         //ga.cChecker.checkMonster(this);
-        ga.cChecker.checkPlayer(this);
-/*      ga.cChecker.checkRock(this);
-        ga.cChecker.checkTree(this);*/
+        //ga.cChecker.checkPlayer(this);
+        //ga.cChecker.checkRock(this);
+        //ga.cChecker.checkTree(this);
 
         //collision checker here
 
@@ -126,15 +128,42 @@ public class GreenSlime extends Entity {
         }
         ((Rectangle)solidArea).setX(worldX + 3);
         ((Rectangle)solidArea).setY(worldY + 15);
+
+        int xDistance = Math.abs(worldX - ga.player.worldX);
+        int yDistance = Math.abs(worldY - ga.player.worldY);
+        int tileDistance = (xDistance + yDistance)/ga.TILE_SIZE;
+
+        if(onPath == false && tileDistance < 5) {
+            int i = new Random().nextInt(100)+1;
+            if(i > 50) {
+                onPath = true;
+            }
+        }
+        //onPath = true;
+
+        // De-aggro monster if you get 20 tiles away
+/*        if(onPath == true && tileDistance > 20) {
+            onPath = false;
+        }*/
     }
 
-    public void setAction(){
-        actionLockCounter++;
-        //System.out.println(actionLockCounter);
-        Random rand = new Random();
+    public void setAction() {
+
+        if(onPath == true) {
+
+            int goalCol = (ga.player.worldX + (int)ga.player.solidArea.getLayoutX())/ga.TILE_SIZE;
+            int goalRow = (ga.player.worldY + (int)ga.player.solidArea.getLayoutY())/ga.TILE_SIZE;
+
+            searchPath(goalCol,goalRow);
+
+        }
+        else {
+            actionLockCounter++;
+            //System.out.println(actionLockCounter);
+            Random rand = new Random();
 
         if (actionLockCounter == 30) {
-            int i = rand.nextInt(100)+1;
+            int i = rand.nextInt(100) + 1;
 
             if (i <= 25) {
                 direction = "up";
@@ -152,5 +181,91 @@ public class GreenSlime extends Entity {
             actionLockCounter = 0;
 
         }
+
+        }
     }
+
+    public void searchPath(int goalCol, int goalRow) {
+
+        int startCol = (worldX + (int)solidArea.getLayoutX())/ga.TILE_SIZE;
+        int startRow = (worldY + (int)solidArea.getLayoutY())/ga.TILE_SIZE;
+
+        ga.pFinder.setNodes(startCol,startRow,goalCol,goalRow);
+
+        if(ga.pFinder.search() == true) {
+
+            int nextX = ga.pFinder.pathList.get(0).col * ga.TILE_SIZE;
+            int nextY = ga.pFinder.pathList.get(0).row * ga.TILE_SIZE;
+
+            int enLeftX = worldX + (int)solidArea.getLayoutX();
+            int enRightX = worldX + (int)solidArea.getLayoutX() + (int)((Rectangle)solidArea).getWidth();
+            int enTopY = worldY + (int)solidArea.getLayoutY();
+            int enBottomY = worldY + (int)solidArea.getLayoutY() + (int)((Rectangle)solidArea).getHeight();
+
+            if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + ga.TILE_SIZE) {
+                direction = "up";
+            }
+            else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + ga.TILE_SIZE) {
+                direction = "down";
+            }
+            else if(enTopY >= nextY && enBottomY < nextY + ga.TILE_SIZE) {
+                if(enLeftX > nextX) {
+                    direction = "left";
+                }
+                if(enLeftX < nextX) {
+                    direction = "right";
+                }
+            }
+            else if(enTopY > nextY && enLeftX > nextX) {
+
+                direction = "up";
+                checkCollision();
+                if(collisionOn == true) {
+                    direction = "left";
+                }
+            }
+            else if(enTopY > nextY && enLeftX < nextX) {
+
+                direction = "up";
+                checkCollision();
+                if(collisionOn == true) {
+                    direction = "right";
+                }
+            }
+            else if(enTopY < nextY && enLeftX > nextX) {
+
+                direction = "down";
+                checkCollision();
+                if(collisionOn = true) {
+                    direction = "left";
+                }
+            }
+            else if(enTopY < nextY && enLeftX < nextX) {
+
+                direction = "down";
+                checkCollision();
+                if(collisionOn = true) {
+                    direction = "right";
+                }
+            }
+
+            // for slime to path to a specific tile
+/*            int nextCol = ga.pFinder.pathList.get(0).col;
+            int nextRow = ga.pFinder.pathList.get(0).row;
+            if(nextCol == goalCol && nextRow == goalRow) {
+                onPath = false;
+            }*/
+        }
+    }
+
+    public void checkCollision() {
+        collisionOn = false;
+        ga.cChecker.checkTile(this);
+        ga.cChecker.checkResource(this);
+        ga.cChecker.checkMonster(this);
+        ga.cChecker.checkPlayer(this);
+    }
+/*    public void speak() {
+        onPath = true;
+    }*/
 }
