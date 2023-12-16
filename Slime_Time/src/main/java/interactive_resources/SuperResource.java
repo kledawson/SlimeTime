@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import main.GameApplication;
 import entity.Entity;
+import object.SuperObject;
 
 import java.io.FileInputStream;
 
@@ -47,5 +48,16 @@ public class SuperResource extends Entity {
             --life;
         }
         System.out.println("TAKING DAMAGE!");
+    }
+
+    public void removeFromGame(int index, SuperObject object) {
+        if (ga.resource[index].life == 0) {
+            int worldX = ga.resource[index].worldX;
+            int worldY = ga.resource[index].worldY;
+            ga.resource[index] = null;
+            // Add the new object to objM
+            ga.objM.addItem(object, worldX, worldY);
+
+        }
     }
 }
