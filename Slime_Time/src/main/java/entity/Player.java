@@ -12,6 +12,7 @@ import object.OBJ_Stone;
 import object.OBJ_Wood;
 import object.SuperObject;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends Entity{
     GameApplication ga;
@@ -83,7 +84,7 @@ public class Player extends Entity{
     public void setDefaultValues() {
         worldX = ga.TILE_SIZE * 64;
         worldY = ga.TILE_SIZE * 50;
-        speed = 3;
+        speed = 2;
         direction = "down";
 
         //Player stats
@@ -92,6 +93,7 @@ public class Player extends Entity{
         life = maxLife;
         exp = 0;
         nextLevelExp = 5;
+        iFrameCount = 60;
     }
     // Loads Player Sprites
     public void getPlayerImage() {
@@ -181,6 +183,10 @@ public class Player extends Entity{
         ga.cChecker.checkResource(this);
         int objIndex = ga.cChecker.checkObject(this);
         pickUpObject(objIndex);
+        List<Integer> monIndices = ga.cChecker.checkMonster(this);
+        for (Integer index : monIndices) {
+            takeDamage(ga.greenSlime.get(index).attackValue);
+        }
 
 /*
         int resourceIndex = ga.cChecker.checkResource(this);*/
@@ -209,11 +215,24 @@ public class Player extends Entity{
             spriteCounter = 0;
         }
 
+        iFrameCount++;
+
         // Weapon
         scythe.update();
         slingshot.update();
 
     }
+
+    public void takeDamage(int damage) {
+        if (iFrameCount >= 60) {
+            life -= damage;
+            iFrameCount = 0;
+        }
+        if (life <= 0) {
+            ga.gameState = ga.endState;
+        }
+    }
+
     public int searchItemInInventory(String itemName) {
         int itemIndex = 999;
         for(int i = 0; i < inventory.size(); i++) {

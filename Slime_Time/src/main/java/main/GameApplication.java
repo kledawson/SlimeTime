@@ -20,7 +20,6 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import entity.Player;
@@ -81,6 +80,7 @@ public class GameApplication extends Application {
     public final int playState = 1;
     public final int pauseState = 2;
     public final int characterState = 3;
+    public final int endState = 4;
     public Pane root;
     public boolean showTitleScreen = true;
     private Canvas canvas;
@@ -90,6 +90,7 @@ public class GameApplication extends Application {
     ImageView upgradeMeleeButton;
     ImageView upgradeArmorButton;
     ImageView upgradeProjectileButton;
+    ImageView tryAgainButton;
 
     Image buttonImage;
     Image titleLogo;
@@ -129,10 +130,12 @@ public class GameApplication extends Application {
 
         try {
             Image buttonImage = new Image(new FileInputStream("Slime_Time/res/ui/button_image.png"), buttonWidth, buttonHeight, false, false);
+            Image tryAgainImage = new Image(new FileInputStream("Slime_Time/res/ui/try_again_button.png"), SCREEN_WIDTH / 8, SCREEN_HEIGHT / 8, false, false);
             upgradeBootsButton = new ImageView(buttonImage);
             upgradeMeleeButton = new ImageView(buttonImage);
             upgradeArmorButton = new ImageView(buttonImage);
             upgradeProjectileButton = new ImageView(buttonImage);
+            tryAgainButton = new ImageView(tryAgainImage);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -150,18 +153,23 @@ public class GameApplication extends Application {
         upgradeBootsButton.setLayoutX(buttonX);
         upgradeBootsButton.setLayoutY(buttonY + 3 * (buttonHeight + buttonSpacing));
 
+        tryAgainButton.setLayoutX(SCREEN_WIDTH * 3 / 8);
+        tryAgainButton.setLayoutY(SCREEN_HEIGHT * 3 / 8);
+
 
         upgradeBootsButton.setVisible(false);
         upgradeMeleeButton.setVisible(false);
         upgradeArmorButton.setVisible(false);
         upgradeProjectileButton.setVisible(false);
+        tryAgainButton.setVisible(false);
 
         // Add buttons to the root pane
         root.getChildren().addAll(
                 upgradeBootsButton,
                 upgradeMeleeButton,
                 upgradeArmorButton,
-                upgradeProjectileButton
+                upgradeProjectileButton,
+                tryAgainButton
         );
 
 
@@ -261,8 +269,12 @@ public class GameApplication extends Application {
 
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
+        player.setDefaultValues();
+        resource = new SuperResource[80];
         Resource.setResource();
-        Monster.setMonster();
+        greenSlime = new ArrayList<>();
+        GreenSlime.setGreenSlime();
+        obj = new ArrayList<>();
         // playMusic(0);
         gameState = playState;
     }
@@ -317,11 +329,11 @@ public class GameApplication extends Application {
         //constantly checks for playstate, if gamestate changes, background processes pause
         if (gameState == playState) {
             player.update();
+            GreenSlime.update();
 
-            //checking for green slime health
             for (int i = 0; i < greenSlime.size(); i++) {
                 if (greenSlime.get(i) != null) {
-                    greenSlime.get(i).updateGreenSlime(i);
+                    greenSlime.get(i).update(i);
                 }
             }
 

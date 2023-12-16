@@ -7,10 +7,11 @@ import java.util.Scanner;
 public class ResourceManager {
 
     GameApplication ga;
-    int[] woodXY = new int[80];
+    int[] woodXY;
 
     public ResourceManager(GameApplication ga) {
         this.ga = ga;
+        woodXY = new int[80];
     }
 
     public void setResource() {

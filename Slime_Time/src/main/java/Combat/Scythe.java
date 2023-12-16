@@ -256,7 +256,7 @@ public class Scythe extends Entity implements Weapon {
 
             List<Integer> monsterIndices = ga.cChecker.checkMonster(this);
             for (Integer index : monsterIndices) {
-                ga.greenSlime.get(index).greenSlimeDamage();
+                ga.greenSlime.get(index).greenSlimeDamage(attackValue);
             }
 
             ++spriteCounter;

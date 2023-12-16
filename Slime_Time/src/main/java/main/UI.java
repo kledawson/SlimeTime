@@ -78,6 +78,9 @@ public class UI {
         if (showUpgradeScreen) {
             renderUpgradeScreen();
         }
+        if (ga.gameState == ga.endState) {
+            renderEndScreen();
+        }
     }
     public void renderPauseScreen() {
         gc.setFont(pix80);
@@ -88,6 +91,13 @@ public class UI {
         gc.fillText(text, x, y);
     }
 
+    public void renderEndScreen() {
+        ga.tryAgainButton.setVisible(true);
+        ga.tryAgainButton.setOnMouseClicked(e -> {
+            ga.setupGame();
+            ga.tryAgainButton.setVisible(false);
+        });
+    }
 
     public void renderCharacterScreen() {
         drawMenuWindow();
@@ -122,7 +132,7 @@ public class UI {
         gc.fillText(Integer.toString(ga.player.slingshot.attackValue), textCenterX, yStart + 3 * lineHeight);
 
         gc.fillText("RATK Speed:", rectangleX + ga.TILE_SIZE, yStart + 4 * lineHeight, rectangleWidth);
-        gc.fillText(String.format("%.2f", (double)(ga.player.slingshot.speed) / 60) + " PER SECOND", textCenterX, yStart + 4 * lineHeight);
+        gc.fillText(String.format("%.2f", (double)(ga.player.slingshot.attackSpeed) / 60) + " PER SECOND", textCenterX, yStart + 4 * lineHeight);
 
         gc.fillText("Speed:", rectangleX + ga.TILE_SIZE, yStart + 5 * lineHeight, rectangleWidth);
         gc.fillText(Integer.toString(ga.player.speed), textCenterX, yStart + 5 * lineHeight);
