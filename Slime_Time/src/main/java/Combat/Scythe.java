@@ -161,6 +161,12 @@ public class Scythe extends Entity implements Weapon {
             }
         }
 
+//        solidArea.setLayoutX((screenX + ga.player.worldX - ga.player.screenX) - solidArea.getLayoutBounds().getMinX());
+//        solidArea.setLayoutY((screenY + ga.player.worldY - ga.player.screenY) - solidArea.getLayoutBounds().getMinY());
+
+        solidArea.setLayoutX((ga.player.worldX + 24) - solidArea.getLayoutBounds().getMinX());
+        solidArea.setLayoutY((ga.player.worldY + 24) - solidArea.getLayoutBounds().getMinY());
+
         // Swing Animation & Hit Detection
         if (attacking) {
 //            int monIndex = ga.cChecker.checkMonster(this);
@@ -190,9 +196,6 @@ public class Scythe extends Entity implements Weapon {
             }
         }
         ++attackCount;
-
-        solidArea.setLayoutX(((Rectangle)(player.solidArea)).getX());
-        solidArea.setLayoutY(((Rectangle)(player.solidArea)).getY());
     }
 
     public void render(GraphicsContext gc) {
@@ -231,5 +234,8 @@ public class Scythe extends Entity implements Weapon {
                     ((Arc)solidArea).getRadiusX() * 2, ((Arc)solidArea).getRadiusY() * 2,
                     ((Arc)solidArea).getStartAngle(), ((Arc)solidArea).getLength(), ArcType.ROUND);
         }
+        gcScythe.strokeRect((ga.player.worldX + 24) - solidArea.getLayoutBounds().getMinX(),
+                (ga.player.worldY + 24) - solidArea.getLayoutBounds().getMinY(),
+                ga.TILE_SIZE, ga.TILE_SIZE);
     }
 }

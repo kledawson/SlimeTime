@@ -48,4 +48,5 @@ public class SuperResource extends Entity {
         }
         System.out.println("TAKING DAMAGE!");
     }
+
 }
