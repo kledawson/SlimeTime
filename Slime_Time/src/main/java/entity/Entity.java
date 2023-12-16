@@ -36,6 +36,8 @@ public class Entity {
     public boolean collisionOn;
     public String name;
 
+    public int iFrameCount;
+
     public Entity(GameApplication ga) {
         this.ga = ga;
     }

@@ -38,7 +38,7 @@ public class Rock extends SuperResource {
                removeFromGame(i, new OBJ_Stone(ga));
             }
         }
-
+        ++iFrameCount;
     }
 
 }

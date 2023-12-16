@@ -53,6 +53,26 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     cPressed = true;
                 }
             }
+            case U -> {
+                if (!flag) {
+                    if (ga.ui.showUpgradeScreen) {
+                        ga.upgradeBootsButton.setVisible(false);
+                        ga.upgradeMeleeButton.setVisible(false);
+                        ga.upgradeArmorButton.setVisible(false);
+                        ga.upgradeProjectileButton.setVisible(false);
+                        ga.ui.showUpgradeScreen = false;
+                        ga.gameState = ga.playState;
+                    }
+                    else {
+                        ga.upgradeBootsButton.setVisible(true);
+                        ga.upgradeMeleeButton.setVisible(true);
+                        ga.upgradeArmorButton.setVisible(true);
+                        ga.upgradeProjectileButton.setVisible(true);
+                        ga.ui.showUpgradeScreen = true;
+                        ga.gameState = ga.pauseState;
+                    }
+                }
+            }
         }
     }
 }

@@ -131,21 +131,21 @@ public class GameApplication extends Application {
 
         root.getChildren().add(canvas);
 
-        Button showUpgradeScreenButton = new Button("Upgrade");
-        showUpgradeScreenButton.setOnAction(e -> {
-            if (!upgradeButtonsVisible) {
-                ui.renderUpgradeScreen();
-                upgradeButtonsVisible = true;
-            } else {
-                upgradeButtonsVisible = false;
-            }
-        });
-        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
-        showUpgradeScreenButton.setLayoutY(20);
-
-
-        // Add the button to the root pane
-        root.getChildren().add(showUpgradeScreenButton);
+//        Button showUpgradeScreenButton = new Button("Upgrade");
+//        showUpgradeScreenButton.setOnAction(e -> {
+//            if (!upgradeButtonsVisible) {
+//                ui.renderUpgradeScreen();
+//                upgradeButtonsVisible = true;
+//            } else {
+//                upgradeButtonsVisible = false;
+//            }
+//        });
+//        showUpgradeScreenButton.setLayoutX(SCREEN_WIDTH - 100);
+//        showUpgradeScreenButton.setLayoutY(20);
+//
+//
+//        // Add the button to the root pane
+//        root.getChildren().add(showUpgradeScreenButton);
 
 
         // Set button positions and sizes
@@ -193,22 +193,6 @@ public class GameApplication extends Application {
                 upgradeProjectileButton
         );
 
-        showUpgradeScreenButton.setOnAction(e -> {
-            if (upgradeBootsButton.isVisible()) {
-                upgradeBootsButton.setVisible(false);
-                upgradeMeleeButton.setVisible(false);
-                upgradeArmorButton.setVisible(false);
-                upgradeProjectileButton.setVisible(false);
-                ui.showUpgradeScreen = false;
-            }
-            else {
-                upgradeBootsButton.setVisible(true);
-                upgradeMeleeButton.setVisible(true);
-                upgradeArmorButton.setVisible(true);
-                upgradeProjectileButton.setVisible(true);
-                ui.showUpgradeScreen = true;
-            }
-        });
 
         stage.setTitle("2D Adventure");
         return gameScene;
@@ -274,7 +258,6 @@ public class GameApplication extends Application {
         startButton.setStyle("-fx-background-color: transparent;"); // Set background color to transparent
         startButton.setLayoutX(SCREEN_WIDTH / 2 - 60); // Adjust X position
         startButton.setLayoutY(SCREEN_HEIGHT / 2 + 50); // Y position
-
 
         startButton.setOnAction(e -> {
             showTitleScreen = false;

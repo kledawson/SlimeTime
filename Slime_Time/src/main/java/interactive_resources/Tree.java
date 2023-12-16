@@ -27,5 +27,6 @@ public class Tree extends SuperResource {
             case 4, 3, 2, 1 -> spriteNum = 1;
             case 0 -> removeFromGame(i, new OBJ_Wood(ga));
         }
+        ++iFrameCount;
     }
 }
