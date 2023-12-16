@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import main.GameApplication;
 import entity.Entity;
+import object.SuperObject;
 
 import java.io.FileInputStream;
 
@@ -23,6 +24,7 @@ public class SuperResource extends Entity {
         maxLife = 4;
         life = maxLife;
         collision = true;
+        iFrameCount = 0;
     }
 
     public void render(GraphicsContext gc, GameApplication ga) {
@@ -43,10 +45,22 @@ public class SuperResource extends Entity {
     }
 
     public void takeDamage() {
-        if (life > 0) {
+        if (life > 0 && iFrameCount > 30) {
             --life;
+            iFrameCount = 0;
         }
         System.out.println("TAKING DAMAGE!");
+    }
+
+    public void removeFromGame(int index, SuperObject object) {
+        if (ga.resource[index].life == 0) {
+            int worldX = ga.resource[index].worldX;
+            int worldY = ga.resource[index].worldY;
+            ga.resource[index] = null;
+            // Add the new object to objM
+            ga.objM.addItem(object, worldX, worldY);
+
+        }
     }
 
 }

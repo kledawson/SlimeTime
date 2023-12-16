@@ -6,6 +6,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import monster.GreenSlime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CollisionChecker {
     GameApplication ga;
 
@@ -120,11 +123,11 @@ public class CollisionChecker {
     // Returns Which Index of Which Object is Being Collided
     public int checkObject(Entity entity) {
         int index = 999;
-        for (int i = 0; i < ga.obj.length; ++i) {
-            if (ga.obj[i] != null) {
-                Shape intersection = Shape.intersect(entity.solidArea, ga.obj[i].solidArea);
+        for (int i = 0; i < ga.obj.size(); ++i) {
+            if (ga.obj.get(i) != null) {
+                Shape intersection = Shape.intersect(entity.solidArea, ga.obj.get(i).solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
-                    if (ga.obj[i].collision) {
+                    if (ga.obj.get(i).collision) {
                         entity.collisionOn = true;
                         index = i;
                     }
@@ -134,20 +137,20 @@ public class CollisionChecker {
         return index;
     }
 
-    public int checkMonster(Entity entity) {
-        int index = 999;
+    public List<Integer> checkMonster(Entity entity) {
+        List<Integer> indices = new ArrayList<>();
         for (int i = 0; i < ga.greenSlime.length; ++i) {
             if (ga.greenSlime[i] != null && entity != ga.greenSlime[i]) {
                 Shape intersection = Shape.intersect(entity.solidArea, ga.greenSlime[i].solidArea);
                 if (intersection.getBoundsInParent().getWidth() != -1) {
                     if (ga.greenSlime[i].collision) {
                         entity.collisionOn = true;
-                        index = i;
+                        indices.add(i);
                     }
                 }
             }
         }
-        return index;
+        return indices;
     }
 
     public void checkPlayer(Entity entity) {
@@ -157,8 +160,8 @@ public class CollisionChecker {
         }
     }
 
-    public int checkResource(Entity entity) {
-        int index = 999;
+    public List<Integer> checkResource(Entity entity) {
+        List<Integer> indices = new ArrayList<>();
         for (int i = 0; i < ga.resource.length; ++i) {
             if (ga.resource[i] != null) {
                 Shape intersection = Shape.intersect(entity.solidArea, ga.resource[i].solidArea);
@@ -166,11 +169,11 @@ public class CollisionChecker {
                     System.out.println("COLLIDING");
                     if (ga.resource[i].collision) {
                         entity.collisionOn = true;
-                        index = i;
+                        indices.add(i);
                     }
                 }
             }
         }
-        return index;
+        return indices;
     }
 }

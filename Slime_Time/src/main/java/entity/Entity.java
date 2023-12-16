@@ -32,9 +32,12 @@ public class Entity {
     public Shape solidArea; // Hit box
     public int solidAreaDefaultX, solidAreaDefaultY; // Hit box Coordinates
     public boolean collision = false; // Collision State
+    public boolean destroyed = false;
     public boolean collisionOn;
     public String name;
     public boolean onPath = false;
+
+    public int iFrameCount;
 
     public Entity(GameApplication ga) {
         this.ga = ga;
