@@ -48,14 +48,14 @@ public class SuperResource extends Entity {
     }
 
     public void removeFromGame(int index, SuperObject object) {
-        if (ga.resource[index].life == 0) {
+    //saving coordinates for item spawn
             int worldX = ga.resource[index].worldX;
             int worldY = ga.resource[index].worldY;
+            //removing resource from game
             ga.resource[index] = null;
             // Add the new object to objM
             ga.objM.addItem(object, worldX, worldY);
 
-        }
     }
 
 }

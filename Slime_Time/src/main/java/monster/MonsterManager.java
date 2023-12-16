@@ -1,5 +1,6 @@
 package monster;
 
+import entity.Entity;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 
@@ -22,36 +23,26 @@ public class MonsterManager {
 
     public void setGreenSlime() {
 
-        ga.greenSlime[0] = new GreenSlime(ga);
-        ga.greenSlime[0].worldX = 66 * ga.TILE_SIZE;
-        ga.greenSlime[0].worldY = 52 * ga.TILE_SIZE;
-        ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
-        ((Rectangle)ga.greenSlime[0].solidArea).setY(53 * ga.TILE_SIZE);
+        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 53 * ga.TILE_SIZE );
 
-        ga.greenSlime[1] = new GreenSlime(ga);
-        ga.greenSlime[1].worldX = 66 * ga.TILE_SIZE;
-        ga.greenSlime[1].worldY = 51 * ga.TILE_SIZE;
-        ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
-        ((Rectangle)ga.greenSlime[0].solidArea).setY(52 * ga.TILE_SIZE);
+        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 51 * ga.TILE_SIZE );
 
-        ga.greenSlime[2] = new GreenSlime(ga);
-        ga.greenSlime[2].worldX = 66 * ga.TILE_SIZE;
-        ga.greenSlime[2].worldY = 50 * ga.TILE_SIZE;
-        ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
-        ((Rectangle)ga.greenSlime[0].solidArea).setY(51 * ga.TILE_SIZE);
+        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 50 * ga.TILE_SIZE );
 
-        ga.greenSlime[3] = new GreenSlime(ga);
-        ga.greenSlime[3].worldX = 66 * ga.TILE_SIZE;
-        ga.greenSlime[3].worldY = 49 * ga.TILE_SIZE;
-        ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
-        ((Rectangle)ga.greenSlime[0].solidArea).setY(50 * ga.TILE_SIZE);
+        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 49 * ga.TILE_SIZE );
 
-        ga.greenSlime[4] = new GreenSlime(ga);
-        ga.greenSlime[4].worldX = 66 * ga.TILE_SIZE;
-        ga.greenSlime[4].worldY = 48 * ga.TILE_SIZE;
-        ((Rectangle)ga.greenSlime[0].solidArea).setX(66 * ga.TILE_SIZE);
-        ((Rectangle)ga.greenSlime[0].solidArea).setY(49 * ga.TILE_SIZE);
+        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 48 * ga.TILE_SIZE );
 
+
+    }
+
+    //spawns in monster given coordinates
+    public void spawnMonster(GreenSlime greenSlime, int worldX, int worldY) {
+        greenSlime.worldX = worldX;
+        greenSlime.worldY = worldY;
+        ((Rectangle)greenSlime.solidArea).setX(worldX + 1);
+        ((Rectangle)greenSlime.solidArea).setY(worldY + 1);
+        ga.greenSlime.add(greenSlime);
     }
 
 }

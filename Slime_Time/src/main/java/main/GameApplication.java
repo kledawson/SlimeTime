@@ -80,7 +80,7 @@ public class GameApplication extends Application {
     public Entity[] tree = new Entity[10];
 
     public Entity[] monster = new Entity[10];
-    public Entity[] greenSlime = new Entity[10];
+    public ArrayList<GreenSlime> greenSlime = new ArrayList<>();
 
     public int gameState;
     public final int titleState = 0;
@@ -269,8 +269,6 @@ public class GameApplication extends Application {
     public void setupGame() {
         Resource.setResource();
         Monster.setMonster();
-        GreenSlime.setGreenSlime();
-
         // playMusic(0);
         gameState = playState;
     }
@@ -281,6 +279,7 @@ public class GameApplication extends Application {
     // Game Loop
     public void startGameLoop(GraphicsContext gc) {
         System.out.println("Setup Game");
+        GreenSlime.setGreenSlime();
         objM.setObject();
         setupGame();
         new AnimationTimer() {
@@ -324,9 +323,9 @@ public class GameApplication extends Application {
             player.update();
 
 
-            for (Entity entity : greenSlime) {
-                if (entity != null) {
-                    ((GreenSlime) entity).updateGreenSlime();
+            for (int i = 0; i < greenSlime.size(); i++) {
+                if (greenSlime.get(i) != null) {
+                    greenSlime.get(i).updateGreenSlime(i);
                 }
             }
 

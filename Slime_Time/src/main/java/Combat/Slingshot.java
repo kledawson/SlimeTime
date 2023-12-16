@@ -116,6 +116,17 @@ public class Slingshot extends Entity implements Weapon {
                 ((Rectangle)solidArea).setY(screenY);
             }
 
+            List<Integer> monsterIndices = ga.cChecker.checkMonster(this);
+            for (Integer index : monsterIndices) {
+                ga.greenSlime.get(index).greenSlimeDamage();
+                spriteNum = 4;
+                attacking = false;
+                screenX = player.screenX + 4 * ga.SCALE;
+                screenY = player.screenY + 4 * ga.SCALE;
+                ((Rectangle)solidArea).setX(screenX);
+                ((Rectangle)solidArea).setY(screenY);
+            }
+
             ++spriteCounter;
             if (spriteCounter >= attackSpeed / 4) {
                 if (spriteNum == 1) {
