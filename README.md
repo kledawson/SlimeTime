@@ -13,6 +13,7 @@ These are the team members involved in the project and their contributions
 - Collision Functionality
 - Sound / Music Implementation
 - AI Bugfixing
+- UI Adjustments
 - Pixel Art
 ### Travis Nguyen
 ### Dawson Le
