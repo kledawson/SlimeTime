@@ -3,8 +3,6 @@ This is a list of all UML diagrams of the project.
 ## Class
 [Full Class Diagram](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/SlimeTime_Class_UML.png) - Full Class Diagram for SlimeTime. Showcases attributes and methods of classes as well as relationships.
 
-## Use Case
-
 ## State
 
 ## Sequence
