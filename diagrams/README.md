@@ -11,4 +11,4 @@ This is a list of all UML diagrams of the project.
 
 [Collision Detection](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/Collection_detection.png)
 
-[Music Loop](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/Music%20Loop.drawio)
+[Music Loop](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/MusicLoop.PNG)
