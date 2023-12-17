@@ -33,6 +33,32 @@ The respawn point is chosen randomly out of the 4 set points.
 - Monster damage -> Made sure that the player can damage the monster
 - Small code cleanup -> did some initial code cleanup (deleting commented-out code, removing unnecessary methods, etc.)
 ### Dawson Le
+- Application Concept Brainstorm & Planning
+  - Resource gathering
+  - Upgrade system
+  - Map layout
+- Game Framework (Ended up using Johnny's iteration)
+  - Game Loop
+  - KeyHandler
+  - Screen Setup (Rows, Columns, FPS, etc.)
+- In-Game Resources
+  - Rocks and Trees 
+    - Setup resource classes (ie. Rocks, Tree, SuperResource, ResourceManager)
+    - Update and render method interaction with the Game Application class (Game Loop)
+    - Player interaction with resources and feedback
+- Monster Class
+  - GreenSlime class and MonsterManager setup
+    - Game Loop integration into GameApplication
+    - Slime idle movement
+    - Collision detection
+    - Slime AI using Pathfinder class
+- Pathfinder
+  - Uses Node class
+  - Calculates gCost, hCost, and fCost to find the best route to the player avoiding tiles and resources with collision
+    - Also known as A* algorithm
+    - Uses backtracking
+  - Tracks all slimes to the player within a 100-tile range.
+- A lot of Bugfixing with diagonal movement, Slime AI not pathing correctly, Resources not colliding or rendering, Collision with entities, et cetera
 
 ## Running the Game
 Run the Java software program on a personal computer using a Java environment with the JavaFX library installed and JDK version 20.0.1.
