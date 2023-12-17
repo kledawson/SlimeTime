@@ -8,13 +8,13 @@ You will play as a nameless farmer who has been thrust into action due to an une
 ## Team 4 Members
 These are the team members involved in the project and their contributions
 ### Johnny Nguyen
-- Base Code Structure
-- Weapon / Combat Functionality
-- Collision Functionality
-- Sound / Music Implementation
-- AI Bugfixing
-- UI Adjustments
-- Pixel Art
+- Base Code Structure: Established the basic program structure for the JavaFX 2D game to function including the basics of the player character, movement, and item pick-ups.
+- Weapon / Combat Functionality: Implemented mouse tracking and input detection for weapon attacks. Developed two different weapons that can "attack" on set intervals.
+- Collision Functionality: Implemented collision functionality for each category of gameplay asset (ie. Player, Slimes, Resources, etc..). Determined functionality for movement boundaries and hit-detection hit-boxes.
+- Sound / Music Implementation: Implemented sound and music capabilities for application.
+- AI Bugfixing: Troubleshooted the initial Slime AI tracking algorithm to help fully develop AI system for monsters.
+- UI Adjustments: Reorganized UI menu screens for better organization on screen.
+- Pixel Art: Designed and created all artistic assets for SlimeTime.
 ### Travis Nguyen
 ### Dawson Le
 
