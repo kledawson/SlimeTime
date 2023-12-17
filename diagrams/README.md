@@ -4,7 +4,7 @@ This is a list of all UML diagrams of the project.
 [Full Class Diagram](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/SlimeTime_Class_UML.png) - Full Class Diagram for SlimeTime. Showcases attributes and methods of classes as well as relationships.
 
 ## State
-[State Diagram](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/State%20Diagram.drawio.png) - State Diagrams for all states implemented. This includes play-state, pause-state, character-state, title-state, and game-end states.
+[State Diagram](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/State%20Diagram.drawio.png) - State Diagrams for all states implemented including play-state, pause-state, character-state, title-state, and game-end states.
 ## Sequence
 [Player Movement](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/PlayerMovement_Sequence.png) - Outlines the process of how player movement works with key inputs.
 
