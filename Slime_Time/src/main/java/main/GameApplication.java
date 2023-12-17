@@ -67,10 +67,7 @@ public class GameApplication extends Application {
     public MonsterManager Monster = new MonsterManager(this);
     public MonsterManager GreenSlime = new MonsterManager(this);
 
-    public SuperResource[] resource = new SuperResource[80];
-    public Entity[] rock = new Entity[10];
-    public Entity[] tree = new Entity[10];
-
+    public SuperResource[] resource = new SuperResource[100];
     public Entity[] monster = new Entity[10];
     public ArrayList<GreenSlime> greenSlime = new ArrayList<>();
 
@@ -269,7 +266,7 @@ public class GameApplication extends Application {
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
         player.setDefaultValues();
-        resource = new SuperResource[80];
+        resource = new SuperResource[100];
         Resource.setResource();
         greenSlime = new ArrayList<>();
         GreenSlime.setGreenSlime();
@@ -367,17 +364,12 @@ public class GameApplication extends Application {
             }
         }
 
-        for (Entity Rocks : rock) {
-            if (Rocks != null) {
-                (Rocks).render(gc, this);
+        for (Entity superresource : resource) {
+            if (superresource != null) {
+                (superresource).render(gc, this);
             }
         }
 
-        for (Entity Trees : tree) {
-            if (Trees != null) {
-                (Trees).render(gc, this);
-            }
-        }
 
         for (Entity Monsters : monster) {
             if (Monsters != null) {

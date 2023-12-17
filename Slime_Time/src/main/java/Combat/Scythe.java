@@ -23,6 +23,7 @@ public class Scythe extends Entity implements Weapon {
     List<Polygon> scytheSolidAreas = new ArrayList<>();
     public Scythe(GameApplication ga, Player player) {
         super(ga);
+        attacking = false;
         this.player = player;
         solidArea = new Polygon();
         attackValue = damage;

@@ -15,11 +15,16 @@ public class MonsterManager {
 
     //sets greenslimes on the map
     public void setGreenSlime() {
-        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 53 * ga.TILE_SIZE );
-        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 51 * ga.TILE_SIZE );
-        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 50 * ga.TILE_SIZE );
-        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 49 * ga.TILE_SIZE );
-        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 48 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 53 * ga.TILE_SIZE, 40 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 76 * ga.TILE_SIZE, 36 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 84 * ga.TILE_SIZE, 50 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 61 * ga.TILE_SIZE, 68 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 85 * ga.TILE_SIZE, 70 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 94 * ga.TILE_SIZE, 55 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 51 * ga.TILE_SIZE, 71 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 71 * ga.TILE_SIZE, 57 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 55 * ga.TILE_SIZE, 49 * ga.TILE_SIZE );
+        spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 32 * ga.TILE_SIZE );
     }
 
     //spawns in monster given coordinates

@@ -21,6 +21,7 @@ public class Slingshot extends Entity implements Weapon {
     int attackCount;
     public Slingshot (GameApplication ga, Player player) {
         super(ga);
+        attacking = false;
         this.player = player;
         attackValue = damage;
         attackSpeed = 60;
