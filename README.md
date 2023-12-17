@@ -3,7 +3,7 @@ An action-packed 2D videogame made using the Java language and JavaFX.
 
 You will play as a nameless farmer who has been thrust into action due to an unexpecting Slime invasion on his ranch. Use your trusty tools to fend them off, becoming stronger and stronger as time goes on.
 
-## Team Members
+## Team #4 Members
 - Johnny Nguyen
 - Travis Nguyen
 - Dawson Le
@@ -25,7 +25,13 @@ Pause and Menu keys open appropriate menu overlays.
   - Left & Right Click Functionality
 - Player vs. Entity Combat System
 - Resource Gathering
+  - Interactive Inventory
 - Character Item Upgrading
+- Player Stats Page 
+- Sound Effects
+- Custom-made Music
+  - 8-bit Soundtrack
+  - Title Screen OST
  
 ## Plan and Approach
 - Learn Basics of 2D Game Development from YouTube Playlist [2]
@@ -39,7 +45,7 @@ Pause and Menu keys open appropriate menu overlays.
   - Create Custom Resources
   - Program Custom Game Mechanics
   - Utilize Strategy Design Patterns
-  - Favor Composition over inheritance 
+  - Favor Composition over Inheritance 
 
 ## References
 [1] Taking inspiration off of "[Vampire Survivors](https://store.steampowered.com/app/1794680/Vampire_Survivors/)" game. 
