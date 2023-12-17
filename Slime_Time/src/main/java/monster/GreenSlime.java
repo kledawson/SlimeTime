@@ -56,7 +56,6 @@ public class GreenSlime extends Entity {
             catch (Exception ex) {
                 System.err.println("Error loading image: " + imageName);
                 ex.printStackTrace();
-                return null;
             }
         }
     }
@@ -71,38 +70,16 @@ public class GreenSlime extends Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gc.drawImage(greenSlime1, screenX, screenY);
+            gc.drawImage(images.get(-1 + spriteNum), screenX, screenY);
         }
         gc.strokeRect(screenX + 3, screenY + 15, 42, 33);
     }
-
-//    public void updateGreenSlimeImage() {
-//
-//        if (life == 7 || life == 8) {
-//            greenSlime1 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 5 || life == 6) {
-//            greenSlime2 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 3 || life == 4) {
-//            greenSlime3 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 1 || life == 2) {
-//            greenSlime4 = setupGreenSlime("greenSlime1");
-//        }
-//        else if (life == 0) {
-//            greenSlime5 = setupGreenSlime("greenSlime1");
-//        }
-//        else {
-//            greenSlime1 = setupGreenSlime("greenSlime1");
-//        }
-//    }
 
     public void greenSlimeDamage(int damage) {
         if (iFrameCount >= 20) {
             life -= damage;
             iFrameCount = 0;
-            // updateGreenSlimeImage();
+            ga.playSE(4);
         }
         System.out.println("Monster taking damage!");
     }

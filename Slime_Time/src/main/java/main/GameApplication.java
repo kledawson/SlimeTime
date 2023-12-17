@@ -130,7 +130,7 @@ public class GameApplication extends Application {
 
         try {
             Image buttonImage = new Image(new FileInputStream("Slime_Time/res/ui/button_image.png"), buttonWidth, buttonHeight, false, false);
-            Image tryAgainImage = new Image(new FileInputStream("Slime_Time/res/ui/try_again_button.png"), SCREEN_WIDTH / 8, SCREEN_HEIGHT / 8, false, false);
+            Image tryAgainImage = new Image(new FileInputStream("Slime_Time/res/ui/try_again_button.png"), 128 * SCALE, 64 * SCALE, false, false);
             upgradeBootsButton = new ImageView(buttonImage);
             upgradeMeleeButton = new ImageView(buttonImage);
             upgradeArmorButton = new ImageView(buttonImage);
@@ -153,8 +153,8 @@ public class GameApplication extends Application {
         upgradeBootsButton.setLayoutX(buttonX);
         upgradeBootsButton.setLayoutY(buttonY + 3 * (buttonHeight + buttonSpacing));
 
-        tryAgainButton.setLayoutX(SCREEN_WIDTH * 3 / 8);
-        tryAgainButton.setLayoutY(SCREEN_HEIGHT * 3 / 8);
+        tryAgainButton.setLayoutX(SCREEN_WIDTH / 2 - 128 * SCALE / 2);
+        tryAgainButton.setLayoutY(SCREEN_HEIGHT /2 - 64 * SCALE / 2);
 
 
         upgradeBootsButton.setVisible(false);
@@ -269,13 +269,13 @@ public class GameApplication extends Application {
 
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
+        playMusic();
         player.setDefaultValues();
         resource = new SuperResource[80];
         Resource.setResource();
         greenSlime = new ArrayList<>();
         GreenSlime.setGreenSlime();
         obj = new ArrayList<>();
-        // playMusic(0);
         gameState = playState;
     }
 
@@ -375,23 +375,6 @@ public class GameApplication extends Application {
             }
         }
 
-        for (Entity Rocks : rock) {
-            if (Rocks != null) {
-                (Rocks).render(gc, this);
-            }
-        }
-
-        for (Entity Trees : tree) {
-            if (Trees != null) {
-                (Trees).render(gc, this);
-            }
-        }
-
-        for (Entity Monsters : monster) {
-            if (Monsters != null) {
-                (Monsters).render(gc, this);
-            }
-        }
 
         for (Entity GreenSlime : greenSlime) {
             if (GreenSlime != null) {
@@ -414,13 +397,13 @@ public class GameApplication extends Application {
         }
     }
 
-    public void playMusic(int i) {
+    public void playMusic() {
         sound.play(0);
         sound.loop(0);
     }
 
     public void stopMusic() {
-        sound.stop(1);
+        sound.stop(0);
     }
 
     public void playSE(int i) {

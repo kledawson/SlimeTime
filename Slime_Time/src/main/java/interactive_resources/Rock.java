@@ -26,9 +26,18 @@ public class Rock extends SuperResource {
             case 3 -> spriteNum = 2;
             case 2 -> spriteNum = 3;
             case 1 -> spriteNum = 4;
-            case 0 -> removeFromGame(i, new OBJ_Stone(ga));
+            case 0 -> {
+                removeFromGame(i, new OBJ_Stone(ga));
+                ga.playSE(6);
+            }
         }
         ++iFrameCount;
+    }
+
+    @Override
+    public void takeDamage() {
+        ga.playSE(7);
+        super.takeDamage();
     }
 
 }

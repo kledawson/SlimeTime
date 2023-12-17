@@ -68,15 +68,15 @@ public class Player extends Entity{
 
     public void setItems() {
         //inventory.add()
-        SuperObject gold = new OBJ_Gold(ga);
-        SuperObject wood = new OBJ_Wood(ga);
-        SuperObject stone = new OBJ_Stone(ga);
-        wood.amount = 20;
-        stone.amount = 20;
-        gold.amount = 20;
-        inventory.add(gold);
-        inventory.add(wood);
-        inventory.add(stone);
+//        SuperObject gold = new OBJ_Gold(ga);
+//        SuperObject wood = new OBJ_Wood(ga);
+//        SuperObject stone = new OBJ_Stone(ga);
+//        wood.amount = 40;
+//        stone.amount = 40;
+//        gold.amount = 40;
+//        inventory.add(gold);
+//        inventory.add(wood);
+//        inventory.add(stone);
     }
 
 
@@ -227,6 +227,7 @@ public class Player extends Entity{
         if (iFrameCount >= 60) {
             life -= damage;
             iFrameCount = 0;
+            ga.playSE(2);
         }
         if (life <= 0) {
             ga.gameState = ga.endState;
@@ -248,6 +249,7 @@ public class Player extends Entity{
             //pickup only
             if (canObtainItem(ga.obj.get(i))) {
                 System.out.println(ga.obj.get(i).name + " acquired!");
+                ga.playSE(1);
             }
             else {
                 System.out.println("Can't carry anymore!");
@@ -307,6 +309,7 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
             ++bootsGoldCost;
             ++bootsStoneCost;
             ++bootsWoodCost;
+            ga.playSE(8);
         }
     }
 
@@ -329,6 +332,7 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
             ++armorGoldCost;
             ++armorStoneCost;
             ++armorWoodCost;
+            ga.playSE(8);
         }
     }
 

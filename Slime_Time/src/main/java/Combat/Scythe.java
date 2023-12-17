@@ -42,6 +42,7 @@ public class Scythe extends Entity implements Weapon {
         if (attackCount >= attackSpeed) {
             attacking = true;
             attackCount = 0;
+            ga.playSE(3);
         }
     }
 
@@ -64,6 +65,7 @@ public class Scythe extends Entity implements Weapon {
             ++player.meleeGoldCost;
             ++player.meleeStoneCost;
             ++player.meleeWoodCost;
+            ga.playSE(8);
         }
     }
 

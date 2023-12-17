@@ -37,6 +37,7 @@ public class Slingshot extends Entity implements Weapon {
         if (attackCount >= attackSpeed) {
             attacking = true;
             attackCount = 0;
+            ga.playSE(5);
         }
     }
 
@@ -60,6 +61,7 @@ public class Slingshot extends Entity implements Weapon {
             ++player.projectileGoldCost;
             ++player.projectileStoneCost;
             ++player.projectileWoodCost;
+            ga.playSE(8);
         }
     }
 

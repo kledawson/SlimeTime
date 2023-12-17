@@ -46,6 +46,7 @@ public class UI {
         setup("stone", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("gold", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("button_image1", ga.TILE_SIZE * 5 / 2, ga.TILE_SIZE + 18);
+        setup("empty_heart_icon", 144, 144);
     }
 
     public void setup(String imageName, double width, double height) {
@@ -67,7 +68,7 @@ public class UI {
         gc.setFill(Color.WHITE);
 
         if (ga.gameState == ga.playState) {
-            // UI in playState
+            renderPlayUI();
         }
         if (ga.gameState == ga.pauseState) {
             renderPauseScreen();
@@ -82,6 +83,22 @@ public class UI {
             renderEndScreen();
         }
     }
+
+    public void renderPlayUI() {
+        int vOffset = 0;
+        for (int i = 1; i <= ga.player.maxLife; ++i) {
+            if (i % 11 == 0) {
+                vOffset += ga.TILE_SIZE * 3 / 2;
+            }
+            if (ga.player.life >= i) {
+                gc.drawImage(images.get(5), ga.TILE_SIZE + (i % 11 - 1) * ga.TILE_SIZE * 2, ga.TILE_SIZE + vOffset, ga.TILE_SIZE, ga.TILE_SIZE);
+            }
+            else {
+                gc.drawImage(images.get(11), ga.TILE_SIZE + (i % 11 - 1) * ga.TILE_SIZE * 2, ga.TILE_SIZE + vOffset, ga.TILE_SIZE, ga.TILE_SIZE);
+            }
+        }
+    }
+
     public void renderPauseScreen() {
         gc.setFont(pix80);
         String text = "PAUSED";

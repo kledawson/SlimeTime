@@ -24,8 +24,17 @@ public class Tree extends SuperResource {
             case 3 -> spriteNum = 2;
             case 2 -> spriteNum = 3;
             case 1 -> spriteNum = 4;
-            case 0 -> removeFromGame(i, new OBJ_Wood(ga));
+            case 0 -> {
+                removeFromGame(i, new OBJ_Wood(ga));
+                ga.playSE(9);
+            }
         }
         ++iFrameCount;
+    }
+
+    @Override
+    public void takeDamage() {
+        ga.playSE(10);
+        super.takeDamage();
     }
 }
