@@ -93,5 +93,5 @@ Clone this repository and run from the "GameApplication" file from your IDE (we 
 ## Special Thanks
 OST Composer - Bryan Nguyen
 
-
+![](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/slimetimegif.gif)
   
