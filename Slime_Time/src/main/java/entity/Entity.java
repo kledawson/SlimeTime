@@ -43,6 +43,7 @@ public class Entity {
     }
     public Entity(){}
 
+    //setting up images and making sure that the character properly sees valid entities
     public void render(GraphicsContext gc, GameApplication ga) {
         int screenX = worldX - ga.player.worldX + ga.player.screenX;
         int screenY = worldY - ga.player.worldY + ga.player.screenY;

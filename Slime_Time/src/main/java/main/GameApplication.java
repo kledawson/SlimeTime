@@ -56,7 +56,6 @@ public class GameApplication extends Application {
     Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
-//    public SuperObject[] obj = new SuperObject[12];
 
     public ArrayList<SuperObject> obj = new ArrayList<>();
     public UI ui = new UI(this);
@@ -68,10 +67,7 @@ public class GameApplication extends Application {
     public MonsterManager Monster = new MonsterManager(this);
     public MonsterManager GreenSlime = new MonsterManager(this);
 
-    public SuperResource[] resource = new SuperResource[80];
-    public Entity[] rock = new Entity[10];
-    public Entity[] tree = new Entity[10];
-
+    public SuperResource[] resource = new SuperResource[100];
     public Entity[] monster = new Entity[10];
     public ArrayList<GreenSlime> greenSlime = new ArrayList<>();
 
@@ -271,7 +267,7 @@ public class GameApplication extends Application {
     public void setupGame() {
         playMusic();
         player.setDefaultValues();
-        resource = new SuperResource[80];
+        resource = new SuperResource[100];
         Resource.setResource();
         greenSlime = new ArrayList<>();
         GreenSlime.setGreenSlime();
@@ -287,7 +283,6 @@ public class GameApplication extends Application {
         System.out.println("Setup Game");
         //setting objects/monsters (important for proper updates after resource/monster destruction)
         GreenSlime.setGreenSlime();
-        objM.setObject();
         setupGame();
         new AnimationTimer() {
             final double drawInterval = 1000000000 / FPS; // Running at Certain FPS

@@ -18,6 +18,7 @@ public class Tree extends SuperResource {
         setup("tree_broken", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
     }
 
+    //updating sprite images to showcase "damaged" resources, sets up logic for resource destruction
     public void update(int i) {
         switch (life) {
             case 4 -> spriteNum = 1;

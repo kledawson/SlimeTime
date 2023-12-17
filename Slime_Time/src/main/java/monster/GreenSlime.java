@@ -14,9 +14,7 @@ import java.io.FileInputStream;
 import java.util.Random;
 
 public class GreenSlime extends Entity {
-    Node[][] node;
     GameApplication ga;
-    public Image greenSlime1, greenSlime2, greenSlime3, greenSlime4, greenSlime5;
 
     private int actionLockCounter = 0;
 
@@ -32,7 +30,6 @@ public class GreenSlime extends Entity {
         attackValue = 1;
 
         getGreenSlimeImage();
-        // updateGreenSlimeImage();
     }
 
 
@@ -92,15 +89,11 @@ public class GreenSlime extends Entity {
         ga.cChecker.checkResource(this);
 
         if (!collisionOn) {
-            switch(direction){
-                case "up": worldY -= speed;
-                    break;
-                case "down": worldY += speed;
-                    break;
-                case "left": worldX -= speed;
-                    break;
-                case "right": worldX += speed;
-                    break;
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
             }
         }
         ((Rectangle)solidArea).setX(worldX + 3);
@@ -110,7 +103,7 @@ public class GreenSlime extends Entity {
         int yDistance = Math.abs(worldY - ga.player.worldY);
         int tileDistance = (xDistance + yDistance)/ga.TILE_SIZE;
 
-        if(!onPath && tileDistance < 5) {
+        if(!onPath && tileDistance < 100) {
             int i = new Random().nextInt(100)+1;
             if(i > 50) {
                 onPath = true;
@@ -135,12 +128,6 @@ public class GreenSlime extends Entity {
         ++spriteCounter;
 
         ++iFrameCount;
-        //onPath = true;
-
-        // De-aggro monster if you get 20 tiles away
-/*        if(onPath == true && tileDistance > 20) {
-            onPath = false;
-        }*/
     }
 
     public void monsterKill(int index) {
@@ -275,12 +262,6 @@ public class GreenSlime extends Entity {
                 }
             }
 
-            // for slime to path to a specific tile
-/*            int nextCol = ga.pFinder.pathList.get(0).col;
-            int nextRow = ga.pFinder.pathList.get(0).row;
-            if(nextCol == goalCol && nextRow == goalRow) {
-                onPath = false;
-            }*/
         }
     }
 
@@ -291,7 +272,5 @@ public class GreenSlime extends Entity {
         ga.cChecker.checkMonster(this);
         ga.cChecker.checkPlayer(this);
     }
-/*    public void speak() {
-        onPath = true;
-    }*/
+
 }
