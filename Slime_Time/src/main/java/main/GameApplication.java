@@ -36,7 +36,7 @@ import java.util.ArrayList;
 // Game Application
 public class GameApplication extends Application {
     // Screen, World Settings
-    final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
+    public final int ORIGINAL_TILE_SIZE = 16; // 16x16 tile
     public final int SCALE = 3;
     public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE; // 48x48 tile
     public final int MAX_SCREEN_COL_SMALL = 24;
@@ -61,17 +61,17 @@ public class GameApplication extends Application {
     public UI ui = new UI(this);
     public PathFinder pFinder = new PathFinder(this);
     public Player player = new Player(this, keyH);
-    public ResourceManager Resource = new ResourceManager(this);
-    public MonsterManager GreenSlime = new MonsterManager(this);
+    public ResourceManager resM = new ResourceManager(this);
+    public MonsterManager monM = new MonsterManager(this);
     public SuperResource[] resource = new SuperResource[100];
     public ArrayList<GreenSlime> greenSlime = new ArrayList<>();
 
     public int gameState;
-    public final int titleState = 0;
-    public final int playState = 1;
-    public final int pauseState = 2;
-    public final int characterState = 3;
-    public final int endState = 4;
+    public final int TITLE_STATE = 0;
+    public final int PLAY_STATE = 1;
+    public final int PAUSE_STATE = 2;
+    public final int CHARACTER_STATE = 3;
+    public final int END_STATE = 4;
     public Pane root;
     public boolean showTitleScreen = true;
     private Canvas canvas;
@@ -79,15 +79,15 @@ public class GameApplication extends Application {
     public double mouseY;
     public boolean showExtraHUD = false;
 
-    ImageView upgradeBootsButton;
-    ImageView upgradeMeleeButton;
-    ImageView upgradeArmorButton;
-    ImageView upgradeProjectileButton;
-    ImageView tryAgainButton;
+    public ImageView upgradeBootsButton;
+    public ImageView upgradeMeleeButton;
+    public ImageView upgradeArmorButton;
+    public ImageView upgradeProjectileButton;
+    public ImageView tryAgainButton;
 
-    Image buttonImage;
-    Image titleLogo;
-    Image backgroundImage;
+    public Image buttonImage;
+    private Image titleLogo;
+    private Image backgroundImage;
 
     @Override
     public void start(Stage stage) {
@@ -247,13 +247,13 @@ public class GameApplication extends Application {
         return titleScene;
     }
     private void setupTitleScene() {
-        gameState = titleState;
+        gameState = TITLE_STATE;
     }
 
     private void startGame(Stage stage) {
         stopMusic(11);
         showTitleScreen = false;
-        gameState = playState;
+        gameState = PLAY_STATE;
         stage.setScene(createGameScene(stage));
         setupGame();
         startGameLoop(canvas.getGraphicsContext2D());
@@ -263,17 +263,17 @@ public class GameApplication extends Application {
         playMusic(0);
         player.setDefaultValues();
         resource = new SuperResource[100];
-        Resource.setResource();
+        resM.setResource();
         greenSlime = new ArrayList<>();
-        GreenSlime.setGreenSlime();
+        monM.setGreenSlime();
         obj = new ArrayList<>();
-        gameState = playState;
+        gameState = PLAY_STATE;
     }
     // Game Loop
     private void startGameLoop(GraphicsContext gc) {
         System.out.println("Setup Game");
         //setting objects/monsters (important for proper updates after resource/monster destruction)
-        GreenSlime.setGreenSlime();
+        monM.setGreenSlime();
         setupGame();
         new AnimationTimer() {
             final double drawInterval = 1000000000 / FPS; // Running at Certain FPS
@@ -313,9 +313,9 @@ public class GameApplication extends Application {
 
     private void update() {
         //constantly checks for playstate, if gamestate changes, background processes pause
-        if (gameState == playState) {
+        if (gameState == PLAY_STATE) {
             player.update();
-            GreenSlime.update();
+            monM.update();
 
             for (int i = 0; i < greenSlime.size(); i++) {
                 if (greenSlime.get(i) != null) {

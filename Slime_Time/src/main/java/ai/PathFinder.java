@@ -7,13 +7,13 @@ import main.GameApplication;
 
 public class PathFinder {
 
-    GameApplication ga;
-    Node[][] node;
-    ArrayList<Node> openList = new ArrayList<>();
+    private GameApplication ga;
+    private Node[][] node;
+    private ArrayList<Node> openList = new ArrayList<>();
     public ArrayList<Node> pathList = new ArrayList<>();
-    Node startNode, goalNode, currentNode;
-    boolean goalReached = false;
-    int step = 0;
+    private Node startNode, goalNode, currentNode;
+    private boolean goalReached = false;
+    private int step = 0;
 
     public PathFinder(GameApplication ga) {
         this.ga = ga;

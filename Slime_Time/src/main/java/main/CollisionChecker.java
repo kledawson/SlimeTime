@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionChecker {
-    GameApplication ga;
+    private GameApplication ga;
 
     public CollisionChecker(GameApplication ga) {
         this.ga = ga;

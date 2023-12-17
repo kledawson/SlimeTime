@@ -12,8 +12,8 @@ import java.util.List;
 
 // Handles Additional UI on top of Scene
 public class UI {
-    GameApplication ga;
-    GraphicsContext gc;
+    private GameApplication ga;
+    private GraphicsContext gc;
 
     Font pix20, pix23, pix80;
     //    ImageView keyImage;
@@ -202,21 +202,21 @@ public class UI {
         gc.setFill(Color.WHITE);
         gc.setTextAlign(TextAlignment.CENTER);
 
-        gc.fillText(String.valueOf(ga.player.armorWoodCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2);
-        gc.fillText(String.valueOf(ga.player.armorStoneCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2);
-        gc.fillText(String.valueOf(ga.player.armorGoldCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2);
+        gc.fillText(String.valueOf(ga.player.armorCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2);
+        gc.fillText(String.valueOf(ga.player.armorCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2);
+        gc.fillText(String.valueOf(ga.player.armorCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2);
 
-        gc.fillText(String.valueOf(ga.player.meleeWoodCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2 + ga.TILE_SIZE * 5 / 2);
-        gc.fillText(String.valueOf(ga.player.meleeStoneCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2 + ga.TILE_SIZE * 5 / 2);
-        gc.fillText(String.valueOf(ga.player.meleeGoldCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2 + ga.TILE_SIZE * 5 / 2);
+        gc.fillText(String.valueOf(ga.player.meleeCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2 + ga.TILE_SIZE * 5 / 2);
+        gc.fillText(String.valueOf(ga.player.meleeCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2 + ga.TILE_SIZE * 5 / 2);
+        gc.fillText(String.valueOf(ga.player.meleeCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2 + ga.TILE_SIZE * 5 / 2);
 
-        gc.fillText(String.valueOf(ga.player.projectileWoodCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2 + 2 * (ga.TILE_SIZE * 5 / 2));
-        gc.fillText(String.valueOf(ga.player.projectileStoneCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2 + 2 * (ga.TILE_SIZE * 5 / 2));
-        gc.fillText(String.valueOf(ga.player.projectileGoldCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2 + 2 * (ga.TILE_SIZE * 5 / 2));
+        gc.fillText(String.valueOf(ga.player.projectileCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2 + 2 * (ga.TILE_SIZE * 5 / 2));
+        gc.fillText(String.valueOf(ga.player.projectileCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2 + 2 * (ga.TILE_SIZE * 5 / 2));
+        gc.fillText(String.valueOf(ga.player.projectileCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2 + 2 * (ga.TILE_SIZE * 5 / 2));
 
-        gc.fillText(String.valueOf(ga.player.bootsWoodCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2 + 3 * (ga.TILE_SIZE * 5 / 2));
-        gc.fillText(String.valueOf(ga.player.bootsStoneCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2 + 3 * (ga.TILE_SIZE * 5 / 2));
-        gc.fillText(String.valueOf(ga.player.bootsGoldCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2 + 3 * (ga.TILE_SIZE * 5 / 2));
+        gc.fillText(String.valueOf(ga.player.bootsCost), costX + ga.TILE_SIZE / 2, costY + ga.TILE_SIZE * 3 / 2 + 3 * (ga.TILE_SIZE * 5 / 2));
+        gc.fillText(String.valueOf(ga.player.bootsCost), costX + ga.TILE_SIZE / 2 + ga.TILE_SIZE + 36, costY + ga.TILE_SIZE * 3 / 2 + 3 * (ga.TILE_SIZE * 5 / 2));
+        gc.fillText(String.valueOf(ga.player.bootsCost), costX + ga.TILE_SIZE / 2 + 2 * (ga.TILE_SIZE + 36), costY + ga.TILE_SIZE * 3 / 2 + 3 * (ga.TILE_SIZE * 5 / 2));
 
         // Negative Button Images
         int buttonX2 = ga.SCREEN_WIDTH / 9 + ga.TILE_SIZE * 17 / 2;
@@ -276,19 +276,19 @@ public class UI {
         this.gc = gc;
         gc.setFill(Color.WHITE);
 
-        if (ga.gameState == ga.playState) {
+        if (ga.gameState == ga.PLAY_STATE) {
             renderPlayUI();
         }
-        if (ga.gameState == ga.pauseState) {
+        if (ga.gameState == ga.PAUSE_STATE) {
             renderPauseScreen();
         }
-        if (ga.gameState == ga.characterState) {
+        if (ga.gameState == ga.CHARACTER_STATE) {
             renderCharacterScreen();
         }
         if (showUpgradeScreen) {
             renderUpgradeScreen();
         }
-        if (ga.gameState == ga.endState) {
+        if (ga.gameState == ga.END_STATE) {
             renderEndScreen();
         }
     }

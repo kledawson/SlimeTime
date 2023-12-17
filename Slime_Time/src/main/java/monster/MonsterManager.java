@@ -5,8 +5,8 @@ import main.GameApplication;
 
 public class MonsterManager {
 
-    GameApplication ga;
-    int timer = 0;
+    private GameApplication ga;
+    private int timer = 0;
 
     public MonsterManager(GameApplication ga) {
         this.ga = ga;

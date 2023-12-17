@@ -15,14 +15,14 @@ import java.util.Scanner;
 
 public class TileManager {
 
-    GameApplication ga;
+    private GameApplication ga;
     public Tile[] tile;
     public int[][] mapTileNum;
     public List<String> fileNames = new ArrayList<>();
     public List<String> tileCollisions = new ArrayList<>();
     public List<String> tileNameCollision = new ArrayList<>();
     public List<Polygon> tileSolidAreas = new ArrayList<>();
-    boolean drawPath = true;
+    private boolean drawPath = true;
 
     // Generates Empty Tiles
     public TileManager(GameApplication ga) {

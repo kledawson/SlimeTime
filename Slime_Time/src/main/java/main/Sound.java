@@ -8,7 +8,7 @@ import java.io.File;
 
 // Handles PLaying Music, Sound Effects
 public class Sound {
-    MediaPlayer[] soundMedia = new MediaPlayer[30];
+    private MediaPlayer[] soundMedia = new MediaPlayer[30];
 
     public Sound() {
         setup(0, "Part_1_-_8bit_vr.mp4", 1.5);

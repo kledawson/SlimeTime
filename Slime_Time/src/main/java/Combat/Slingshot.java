@@ -11,19 +11,17 @@ import java.util.List;
 
 public class Slingshot extends Entity implements Weapon {
 
-    Player player;
-    int screenX;
-    int screenY;
-    boolean attacking;
+    private Player player;
+    private int screenX;
+    private int screenY;
+    private boolean attacking;
+    private int attackCount;
 
-    int damage = 1;
-    public int attackSpeed;
-    int attackCount;
     public Slingshot (GameApplication ga, Player player) {
         super(ga);
         attacking = false;
         this.player = player;
-        attackValue = damage;
+        attackValue = 1;
         attackSpeed = 60;
         speed = 4;
         screenX = player.screenX + 4 * ga.SCALE;
@@ -34,7 +32,7 @@ public class Slingshot extends Entity implements Weapon {
         getWeaponImage();
     }
 
-    private void getWeaponImage() {
+    public void getWeaponImage() {
         setup("stone_object1", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
         setup("stone_object2", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
         setup("stone_object3", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);

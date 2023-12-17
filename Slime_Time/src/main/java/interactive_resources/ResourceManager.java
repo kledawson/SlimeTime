@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ResourceManager {
 
-    GameApplication ga;
+    private GameApplication ga;
     private int[] woodXY;
     private int[] stoneXY;
 

@@ -15,31 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Entity{
-    GameApplication ga;
-    KeyHandler keyH; // Key Handler to Deal with Movement and Potential other Key Presses
+    public KeyHandler keyH; // Key Handler to Deal with Movement and Potential other Key Presses
     public final int screenX; // Screen X-Coord
     public final int screenY; // Screen Y-Coord
     public Scythe scythe;
     public Slingshot slingshot;
     public ArrayList<SuperObject> inventory;
     public final int maxInventorySize = 8; //subject to change later
-
-    public int bootsGoldCost = 1;
-    public int bootsStoneCost = 1;
-    public int bootsWoodCost = 1;
-
-    public int meleeGoldCost = 1;
-    public int meleeStoneCost = 1;
-    public int meleeWoodCost = 1;
-
-    public int armorGoldCost = 1;
-    public int armorStoneCost = 1;
-    public int armorWoodCost = 1;
-
-    public int projectileGoldCost = 1;
-    public int projectileStoneCost = 1;
-    public int projectileWoodCost = 1;
-
     public int bootsCost = 1, meleeCost = 1, armorCost = 1, projectileCost = 1;
 
     public Player(GameApplication ga, KeyHandler keyH) {
@@ -262,7 +244,7 @@ public class Player extends Entity{
             ga.playSE(2);
         }
         if (life <= 0) {
-            ga.gameState = ga.endState;
+            ga.gameState = ga.END_STATE;
         }
     }
     public int searchItemInInventory(String itemName) {

@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.util.Random;
 
 public class GreenSlime extends Entity {
-    GameApplication ga;
 
     private int actionLockCounter = 0;
     private boolean onPath = false;
@@ -79,7 +78,7 @@ public class GreenSlime extends Entity {
 
 
 
-        ga.GreenSlime.spawnMonster(new GreenSlime(ga), randomX, randomY);
+        ga.monM.spawnMonster(new GreenSlime(ga), randomX, randomY);
     }
     private void setAction() {
 

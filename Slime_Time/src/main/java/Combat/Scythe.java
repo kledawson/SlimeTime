@@ -11,22 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scythe extends Entity implements Weapon {
-    Player player;
-    int screenX;
-    int screenY;
-    double mouseAngle;
-    boolean attacking;
-    int damage = 1;
-    int attackCount;
-    int centerX;
-    int centerY;
-    List<Polygon> scytheSolidAreas = new ArrayList<>();
+    private Player player;
+    private int screenX;
+    private int screenY;
+    private double mouseAngle;
+    private boolean attacking;
+    private int attackCount;
+    private int centerX;
+    private int centerY;
+    private List<Polygon> scytheSolidAreas = new ArrayList<>();
+
     public Scythe(GameApplication ga, Player player) {
         super(ga);
         attacking = false;
         this.player = player;
         solidArea = new Polygon();
-        attackValue = damage;
+        attackValue = 1;
         attackSpeed = 60;
         attackCount = 60;
         centerX = player.screenX + ga.TILE_SIZE / 2;
@@ -86,7 +86,7 @@ public class Scythe extends Entity implements Weapon {
                 45.0, 45.0
         );
     }
-    private void getWeaponImage() {
+    public void getWeaponImage() {
         setup("scythe_back_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("scythe_back_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("scythe_back_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
