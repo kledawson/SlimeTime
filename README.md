@@ -8,6 +8,12 @@ You will play as a nameless farmer who has been thrust into action due to an une
 ## Team 4 Members
 These are the team members involved in the project and their contributions
 ### Johnny Nguyen
+- Base Code Structure
+- Weapon / Combat Functionality
+- Collision Functionality
+- Sound / Music Implementation
+- AI Bugfixing
+- Pixel Art
 ### Travis Nguyen
 ### Dawson Le
 
