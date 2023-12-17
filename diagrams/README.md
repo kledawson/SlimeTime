@@ -11,3 +11,5 @@ This is a list of all UML diagrams of the project.
 [Collision Detection](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/Collision_Detection.png) - Describes how collision is determined and how it affects player movement.
 
 [Music Loop](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/MusicLoop.PNG) - Shows how music is played in the application and how it loops.
+
+[Hit Detection](https://github.com/JQBNguyen/CS151-Slime_Time/blob/main/diagrams/HitDetection.png) - Visualizes combat collision detection and outcomes.
