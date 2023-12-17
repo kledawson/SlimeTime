@@ -10,14 +10,13 @@ public class Tree extends SuperResource {
         getTreeImage();
     }
 
-    public void getTreeImage() {
+    private void getTreeImage() {
         setup("tree", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("tree_break_1", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("tree_break_2", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("tree_break_3", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("tree_broken", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
     }
-
     //updating sprite images to showcase "damaged" resources, sets up logic for resource destruction
     public void update(int i) {
         switch (life) {
@@ -32,7 +31,6 @@ public class Tree extends SuperResource {
         }
         ++iFrameCount;
     }
-
     @Override
     public void takeDamage(int damage) {
         ga.playSE(10);

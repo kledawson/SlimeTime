@@ -42,33 +42,28 @@ public class GameApplication extends Application {
     public final int MAX_SCREEN_COL_SMALL = 24;
     public final int MAX_SCREEN_ROW_SMALL = 16;
     // Current maximum screen col and row values
-    public int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
-    public int MAX_SCREEN_ROW = MAX_SCREEN_ROW_SMALL;
+    public final int MAX_SCREEN_COL = MAX_SCREEN_COL_SMALL;
+    public final int MAX_SCREEN_ROW = MAX_SCREEN_ROW_SMALL;
 
     public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 1152 px
     public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 768 px
     public final int MAX_WORLD_COL = 100;
     public final int MAX_WORLD_ROW = 100;
-    int FPS = 60;
+    private final int FPS = 60;
 
+    private KeyHandler keyH = new KeyHandler(this, false);
     public TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler(this, false);
-    Sound sound = new Sound();
+    private Sound sound = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public ObjectManager objM = new ObjectManager(this);
 
     public ArrayList<SuperObject> obj = new ArrayList<>();
     public UI ui = new UI(this);
     public PathFinder pFinder = new PathFinder(this);
-
-
     public Player player = new Player(this, keyH);
     public ResourceManager Resource = new ResourceManager(this);
-    public MonsterManager Monster = new MonsterManager(this);
     public MonsterManager GreenSlime = new MonsterManager(this);
-
     public SuperResource[] resource = new SuperResource[100];
-    public Entity[] monster = new Entity[10];
     public ArrayList<GreenSlime> greenSlime = new ArrayList<>();
 
     public int gameState;
@@ -82,6 +77,8 @@ public class GameApplication extends Application {
     private Canvas canvas;
     public double mouseX;
     public double mouseY;
+    public boolean showExtraHUD = false;
+
     ImageView upgradeBootsButton;
     ImageView upgradeMeleeButton;
     ImageView upgradeArmorButton;
@@ -92,13 +89,23 @@ public class GameApplication extends Application {
     Image titleLogo;
     Image backgroundImage;
 
+    @Override
+    public void start(Stage stage) {
+        Scene titleScene = createTitleScreen(stage);
+        stage.setTitle("2D Adventure");
+        stage.setScene(titleScene);
+        stage.show();
+    }
+    public static void main(String[] args) {
+        launch();
+    }
+
     private Scene createGameScene(Stage stage) {
         root = new Pane();
         Scene gameScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
         gameScene.setFill(Color.TURQUOISE);
 
         canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT); // Initialize canvas here
-        GraphicsContext gc = canvas.getGraphicsContext2D();
         gameScene.setOnKeyPressed(keyH = new KeyHandler(this, true));
         gameScene.setOnKeyReleased(keyH = new KeyHandler(this, false));
         gameScene.setOnMouseMoved(e -> {
@@ -172,13 +179,11 @@ public class GameApplication extends Application {
         stage.setTitle("2D Adventure");
         return gameScene;
     }
-
     private Scene createTitleScreen(Stage stage) {
         Pane titleRoot = new Pane();
         Scene titleScene = new Scene(titleRoot, SCREEN_WIDTH, SCREEN_HEIGHT);
+        playMusic(11);
 
-        //titleScene.setFill(Color.BLACK);
-//        Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Slime_Time/res/ui/startscreenbg.png")));
         try {
             backgroundImage = new Image(new FileInputStream("Slime_Time/res/ui/startscreenbg.png"));
         }
@@ -241,31 +246,21 @@ public class GameApplication extends Application {
 
         return titleScene;
     }
+    private void setupTitleScene() {
+        gameState = titleState;
+    }
 
     private void startGame(Stage stage) {
+        stopMusic(11);
         showTitleScreen = false;
         gameState = playState;
         stage.setScene(createGameScene(stage));
         setupGame();
         startGameLoop(canvas.getGraphicsContext2D());
     }
-
-
-    @Override
-    public void start(Stage stage) {
-        Scene titleScene = createTitleScreen(stage);
-        stage.setTitle("2D Adventure");
-        stage.setScene(titleScene);
-        stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
-    }
-
     // Any Methods to Set up at Beginning of Game
     public void setupGame() {
-        playMusic();
+        playMusic(0);
         player.setDefaultValues();
         resource = new SuperResource[100];
         Resource.setResource();
@@ -274,12 +269,8 @@ public class GameApplication extends Application {
         obj = new ArrayList<>();
         gameState = playState;
     }
-
-    public void setupTitleScene() {
-        gameState = titleState;
-    }
     // Game Loop
-    public void startGameLoop(GraphicsContext gc) {
+    private void startGameLoop(GraphicsContext gc) {
         System.out.println("Setup Game");
         //setting objects/monsters (important for proper updates after resource/monster destruction)
         GreenSlime.setGreenSlime();
@@ -320,7 +311,7 @@ public class GameApplication extends Application {
         }.start();
     }
 
-    public void update() {
+    private void update() {
         //constantly checks for playstate, if gamestate changes, background processes pause
         if (gameState == playState) {
             player.update();
@@ -345,9 +336,7 @@ public class GameApplication extends Application {
             }
         }
     }
-
-
-    public void render(GraphicsContext gc) {
+    private void render(GraphicsContext gc) {
         //rendering what the player can see
         long drawStart = 0;
         if (keyH.checkDrawTime) {
@@ -392,15 +381,13 @@ public class GameApplication extends Application {
         }
     }
 
-    public void playMusic() {
-        sound.play(0);
-        sound.loop(0);
+    private void playMusic(int index) {
+        sound.play(index);
+        sound.loop(index);
     }
-
-    public void stopMusic() {
-        sound.stop(0);
+    private void stopMusic(int index) {
+        sound.stop(index);
     }
-
     public void playSE(int i) {
         sound.play(i);
     }

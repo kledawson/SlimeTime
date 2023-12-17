@@ -73,6 +73,31 @@ public class KeyHandler implements EventHandler<KeyEvent> {
                     }
                 }
             }
+            case F3 -> {
+                if (!flag && ga.showExtraHUD) {
+                    ga.showExtraHUD = false;
+                }
+                else {
+                    ga.showExtraHUD = true;
+                }
+            }
+            case ESCAPE -> {
+                pPressed = true;
+
+                cPressed = false;
+                if (ga.gameState != ga.characterState) {
+                    ga.gameState = ga.characterState;
+                } else {
+                    ga.gameState = ga.playState;
+                }
+
+                ga.upgradeBootsButton.setVisible(false);
+                ga.upgradeMeleeButton.setVisible(false);
+                ga.upgradeArmorButton.setVisible(false);
+                ga.upgradeProjectileButton.setVisible(false);
+                ga.ui.showUpgradeScreen = false;
+                ga.gameState = ga.playState;
+            }
         }
     }
 }

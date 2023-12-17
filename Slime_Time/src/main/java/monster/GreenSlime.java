@@ -1,9 +1,6 @@
 package monster;
 
-import ai.Node;
-import ai.PathFinder;
 import entity.Entity;
-import interactive_resources.SuperResource;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
@@ -17,14 +14,12 @@ public class GreenSlime extends Entity {
     GameApplication ga;
 
     private int actionLockCounter = 0;
-
+    private boolean onPath = false;
 
     public GreenSlime(GameApplication ga) {
         this.ga = ga;
-        String name = "Steve";
         speed = 1;
-        int maxSlimeHp = 8;
-        life = maxSlimeHp;
+        life = 8;
         collision = true;
         solidArea = new Rectangle(0,0, 42,33);
         attackValue = 1;
@@ -32,17 +27,14 @@ public class GreenSlime extends Entity {
         getGreenSlimeImage();
     }
 
-
-    public void getGreenSlimeImage() {
+    private void getGreenSlimeImage() {
         setupGreenSlime("greenSlime1");
         setupGreenSlime("greenSlime2");
         setupGreenSlime("greenSlime3");
         setupGreenSlime("greenSlime4");
         setupGreenSlime("greenSlime5");
     }
-
-
-    public void setupGreenSlime(String imageName) {
+    private void setupGreenSlime(String imageName) {
         try {
             images.add(new Image(new FileInputStream("Slime_Time/res/slimes/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
         }
@@ -56,86 +48,7 @@ public class GreenSlime extends Entity {
             }
         }
     }
-
-    public void render(GraphicsContext gc, GameApplication ga) {
-        int screenX = worldX - ga.player.worldX + ga.player.screenX;
-        int screenY = worldY - ga.player.worldY + ga.player.screenY;
-
-
-        // Draws Only What Camera Can See
-        if (worldX + ga.TILE_SIZE > ga.player.worldX - ga.player.screenX &&
-                worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
-                worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
-                worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gc.drawImage(images.get(-1 + spriteNum), screenX, screenY);
-        }
-        gc.strokeRect(screenX + 3, screenY + 15, 42, 33);
-    }
-
-    public void greenSlimeDamage(int damage) {
-        if (iFrameCount >= 20) {
-            life -= damage;
-            iFrameCount = 0;
-            ga.playSE(4);
-        }
-        System.out.println("Monster taking damage!");
-    }
-
-    public void update(int index) {
-        setAction();
-        checkCollision();
-        collisionOn = false;
-        ga.cChecker.checkTile(this);
-        ga.cChecker.checkResource(this);
-
-        if (!collisionOn) {
-            switch (direction) {
-                case "up" -> worldY -= speed;
-                case "down" -> worldY += speed;
-                case "left" -> worldX -= speed;
-                case "right" -> worldX += speed;
-            }
-        }
-        ((Rectangle)solidArea).setX(worldX + 3);
-        ((Rectangle)solidArea).setY(worldY + 15);
-
-        int xDistance = Math.abs(worldX - ga.player.worldX);
-        int yDistance = Math.abs(worldY - ga.player.worldY);
-        int tileDistance = (xDistance + yDistance)/ga.TILE_SIZE;
-
-        if(!onPath && tileDistance < 100) {
-            int i = new Random().nextInt(100)+1;
-            if(i > 50) {
-                onPath = true;
-            }
-        }
-
-        // Slimes de-aggro whenever player leaves 20 tiles, but in our case slimes aggro from 100 tiles away (always aggro)
-/*        if(onPath == true && tileDistance > 20) {
-            onPath = false;
-        }*/
-
-        if (life == 0) {
-            ga.greenSlime.get(index).monsterKill(index);
-        }
-
-        // Jumping Animation
-        if (spriteCounter > 10) {
-            switch (spriteNum) {
-                case 1 -> spriteNum = 2;
-                case 2 -> spriteNum = 3;
-                case 3 -> spriteNum = 4;
-                case 4 -> spriteNum = 5;
-                case 5 -> spriteNum = 1;
-            }
-                spriteCounter = 0;
-        }
-        ++spriteCounter;
-
-        ++iFrameCount;
-    }
-
-    public void monsterKill(int index) {
+    private void monsterKill(int index) {
         //saving coordinates right before despawn
             int worldX = ga.greenSlime.get(index).worldX;
             int worldY = ga.greenSlime.get(index).worldY;
@@ -144,6 +57,11 @@ public class GreenSlime extends Entity {
             ga.objM.addItem(new OBJ_Gold(ga), worldX, worldY);
 
             //spawn a new slime after
+            spawnRandom();
+
+
+    }
+    public void spawnRandom() {
         int[][] spawnPoints = {
                 {70 * ga.TILE_SIZE, 64 * ga.TILE_SIZE},
                 {70 * ga.TILE_SIZE, 50 * ga.TILE_SIZE},
@@ -161,12 +79,9 @@ public class GreenSlime extends Entity {
 
 
 
-        ga.Monster.spawnMonster(new GreenSlime(ga), randomX, randomY);
-
-
+        ga.GreenSlime.spawnMonster(new GreenSlime(ga), randomX, randomY);
     }
-
-    public void setAction() {
+    private void setAction() {
 
         if(onPath) {
 
@@ -202,8 +117,7 @@ public class GreenSlime extends Entity {
 
         }
     }
-
-    public void searchPath(int goalCol, int goalRow) {
+    private void searchPath(int goalCol, int goalRow) {
 
         int startCol = (int)((Rectangle)solidArea).getX()/ga.TILE_SIZE;
         int startRow = (int)((Rectangle)solidArea).getY()/ga.TILE_SIZE;
@@ -269,13 +183,82 @@ public class GreenSlime extends Entity {
 
         }
     }
-
-    public void checkCollision() {
+    private void checkCollision() {
         collisionOn = false;
         ga.cChecker.checkTile(this);
         ga.cChecker.checkResource(this);
         ga.cChecker.checkMonster(this);
         ga.cChecker.checkPlayer(this);
+    }
+    public void greenSlimeDamage(int damage) {
+        if (iFrameCount >= 20) {
+            life -= damage;
+            iFrameCount = 0;
+            ga.playSE(4);
+        }
+        System.out.println("Monster taking damage!");
+    }
+    public void update(int index) {
+        setAction();
+        checkCollision();
+        collisionOn = false;
+        ga.cChecker.checkTile(this);
+        ga.cChecker.checkResource(this);
+
+        if (!collisionOn) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
+            }
+        }
+        ((Rectangle)solidArea).setX(worldX + 3);
+        ((Rectangle)solidArea).setY(worldY + 15);
+
+        int xDistance = Math.abs(worldX - ga.player.worldX);
+        int yDistance = Math.abs(worldY - ga.player.worldY);
+        int tileDistance = (xDistance + yDistance)/ga.TILE_SIZE;
+
+        if(!onPath && tileDistance < 100) {
+            int i = new Random().nextInt(100)+1;
+            if(i > 50) {
+                onPath = true;
+            }
+        }
+
+        // Slimes de-aggro whenever player leaves 20 tiles, but in our case slimes aggro from 100 tiles away (always aggro)
+/*        if(onPath == true && tileDistance > 20) {
+            onPath = false;
+        }*/
+
+        if (life == 0) {
+            ga.greenSlime.get(index).monsterKill(index);
+        }
+
+        // Jumping Animation
+        if (spriteCounter > 10) {
+            switch (spriteNum) {
+                case 1 -> spriteNum = 2;
+                case 2 -> spriteNum = 3;
+                case 3 -> spriteNum = 4;
+                case 4 -> spriteNum = 5;
+                case 5 -> spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
+        ++spriteCounter;
+
+        ++iFrameCount;
+    }
+    @Override
+    public void render(GraphicsContext gc, GameApplication ga) {
+        super.render(gc, ga);
+        int screenX = worldX - ga.player.worldX + ga.player.screenX;
+        int screenY = worldY - ga.player.worldY + ga.player.screenY;
+        if (ga.showExtraHUD) {
+            gc.strokeRect(screenX + 3, screenY + 15, 42, 33);
+        }
     }
 
 }

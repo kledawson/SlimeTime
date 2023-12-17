@@ -16,10 +16,6 @@ public class CollisionChecker {
 
     private void checkTileUtil(Entity entity, int tileNum1, int col1, int row1) {
         if (ga.tileM.tile[tileNum1].collision) {
-//            if (entity != ga.player) {
-//                entity.collisionOn = true;
-//                return;
-//            }
             ga.tileM.tile[tileNum1].solidArea.setTranslateX(col1 * ga.TILE_SIZE);
             ga.tileM.tile[tileNum1].solidArea.setTranslateY(row1 * ga.TILE_SIZE);
             Shape intersection = Shape.intersect(entity.solidArea, ga.tileM.tile[tileNum1].solidArea);
@@ -30,7 +26,6 @@ public class CollisionChecker {
             ga.tileM.tile[tileNum1].solidArea.setTranslateY(row1 * ga.TILE_SIZE * -1);
         }
     }
-
     // Checks Collision b/w Entity and Tile
     public void checkTile(Entity entity) {
         // Calculates Coordinates of Entity
@@ -120,7 +115,6 @@ public class CollisionChecker {
             }
         }
     }
-
     // Checks Collision b/w Entity and Object
     // Returns Which Index of Which Object is Being Collided
     public int checkObject(Entity entity) {
@@ -138,7 +132,6 @@ public class CollisionChecker {
         }
         return index;
     }
-
     public List<Integer> checkMonster(Entity entity) {
         List<Integer> indices = new ArrayList<>();
         for (int i = 0; i < ga.greenSlime.size(); ++i) {
@@ -154,14 +147,12 @@ public class CollisionChecker {
         }
         return indices;
     }
-
     public void checkPlayer(Entity entity) {
         Shape intersection = Shape.intersect(entity.solidArea, ga.player.solidArea);
         if (intersection.getBoundsInParent().getWidth() != -1) {
             entity.collisionOn = true;
         }
     }
-
     public List<Integer> checkResource(Entity entity) {
         List<Integer> indices = new ArrayList<>();
         System.out.println(ga.resource.length);

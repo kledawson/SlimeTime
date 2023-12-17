@@ -10,15 +10,13 @@ public class Rock extends SuperResource {
         getRockImage();
     }
 
-
-    public void getRockImage() {
+    private void getRockImage() {
         setup("rock", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("rock_break_1", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("rock_break_2", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("rock_break_3", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("rock_broken", "interactive_resources", ga.TILE_SIZE, ga.TILE_SIZE);
     }
-
     public void update(int i) {
        // int index = ga.cChecker.checkResource(this);
         switch (life) {
@@ -33,7 +31,6 @@ public class Rock extends SuperResource {
         }
         ++iFrameCount;
     }
-
     @Override
     public void takeDamage(int damage) {
         ga.playSE(7);

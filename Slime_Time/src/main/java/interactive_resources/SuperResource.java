@@ -1,9 +1,6 @@
 package interactive_resources;
 
-
-import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.canvas.GraphicsContext;
 import main.GameApplication;
 import entity.Entity;
 import object.SuperObject;
@@ -23,22 +20,6 @@ public class SuperResource extends Entity {
         iFrameCount = 0;
     }
 
-    public void render(GraphicsContext gc, GameApplication ga) {
-        int screenX = worldX - ga.player.worldX + ga.player.screenX;
-        int screenY = worldY - ga.player.worldY + ga.player.screenY;
-
-        Image image;
-        image = images.get(-1 + spriteNum);
-
-        // Draws Only What Camera Can See
-        if (worldX + ga.TILE_SIZE > ga.player.worldX - ga.player.screenX &&
-                worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
-                worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
-                worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gc.drawImage(image, screenX, screenY);
-        }
-    }
-
     public void takeDamage(int damage) {
         if (life > 0 && iFrameCount > 30) {
             --life;
@@ -46,7 +27,6 @@ public class SuperResource extends Entity {
         }
         System.out.println("TAKING DAMAGE!");
     }
-
     public void removeFromGame(int index, SuperObject object) {
     //saving coordinates for item spawn
             int worldX = ga.resource[index].worldX;

@@ -22,6 +22,7 @@ public class Sound {
         setup(8, "upgrade.mp3", 0.25);
         setup(9, "wood_break.mp3", 0.25);
         setup(10, "wood_damage.mp3", 0.25);
+        setup(11, "Part_3_-_8bit_vr.mp4", 1.5);
     }
 
     public void setup(int i, String soundName, Double volume) {

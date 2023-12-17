@@ -21,7 +21,7 @@ public class Player extends Entity{
     public final int screenY; // Screen Y-Coord
     public Scythe scythe;
     public Slingshot slingshot;
-    public ArrayList<SuperObject> inventory = new ArrayList<>();
+    public ArrayList<SuperObject> inventory;
     public final int maxInventorySize = 8; //subject to change later
 
     public int bootsGoldCost = 1;
@@ -40,6 +40,7 @@ public class Player extends Entity{
     public int projectileStoneCost = 1;
     public int projectileWoodCost = 1;
 
+    public int bootsCost = 1, meleeCost = 1, armorCost = 1, projectileCost = 1;
 
     public Player(GameApplication ga, KeyHandler keyH) {
         this.ga = ga;
@@ -60,43 +61,64 @@ public class Player extends Entity{
 
         scythe = new Scythe(ga, this);
         slingshot = new Slingshot(ga, this);
+        inventory = new ArrayList<>();
 
         setDefaultValues();
         getPlayerImage();
         setItems();
     }
 
-    public void setItems() {
-        //inventory.add()
-//        SuperObject gold = new OBJ_Gold(ga);
-//        SuperObject wood = new OBJ_Wood(ga);
-//        SuperObject stone = new OBJ_Stone(ga);
-//        wood.amount = 40;
-//        stone.amount = 40;
-//        gold.amount = 40;
-//        inventory.add(gold);
-//        inventory.add(wood);
-//        inventory.add(stone);
+    private void pickUpObject(int i) {
+        if (i != 999) {
+            //pickup only
+            if (canObtainItem(ga.obj.get(i))) {
+                System.out.println(ga.obj.get(i).name + " acquired!");
+                ga.playSE(1);
+            }
+            else {
+                System.out.println("Can't carry anymore!");
+            }
+            // ga.ui.addMessage(text); ->  implement later
+            ga.obj.set(i, null);
+        }
     }
-
-
-    // Set Spawn, Speed, Direction
-    public void setDefaultValues() {
-        worldX = ga.TILE_SIZE * 64;
-        worldY = ga.TILE_SIZE * 50;
-        speed = 2;
-        direction = "down";
-
-        //Player stats
-        level = 1;
-        maxLife = 6;
-        life = maxLife;
-        exp = 0;
-        nextLevelExp = 5;
-        iFrameCount = 60;
+    private boolean canObtainItem(SuperObject item) {
+        boolean canObtain = false;
+        //check if stackable
+        if (item.stackable) {
+            int index = searchItemInInventory(item.name);
+            if (index != 999) {
+                ++inventory.get(index).amount;
+                canObtain = true;
+            }
+            else { //New Item to check vacancy
+                if(inventory.size() != maxInventorySize) {
+                    inventory.add(item);
+                    canObtain = true;
+                }
+            }
+        }
+        else { //not stackable
+            if(inventory.size() != maxInventorySize) {
+                inventory.add(item);
+                canObtain = true;
+            }
+        }
+        return canObtain;
+    }
+    private void setItems() {
+        SuperObject gold = new OBJ_Gold(ga);
+        SuperObject wood = new OBJ_Wood(ga);
+        SuperObject stone = new OBJ_Stone(ga);
+        wood.amount = 1;
+        stone.amount = 1;
+        gold.amount = 1;
+        inventory.add(gold);
+        inventory.add(wood);
+        inventory.add(stone);
     }
     // Loads Player Sprites
-    public void getPlayerImage() {
+    private void getPlayerImage() {
         setup("farmer_back_1", "player", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("farmer_back_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("farmer_back_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
@@ -129,7 +151,18 @@ public class Player extends Entity{
         setup("farmer_right_down_2", "player", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("farmer_right_down_idle", "player", ga.TILE_SIZE, ga.TILE_SIZE);
     }
+    // Set Spawn, Speed, Direction
+    public void setDefaultValues() {
+        worldX = ga.TILE_SIZE * 64;
+        worldY = ga.TILE_SIZE * 50;
+        speed = 2;
+        direction = "down";
 
+        //Player stats
+        maxLife = 6;
+        life = maxLife;
+        iFrameCount = 60;
+    }
     // Update Method
     public void update() {
         // Sets Direction Based on Key Press
@@ -222,7 +255,6 @@ public class Player extends Entity{
         slingshot.update();
 
     }
-
     public void takeDamage(int damage) {
         if (iFrameCount >= 60) {
             life -= damage;
@@ -233,7 +265,6 @@ public class Player extends Entity{
             ga.gameState = ga.endState;
         }
     }
-
     public int searchItemInInventory(String itemName) {
         int itemIndex = 999;
         for(int i = 0; i < inventory.size(); i++) {
@@ -244,98 +275,52 @@ public class Player extends Entity{
         }
         return itemIndex;
     }
-    public void pickUpObject(int i) {
-        if (i != 999) {
-            //pickup only
-            if (canObtainItem(ga.obj.get(i))) {
-                System.out.println(ga.obj.get(i).name + " acquired!");
-                ga.playSE(1);
-            }
-            else {
-                System.out.println("Can't carry anymore!");
-            }
-            // ga.ui.addMessage(text); ->  implement later
-            ga.obj.set(i, null);
-        }
-    }
-    public boolean canObtainItem(SuperObject item) {
-        boolean canObtain = false;
-        //check if stackable
-        if (item.stackable) {
-            int index = searchItemInInventory(item.name);
-            if (index != 999) {
-                inventory.get(index).amount++;
-                canObtain = true;
-            }
-            else { //New Item to check vacancy
-                if(inventory.size() != maxInventorySize) {
-                    inventory.add(item);
-                    canObtain = true;
-                }
-            }
-        }
-        else { //not stackable
-            if(inventory.size() != maxInventorySize) {
-                inventory.add(item);
-                canObtain = true;
-            }
-        }
-        return canObtain;
-    }
-
-public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
+    public boolean hasRequiredItems(int cost) {
         int goldIndex = searchItemInInventory("Gold");
         int stoneIndex = searchItemInInventory("Stone");
         int woodIndex = searchItemInInventory("Wood");
 
-    return goldIndex != 999 && inventory.get(goldIndex).amount >= goldCost &&
-            stoneIndex != 999 && inventory.get(stoneIndex).amount >= stoneCost &&
-            woodIndex != 999 && inventory.get(woodIndex).amount >= woodCost;
+    return goldIndex != 999 && inventory.get(goldIndex).amount >= cost &&
+            stoneIndex != 999 && inventory.get(stoneIndex).amount >= cost &&
+            woodIndex != 999 && inventory.get(woodIndex).amount >= cost;
 }
-
     public void upgradeBoots() {
-        if (hasRequiredItems(bootsGoldCost, bootsStoneCost, bootsWoodCost)) {
+        if (hasRequiredItems(bootsCost)) {
             int goldIndex = searchItemInInventory("Gold");
             int stoneIndex = searchItemInInventory("Stone");
             int woodIndex = searchItemInInventory("Wood");
 
-            inventory.get(goldIndex).amount -= bootsGoldCost;
-            inventory.get(stoneIndex).amount -= bootsStoneCost;
-            inventory.get(woodIndex).amount -= bootsWoodCost;
+            inventory.get(goldIndex).amount -= bootsCost;
+            inventory.get(stoneIndex).amount -= bootsCost;
+            inventory.get(woodIndex).amount -= bootsCost;
 
             // apply upgrade to player
             speed++;
             // Update the costs for the next upgrade
-            ++bootsGoldCost;
-            ++bootsStoneCost;
-            ++bootsWoodCost;
+            ++bootsCost;
             ga.playSE(8);
         }
     }
-
     public void upgradeArmor() {
         // Check if player has required items in inventory
-        if (hasRequiredItems(armorGoldCost, armorStoneCost, armorWoodCost)) {
+        if (hasRequiredItems(armorCost)) {
             int goldIndex = searchItemInInventory("Gold");
             int stoneIndex = searchItemInInventory("Stone");
             int woodIndex = searchItemInInventory("Wood");
 
-            inventory.get(goldIndex).amount -= armorGoldCost;
-            inventory.get(stoneIndex).amount -= armorStoneCost;
-            inventory.get(woodIndex).amount -= armorWoodCost;
+            inventory.get(goldIndex).amount -= armorCost;
+            inventory.get(stoneIndex).amount -= armorCost;
+            inventory.get(woodIndex).amount -= armorCost;
 
             //apply upgrade
             maxLife++;
             life++;
 
             // Update the costs for the next upgrade
-            ++armorGoldCost;
-            ++armorStoneCost;
-            ++armorWoodCost;
+            ++armorCost;
             ga.playSE(8);
         }
     }
-
     // Render Method
     public void render(GraphicsContext gc) {
         Image image = null;
@@ -374,7 +359,9 @@ public boolean hasRequiredItems(int goldCost, int stoneCost, int woodCost) {
 
         // Renders Player Hit box
         //gcPlayer.setStroke(Color.TRANSPARENT);
-        gc.strokeRect(screenX + 8, screenY + 16, 32, 32);
+        if (ga.showExtraHUD) {
+            gc.strokeRect(screenX + 8, screenY + 16, 32, 32);
+        }
         scythe.render(gc);
         slingshot.render(gc);
     }

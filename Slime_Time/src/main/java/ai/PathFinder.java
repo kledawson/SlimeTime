@@ -19,8 +19,7 @@ public class PathFinder {
         this.ga = ga;
         instantiateNodes();
     }
-
-    public void instantiateNodes() {
+    private void instantiateNodes() {
 
         node = new Node[ga.MAX_WORLD_COL][ga.MAX_WORLD_ROW];
         int col = 0;
@@ -37,7 +36,7 @@ public class PathFinder {
             }
         }
     }
-    public void resetNodes() {
+    private void resetNodes() {
         int col = 0;
         int row = 0;
 
@@ -57,6 +56,40 @@ public class PathFinder {
         pathList.clear();
         goalReached = false;
         step = 0;
+    }
+    private void getCost(Node node) {
+
+        //G-COST
+        int xDistance = Math.abs(node.col - startNode.col);
+        int yDistance = Math.abs(node.row - startNode.row);
+        node.gCost = xDistance + yDistance;
+
+        //H-COST
+        xDistance = Math.abs(node.col - goalNode.col);
+        yDistance = Math.abs(node.row - goalNode.row);
+        node.hCost = xDistance + yDistance;
+
+        //F-COST
+        node.fCost = node.gCost + node.hCost;
+    }
+    private void openNode(Node node) {
+
+        if(!node.open && !node.checked && !node.solid) {
+
+            node.open = true;
+            node.parent = currentNode;
+            openList.add(node);
+        }
+    }
+    private void trackThePath() {
+
+        Node current = goalNode;
+
+        while(current != startNode) {
+
+            pathList.add(0,current);
+            current = current.parent;
+        }
     }
     public void setNodes(int startCol, int startRow, int goalCol, int goalRow) {
         resetNodes();
@@ -91,21 +124,6 @@ public class PathFinder {
                 node[col][row].solid = true;
             }
         }
-    }
-    public void getCost(Node node) {
-
-        //G-COST
-        int xDistance = Math.abs(node.col - startNode.col);
-        int yDistance = Math.abs(node.row - startNode.row);
-        node.gCost = xDistance + yDistance;
-
-        //H-COST
-        xDistance = Math.abs(node.col - goalNode.col);
-        yDistance = Math.abs(node.row - goalNode.row);
-        node.hCost = xDistance + yDistance;
-
-        //F-COST
-        node.fCost = node.gCost + node.hCost;
     }
     public boolean search() {
 
@@ -159,23 +177,5 @@ public class PathFinder {
         }
         return goalReached;
     }
-    public void openNode(Node node) {
 
-        if(!node.open && !node.checked && !node.solid) {
-
-            node.open = true;
-            node.parent = currentNode;
-            openList.add(node);
-        }
-    }
-    public void trackThePath() {
-
-        Node current = goalNode;
-
-        while(current != startNode) {
-
-            pathList.add(0,current);
-            current = current.parent;
-        }
-    }
 }

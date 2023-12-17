@@ -33,8 +33,7 @@ public class UI {
         }
         getUIImage();
     }
-
-    public void getUIImage() {
+    private void getUIImage() {
         setup("upgrade_menu", ga.SCREEN_WIDTH * 3 / 4, ga.SCREEN_HEIGHT * 3 / 4);
         setup("button_image", 144, 72);
         setup("boots_icon", 144, 144);
@@ -48,8 +47,7 @@ public class UI {
         setup("button_image1", ga.TILE_SIZE * 5 / 2, ga.TILE_SIZE + 18);
         setup("empty_heart_icon", 144, 144);
     }
-
-    public void setup(String imageName, double width, double height) {
+    private void setup(String imageName, double width, double height) {
         try {
             images.add(new Image(new FileInputStream("Slime_Time/res/ui/" + imageName + ".png"), width, height, false, false));
         }
@@ -62,29 +60,7 @@ public class UI {
             }
         }
     }
-
-    public void render(GraphicsContext gc) {
-        this.gc = gc;
-        gc.setFill(Color.WHITE);
-
-        if (ga.gameState == ga.playState) {
-            renderPlayUI();
-        }
-        if (ga.gameState == ga.pauseState) {
-            renderPauseScreen();
-        }
-        if (ga.gameState == ga.characterState) {
-            renderCharacterScreen();
-        }
-        if (showUpgradeScreen) {
-            renderUpgradeScreen();
-        }
-        if (ga.gameState == ga.endState) {
-            renderEndScreen();
-        }
-    }
-
-    public void renderPlayUI() {
+    private void renderPlayUI() {
         int vOffset = 0;
         for (int i = 1; i <= ga.player.maxLife; ++i) {
             if (i % 11 == 0) {
@@ -98,8 +74,7 @@ public class UI {
             }
         }
     }
-
-    public void renderPauseScreen() {
+    private void renderPauseScreen() {
         gc.setFont(pix80);
         String text = "PAUSED";
         int x = ga.SCREEN_WIDTH / 2;
@@ -107,16 +82,14 @@ public class UI {
         gc.setTextAlign(TextAlignment.CENTER);
         gc.fillText(text, x, y);
     }
-
-    public void renderEndScreen() {
+    private void renderEndScreen() {
         ga.tryAgainButton.setVisible(true);
         ga.tryAgainButton.setOnMouseClicked(e -> {
             ga.setupGame();
             ga.tryAgainButton.setVisible(false);
         });
     }
-
-    public void renderCharacterScreen() {
+    private void renderCharacterScreen() {
         drawMenuWindow();
 
         // RECTANGLE
@@ -127,7 +100,6 @@ public class UI {
         // TEXT
         int yStart = (int) (rectangleY + 96);
         int lineHeight = 64;
-        int valueOffset = 200;
 
         gc.setFont(pix20);
         gc.setFill(Color.WHITE);
@@ -156,9 +128,7 @@ public class UI {
 
         renderInventory();
     }
-
-
-    public void renderInventory() {
+    private void renderInventory() {
         // Inventory rendering (2x4 slots)
         int frameX = ga.SCREEN_WIDTH / 9 + ga.SCREEN_WIDTH / 2; // X position for inventory
         int frameY = ga.SCREEN_HEIGHT / 8; // Y position for inventory
@@ -169,7 +139,6 @@ public class UI {
 
         // Draw the inventory frame
         int invWidth = 2; // Number of columns in the inventory
-        int invHeight = 4; // Number of rows in the inventory
         gc.drawImage(images.get(6), frameX, frameY, ga.SCREEN_WIDTH * 5 / 18, ga.SCREEN_HEIGHT * 3 / 4);
 
         // Draw inventory items within the available slots
@@ -182,7 +151,7 @@ public class UI {
             gc.drawImage(item.images.get(0), slotX, slotY, slotWidth * 2 / 3, slotHeight * 2 / 3);
 
             // Draw the quantity of items stacked (if greater than 1)
-            if (item.amount > 1) {
+            if (item.amount >= 1) {
                 gc.setFont(pix20);
                 gc.setFill(Color.WHITE);
                 gc.setTextAlign(TextAlignment.RIGHT);
@@ -194,13 +163,11 @@ public class UI {
             currentSlot++;
         }
     }
-
-    public void renderUpgradeScreen() {
+    private void renderUpgradeScreen() {
         drawMenuWindow();
 
         int buttonWidth = ga.TILE_SIZE * 2;
         int buttonSpacing = 24; // Spacing between buttons
-        int totalButtonWidth = 4 * buttonWidth + 3 * buttonSpacing;
         int buttonX = ga.SCREEN_WIDTH / 9 + ga.TILE_SIZE;
         int buttonY = ga.SCREEN_HEIGHT / 8 + ga.TILE_SIZE;
 
@@ -254,28 +221,28 @@ public class UI {
         // Negative Button Images
         int buttonX2 = ga.SCREEN_WIDTH / 9 + ga.TILE_SIZE * 17 / 2;
         int buttonY2 = ga.SCREEN_HEIGHT / 8 + ga.TILE_SIZE + 28;
-        if (!ga.player.hasRequiredItems(ga.player.armorGoldCost, ga.player.armorStoneCost, ga.player.armorWoodCost)) {
+        if (!ga.player.hasRequiredItems(ga.player.armorCost)) {
             gc.drawImage(images.get(10), buttonX2, buttonY2);
             ga.upgradeArmorButton.setVisible(false);
         }
         else {
             ga.upgradeArmorButton.setVisible(true);
         }
-        if (!ga.player.hasRequiredItems(ga.player.meleeGoldCost, ga.player.meleeStoneCost, ga.player.meleeWoodCost)) {
+        if (!ga.player.hasRequiredItems(ga.player.meleeCost)) {
             gc.drawImage(images.get(10), buttonX2, buttonY2 + ga.TILE_SIZE * 5 / 2);
             ga.upgradeMeleeButton.setVisible(false);
         }
         else {
             ga.upgradeMeleeButton.setVisible(true);
         }
-        if (!ga.player.hasRequiredItems(ga.player.projectileGoldCost, ga.player.projectileStoneCost, ga.player.projectileWoodCost)) {
+        if (!ga.player.hasRequiredItems(ga.player.projectileCost)) {
             gc.drawImage(images.get(10), buttonX2, buttonY2 + 2 * (ga.TILE_SIZE * 5 / 2));
             ga.upgradeProjectileButton.setVisible(false);
         }
         else {
             ga.upgradeProjectileButton.setVisible(true);
         }
-        if (!ga.player.hasRequiredItems(ga.player.bootsGoldCost, ga.player.bootsStoneCost, ga.player.bootsWoodCost)) {
+        if (!ga.player.hasRequiredItems(ga.player.bootsCost)) {
             gc.drawImage(images.get(10), buttonX2, buttonY2 + 3 * (ga.TILE_SIZE * 5 / 2));
             ga.upgradeBootsButton.setVisible(false);
         }
@@ -296,8 +263,7 @@ public class UI {
 
         renderInventory();
     }
-
-    public void drawMenuWindow() {
+    private void drawMenuWindow() {
         int frameX = ga.SCREEN_WIDTH / 9;
         int frameY = ga.SCREEN_HEIGHT / 8;
         int frameWidth = ga.SCREEN_WIDTH / 2 ;
@@ -305,6 +271,26 @@ public class UI {
         gc.setFill(Color.rgb(0, 0, 0, 0.8));
         gc.fillRect(0, 0, ga.SCREEN_WIDTH, ga.SCREEN_HEIGHT);
         gc.drawImage(images.get(0), frameX, frameY, frameWidth, frameHeight);
+    }
+    public void render(GraphicsContext gc) {
+        this.gc = gc;
+        gc.setFill(Color.WHITE);
+
+        if (ga.gameState == ga.playState) {
+            renderPlayUI();
+        }
+        if (ga.gameState == ga.pauseState) {
+            renderPauseScreen();
+        }
+        if (ga.gameState == ga.characterState) {
+            renderCharacterScreen();
+        }
+        if (showUpgradeScreen) {
+            renderUpgradeScreen();
+        }
+        if (ga.gameState == ga.endState) {
+            renderEndScreen();
+        }
     }
 }
 
