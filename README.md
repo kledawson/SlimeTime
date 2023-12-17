@@ -12,6 +12,7 @@ These are the team members involved in the project and their contributions
 - Weapon / Combat Functionality: Implemented mouse tracking and input detection for weapon attacks. Developed two different weapons that can "attack" on set intervals.
 - Collision Functionality: Implemented collision functionality for each category of gameplay asset (ie. Player, Slimes, Resources, etc..). Determined functionality for movement boundaries and hit-detection hit-boxes.
 - Improved Combat Hit-Detection: Implemented the idea of "I-frames" where an Entity is invulnerable for a chosen period before being able to be hit again.
+- Nature of Gameplay: Implemented a system of timely-increased difficulty increases. Every 3 minutes, more slimes would chase the player as well as the strength of each slime.
 - Sound / Music Implementation: Implemented sound and music capabilities for application.
 - AI Bugfixing: Troubleshooted the initial Slime AI tracking algorithm to help fully develop AI system for monsters.
 - UI Adjustments: I reorganized the UI menu screens for better organization on screen.
