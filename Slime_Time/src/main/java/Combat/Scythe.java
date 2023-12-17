@@ -253,7 +253,7 @@ public class Scythe extends Entity implements Weapon {
 
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
             for (Integer index : resourceIndices) {
-                ga.resource[index].takeDamage();
+                ga.resource[index].takeDamage(attackValue);
             }
 
             List<Integer> monsterIndices = ga.cChecker.checkMonster(this);

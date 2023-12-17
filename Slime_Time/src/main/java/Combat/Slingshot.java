@@ -109,7 +109,7 @@ public class Slingshot extends Entity implements Weapon {
 
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
             for (Integer index : resourceIndices) {
-                ga.resource[index].takeDamage();
+                ga.resource[index].takeDamage(attackValue);
                 spriteNum = 4;
                 attacking = false;
                 screenX = player.screenX + 4 * ga.SCALE;

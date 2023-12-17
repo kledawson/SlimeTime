@@ -33,8 +33,8 @@ public class Tree extends SuperResource {
     }
 
     @Override
-    public void takeDamage() {
+    public void takeDamage(int damage) {
         ga.playSE(10);
-        super.takeDamage();
+        super.takeDamage(damage);
     }
 }

@@ -35,9 +35,9 @@ public class Rock extends SuperResource {
     }
 
     @Override
-    public void takeDamage() {
+    public void takeDamage(int damage) {
         ga.playSE(7);
-        super.takeDamage();
+        super.takeDamage(damage);
     }
 
 }

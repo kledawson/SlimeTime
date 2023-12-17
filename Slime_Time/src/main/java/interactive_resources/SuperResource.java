@@ -39,7 +39,7 @@ public class SuperResource extends Entity {
         }
     }
 
-    public void takeDamage() {
+    public void takeDamage(int damage) {
         if (life > 0 && iFrameCount > 30) {
             --life;
             iFrameCount = 0;
