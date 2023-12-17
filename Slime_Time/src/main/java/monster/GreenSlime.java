@@ -103,7 +103,7 @@ public class GreenSlime extends Entity {
         int yDistance = Math.abs(worldY - ga.player.worldY);
         int tileDistance = (xDistance + yDistance)/ga.TILE_SIZE;
 
-        if(!onPath && tileDistance < 5) {
+        if(!onPath && tileDistance < 100) {
             int i = new Random().nextInt(100)+1;
             if(i > 50) {
                 onPath = true;
@@ -272,7 +272,5 @@ public class GreenSlime extends Entity {
         ga.cChecker.checkMonster(this);
         ga.cChecker.checkPlayer(this);
     }
-/*    public void speak() {
-        onPath = true;
-    }*/
+
 }
