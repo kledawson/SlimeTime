@@ -110,6 +110,11 @@ public class GreenSlime extends Entity {
             }
         }
 
+        // Slimes de-aggro whenever player leaves 20 tiles, but in our case slimes aggro from 100 tiles away (always aggro)
+/*        if(onPath == true && tileDistance > 20) {
+            onPath = false;
+        }*/
+
         if (life == 0) {
             ga.greenSlime.get(index).monsterKill(index);
         }
