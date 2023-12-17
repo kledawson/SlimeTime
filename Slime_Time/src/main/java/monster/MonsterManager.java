@@ -1,13 +1,12 @@
 package monster;
 
-import entity.Entity;
 import javafx.scene.shape.Rectangle;
 import main.GameApplication;
 
 public class MonsterManager {
 
-    GameApplication ga;
-    int timer = 0;
+    private GameApplication ga;
+    private int timer = 0;
 
     public MonsterManager(GameApplication ga) {
         this.ga = ga;
@@ -26,7 +25,6 @@ public class MonsterManager {
         spawnMonster(new GreenSlime(ga), 55 * ga.TILE_SIZE, 49 * ga.TILE_SIZE );
         spawnMonster(new GreenSlime(ga), 66 * ga.TILE_SIZE, 32 * ga.TILE_SIZE );
     }
-
     //spawns in monster given coordinates
     public void spawnMonster(GreenSlime greenSlime, int worldX, int worldY) {
         greenSlime.worldX = worldX;
@@ -35,15 +33,18 @@ public class MonsterManager {
         ((Rectangle)greenSlime.solidArea).setY(worldY + 1);
         ga.greenSlime.add(greenSlime);
     }
-
     public void update() {
         ++timer;
         if (timer > 60 * 60 * 3) {
-            // SPAWN IN MORE MONSTERS HERE
+            for (int i = 0; i < 10; ++i) {
+                new GreenSlime(ga).spawnRandom();
+            }
+
             for (GreenSlime monster : ga.greenSlime) {
                 if (monster != null) {
                     ++monster.attackValue;
                     ++monster.speed;
+                    ++monster.life;
                 }
             }
             timer = 0;

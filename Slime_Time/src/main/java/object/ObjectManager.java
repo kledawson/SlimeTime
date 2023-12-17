@@ -5,7 +5,7 @@ import main.GameApplication;
 
 public class ObjectManager {
 
-    GameApplication ga;
+    private GameApplication ga;
 
     public ObjectManager(GameApplication ga) {
         this.ga = ga;

@@ -11,22 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scythe extends Entity implements Weapon {
-    Player player;
-    int screenX;
-    int screenY;
-    double mouseAngle;
-    boolean attacking;
-    int damage = 1;
-    int attackCount;
-    int centerX;
-    int centerY;
-    List<Polygon> scytheSolidAreas = new ArrayList<>();
+    private Player player;
+    private int screenX;
+    private int screenY;
+    private double mouseAngle;
+    private boolean attacking;
+    private int attackCount;
+    private int centerX;
+    private int centerY;
+    private List<Polygon> scytheSolidAreas = new ArrayList<>();
+
     public Scythe(GameApplication ga, Player player) {
         super(ga);
         attacking = false;
         this.player = player;
         solidArea = new Polygon();
-        attackValue = damage;
+        attackValue = 1;
         attackSpeed = 60;
         attackCount = 60;
         centerX = player.screenX + ga.TILE_SIZE / 2;
@@ -37,37 +37,7 @@ public class Scythe extends Entity implements Weapon {
         getScytheSolidAreas();
     }
 
-    @Override
-    public void attack() {
-        if (attackCount >= attackSpeed) {
-            attacking = true;
-            attackCount = 0;
-        }
-    }
-
-    @Override
-    public void upgrade() {
-        if (player.hasRequiredItems(player.meleeGoldCost, player.meleeStoneCost, player.meleeWoodCost)) {
-            int goldIndex = player.searchItemInInventory("Gold");
-            int stoneIndex = player.searchItemInInventory("Stone");
-            int woodIndex = player.searchItemInInventory("Wood");
-
-            player.inventory.get(goldIndex).amount -= player.meleeGoldCost;
-            player.inventory.get(stoneIndex).amount -= player.meleeStoneCost;
-            player.inventory.get(woodIndex).amount -= player.meleeWoodCost;
-
-            //apply upgrade
-            ++attackValue;
-            attackSpeed *= 2.0 / 3;
-
-            // Update the costs for the next upgrade
-            ++player.meleeGoldCost;
-            ++player.meleeStoneCost;
-            ++player.meleeWoodCost;
-        }
-    }
-
-    public void getScytheSolidAreas() {
+    private void getScytheSolidAreas() {
         for (int i = 0; i < 6; ++i) {
             scytheSolidAreas.add(new Polygon());
         }
@@ -116,7 +86,6 @@ public class Scythe extends Entity implements Weapon {
                 45.0, 45.0
         );
     }
-
     public void getWeaponImage() {
         setup("scythe_back_0", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("scythe_back_1", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
@@ -158,7 +127,34 @@ public class Scythe extends Entity implements Weapon {
         setup("scythe_right_down_2", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
         setup("scythe_right_down_idle", "weapon", ga.TILE_SIZE, ga.TILE_SIZE);
     }
+    @Override
+    public void attack() {
+        if (attackCount >= attackSpeed) {
+            attacking = true;
+            attackCount = 0;
+            ga.playSE(3);
+        }
+    }
+    @Override
+    public void upgrade() {
+        if (player.hasRequiredItems(player.meleeCost)) {
+            int goldIndex = player.searchItemInInventory("Gold");
+            int stoneIndex = player.searchItemInInventory("Stone");
+            int woodIndex = player.searchItemInInventory("Wood");
 
+            player.inventory.get(goldIndex).amount -= player.meleeCost;
+            player.inventory.get(stoneIndex).amount -= player.meleeCost;
+            player.inventory.get(woodIndex).amount -= player.meleeCost;
+
+            //apply upgrade
+            ++attackValue;
+            attackSpeed = (int) (attackSpeed * 2.0 / 3);
+
+            // Update the costs for the next upgrade
+            ++player.meleeCost;
+            ga.playSE(8);
+        }
+    }
     public void update() {
         if (!attacking) {
             mouseAngle = Math.atan((ga.mouseY - centerY) / (ga.mouseX - centerX)) * 180 / Math.PI;
@@ -247,7 +243,7 @@ public class Scythe extends Entity implements Weapon {
             //setting up the player to be able to attack monsters and resources
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
             for (Integer index : resourceIndices) {
-                ga.resource[index].takeDamage();
+                ga.resource[index].takeDamage(attackValue);
             }
 
             List<Integer> monsterIndices = ga.cChecker.checkMonster(this);
@@ -275,7 +271,6 @@ public class Scythe extends Entity implements Weapon {
 
         ++attackCount;
     }
-
     public void render(GraphicsContext gc) {
         Image image = null;
         if (attacking) {

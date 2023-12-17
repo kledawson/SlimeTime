@@ -15,14 +15,14 @@ import java.util.Scanner;
 
 public class TileManager {
 
-    GameApplication ga;
+    private GameApplication ga;
     public Tile[] tile;
     public int[][] mapTileNum;
     public List<String> fileNames = new ArrayList<>();
     public List<String> tileCollisions = new ArrayList<>();
     public List<String> tileNameCollision = new ArrayList<>();
     public List<Polygon> tileSolidAreas = new ArrayList<>();
-    boolean drawPath = true;
+    private boolean drawPath = true;
 
     // Generates Empty Tiles
     public TileManager(GameApplication ga) {
@@ -35,7 +35,7 @@ public class TileManager {
         loadMap("Slime_Time/res/maps/slimetimemap.txt");
     }
 
-    public void getTileSolidAreas() {
+    private void getTileSolidAreas() {
         for (int i = 0; i < 26; ++i) {
             tileSolidAreas.add(new Polygon());
         }
@@ -221,9 +221,8 @@ public class TileManager {
                 48.0, 36.0
         );
     }
-
     // Loads Tile Images
-    public void getTileImage() {
+    private void getTileImage() {
         try {
             tileNameCollision = Files.readAllLines(Paths.get("Slime_Time/res/maps/tileNameCollision.txt"));
         }
@@ -245,9 +244,8 @@ public class TileManager {
         setup(1, "grass_tile_2", false);
         */
     }
-
     // Utility Method to Load Tile Images
-    public void setup(int index, String imageName, String collisionType) {
+    private void setup(int index, String imageName, String collisionType) {
         try {
             tile[index] = new Tile();
             tile[index].setImage(new Image(new FileInputStream("Slime_Time/res/tiles/" + imageName + ".png"), ga.TILE_SIZE, ga.TILE_SIZE, false, false));
@@ -266,9 +264,8 @@ public class TileManager {
             }
         }
     }
-
     // Reads txt File to Load Map
-    public void loadMap(String mapFile) {
+    private void loadMap(String mapFile) {
         try {
             File myFile = new File(mapFile);
             Scanner myReader = new Scanner(myFile);
@@ -313,7 +310,6 @@ public class TileManager {
             }
         }
     }
-
     // Renders Map
     public void render(GraphicsContext gc) {
         int worldCol = 0;
@@ -341,9 +337,9 @@ public class TileManager {
             }
         }
 
-        if(drawPath) {
+        if(drawPath && ga.showExtraHUD) {
             Color aliceBlue = Color.ALICEBLUE;
-            gc.setFill(aliceBlue.deriveColor(1.0, 1.0, 1.0, 0.5));
+            gc.setFill(aliceBlue.deriveColor(0.5, 0.5, 0.5, 0.5));
 
             for(int i = 0; i <ga.pFinder.pathList.size(); i++) {
 

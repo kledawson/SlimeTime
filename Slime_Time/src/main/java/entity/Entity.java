@@ -2,7 +2,6 @@ package entity;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Shape;
 import main.GameApplication;
 
@@ -12,15 +11,13 @@ import java.util.List;
 
 public class Entity {
     protected GameApplication ga;
-    public ImageView image;
+
     public int worldX, worldY; // World Coordinates
     public int speed; // Speed of Entity (# of Pixels Walked per Tick)
+
     //Character Attributes
     public int maxLife;
     public int life;
-    public int level;
-    public int exp;
-    public int nextLevelExp;
 
     //Item attributes
     public int attackValue;
@@ -34,7 +31,6 @@ public class Entity {
     public boolean collision = false; // Collision State
     public boolean collisionOn;
     public String name;
-    public boolean onPath = false;
 
     public int iFrameCount;
 
@@ -53,7 +49,7 @@ public class Entity {
                 worldX - ga.TILE_SIZE  < ga.player.worldX + ga.player.screenX &&
                 worldY + ga.TILE_SIZE  > ga.player.worldY - ga.player.screenY &&
                 worldY - ga.TILE_SIZE  < ga.player.worldY + ga.player.screenY) {
-            gc.drawImage(image.getImage(), screenX, screenY);
+            gc.drawImage(images.get(-1 + spriteNum), screenX, screenY);
         }
     }
 

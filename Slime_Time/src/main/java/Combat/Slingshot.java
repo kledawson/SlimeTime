@@ -11,19 +11,17 @@ import java.util.List;
 
 public class Slingshot extends Entity implements Weapon {
 
-    Player player;
-    int screenX;
-    int screenY;
-    boolean attacking;
+    private Player player;
+    private int screenX;
+    private int screenY;
+    private boolean attacking;
+    private int attackCount;
 
-    int damage = 1;
-    public int attackSpeed;
-    int attackCount;
     public Slingshot (GameApplication ga, Player player) {
         super(ga);
         attacking = false;
         this.player = player;
-        attackValue = damage;
+        attackValue = 1;
         attackSpeed = 60;
         speed = 4;
         screenX = player.screenX + 4 * ga.SCALE;
@@ -33,36 +31,6 @@ public class Slingshot extends Entity implements Weapon {
         ((Rectangle)solidArea).setY(screenY);
         getWeaponImage();
     }
-    @Override
-    public void attack() {
-        if (attackCount >= attackSpeed) {
-            attacking = true;
-            attackCount = 0;
-        }
-    }
-
-    @Override
-    public void upgrade() {
-        if (player.hasRequiredItems(player.projectileGoldCost, player.projectileStoneCost, player.projectileWoodCost)) {
-            int goldIndex = player.searchItemInInventory("Gold");
-            int stoneIndex = player.searchItemInInventory("Stone");
-            int woodIndex = player.searchItemInInventory("Wood");
-
-            player.inventory.get(goldIndex).amount -= player.projectileGoldCost;
-            player.inventory.get(stoneIndex).amount -= player.projectileStoneCost;
-            player.inventory.get(woodIndex).amount -= player.projectileWoodCost;
-
-            //apply upgrade
-            ++attackValue;
-            attackSpeed *= 2.0 / 3;
-            speed *= 3.0 / 2;
-
-            // Update the costs for the next upgrade
-            ++player.projectileGoldCost;
-            ++player.projectileStoneCost;
-            ++player.projectileWoodCost;
-        }
-    }
 
     public void getWeaponImage() {
         setup("stone_object1", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
@@ -70,7 +38,35 @@ public class Slingshot extends Entity implements Weapon {
         setup("stone_object3", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
         setup("stone_object4", "weapon", 8 * ga.SCALE, 8 * ga.SCALE);
     }
+    @Override
+    public void attack() {
+        if (attackCount >= attackSpeed) {
+            attacking = true;
+            attackCount = 0;
+            ga.playSE(5);
+        }
+    }
+    @Override
+    public void upgrade() {
+        if (player.hasRequiredItems(player.projectileCost)) {
+            int goldIndex = player.searchItemInInventory("Gold");
+            int stoneIndex = player.searchItemInInventory("Stone");
+            int woodIndex = player.searchItemInInventory("Wood");
 
+            player.inventory.get(goldIndex).amount -= player.projectileCost;
+            player.inventory.get(stoneIndex).amount -= player.projectileCost;
+            player.inventory.get(woodIndex).amount -= player.projectileCost;
+
+            //apply upgrade
+            ++attackValue;
+            attackSpeed = (int) (attackSpeed * 2.0 / 3);
+            speed = (int)(speed * 3.0 / 2);
+
+            // Update the costs for the next upgrade
+            ++player.projectileCost;
+            ga.playSE(8);
+        }
+    }
     public void update() {
         if (!attacking) {
             direction = player.scythe.direction;
@@ -109,7 +105,7 @@ public class Slingshot extends Entity implements Weapon {
             //setting up the player to be able to attack monsters and resources
             List<Integer> resourceIndices = ga.cChecker.checkResource(this);
             for (Integer index : resourceIndices) {
-                ga.resource[index].takeDamage();
+                ga.resource[index].takeDamage(attackValue);
                 spriteNum = 4;
                 attacking = false;
                 screenX = player.screenX + 4 * ga.SCALE;
@@ -156,7 +152,9 @@ public class Slingshot extends Entity implements Weapon {
         image = images.get(-1 + spriteNum);
         if (attacking) {
             gc.drawImage(image, screenX, screenY);
-            gc.strokeRect(screenX, screenY, 8 * ga.SCALE, 8 * ga.SCALE);
+            if (ga.showExtraHUD) {
+                gc.strokeRect(screenX, screenY, 8 * ga.SCALE, 8 * ga.SCALE);
+            }
         }
     }
 }

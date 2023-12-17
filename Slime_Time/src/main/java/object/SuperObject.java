@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SuperObject {
-    GameApplication ga;
+    public GameApplication ga;
     public List<Image> images = new ArrayList<>();
     public ImageView image;
     public String name;
